@@ -11,6 +11,7 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+import Login from './src/screens/LoginScreens/Login';
 import AppStack from './src/navigation/AppStack';
 const category=[
   {id:"0",name:"Business"},
@@ -32,7 +33,7 @@ const App = () => {
     )
   }
   return (
-    <AppStack />
+    <Login />
     // <SafeAreaView>
     //   <Text>app </Text>
     // </SafeAreaView>

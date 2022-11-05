@@ -1,117 +1,133 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 
 import React from 'react';
-import type {Node} from 'react';
 import {
+  FlatList,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+import AppStack from './src/navigation/AppStack';
+const category=[
+  {id:"0",name:"Business"},
+  {id:"1",name:"Entertainment"},
+  {id:"2",name:"General"},
+  {id:"3",name:"Health"},
+  {id:"4",name:"Science"},
+  {id:"5",name:"Sports"},
+  {id:"6",name:"Technology"},
+  {id:"7",name:"Technology"},
+]
+const App = () => {
+  const {height, width} = useWindowDimensions();
+  const renderItem=({ item })=>{
+    return(
+      <TouchableOpacity style={styles.boxStyle}>
+      <Text style={styles.txtBoxStyle}>{item.name}</Text>
+         </TouchableOpacity>
+    )
+  }
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+    <AppStack />
+    // <SafeAreaView>
+    //   <Text>app </Text>
+    // </SafeAreaView>
+//     <SafeAreaView style={[styles.cont,{width:width}]}>
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+//     <View style={styles.titleView}>
+//       <Text style={styles.txtStyle}>Select your favorite topics</Text>
+//     </View>
+//     <View style={styles.desView}>
+//       <Text style={styles.desStyle}>Select some of your favorite topics to let us suggest better news for you.</Text>
+//     </View>
+//   <View style={styles.flatStyle}>
+//   <FlatList
+//   centerContent={true}
+//     data={category}
+//     renderItem={renderItem}
+//     numColumns={2}
+//     keyExtractor={item=>item.id}
+//     />
+//   </View>
+ 
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+// <TouchableOpacity style={styles.btnBox}>
+// <Text style={styles.txtBox}>Next</Text>
+// </TouchableOpacity>
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+
+//     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  cont:{
+  flex:1,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  titleView:{
+    marginTop:10,
+    backgroundColor:'white',
+    paddingHorizontal:23,
+    paddingBottom:8,
+    paddingTop:15
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  txtStyle:{
+    fontSize:24
   },
-  highlight: {
-    fontWeight: '700',
+  desView:{
+paddingHorizontal:23,
+paddingTop:5,
+paddingBottom:10
   },
+  desStyle:{
+    fontSize:16,
+    color:'#7C82A1'
+  },
+  boxStyle:{
+    width:160,
+    height:70,
+    backgroundColor:'#F3F4F6',
+    borderRadius:12,
+    justifyContent:'center',
+    alignItems:'center',
+    marginHorizontal:8,
+    marginBottom:15
+  },
+  txtBoxStyle:{
+    fontSize:16,
+    color:'black',
+    // color:'#666C8E'
+  },
+  flatStyle:{
+    
+  paddingVertical:10,
+   width:"100%",
+   paddingStart:15,
+   marginTop:10,
+flexDirection:'row',
+justifyContent:'center'
+  
+  
+  },
+  btnBox:{
+    width:338,
+    height:56,
+    backgroundColor:'#475AD7',
+    borderRadius:12,
+    flexDirection:'row',
+    justifyContent:'center',
+    alignSelf:'center',
+    alignItems:'center',
+    marginVertical:5
+  },
+  txtBox:{
+    fontSize:16,color:'white'
+  },
+ 
 });
 
 export default App;

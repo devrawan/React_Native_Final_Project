@@ -33,9 +33,8 @@ const App = () => {
   }
   return (
     <AppStack />
-    // <SafeAreaView>
-    //   <Text>app </Text>
-    // </SafeAreaView>
+//    <>
+   
 //     <SafeAreaView style={[styles.cont,{width:width}]}>
 
 //     <View style={styles.titleView}>
@@ -61,9 +60,12 @@ const App = () => {
 
 
 //     </SafeAreaView>
+//    </>
+   
+
   );
 };
-
+ // <AppStack />
 const styles = StyleSheet.create({
   cont:{
   flex:1,

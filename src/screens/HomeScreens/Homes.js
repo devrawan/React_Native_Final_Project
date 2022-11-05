@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import {
   FlatList,
   ImageBackground,
@@ -19,7 +19,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import IcFound from 'react-native-vector-icons/Foundation';
 import Ic from 'react-native-vector-icons/Fontisto'
 import SmallCard from '../../components/SmallCard';
-
+import axios from 'react-native-axios'
 const category=[
   {id:"0",name:"General"},
   {id:"1",name:"Entertainment"},
@@ -33,38 +33,75 @@ const category=[
 const Homes =()=>{
   const navigation = useNavigation();
 const {width,height}=useWindowDimensions();
-const [id,setId]=useState("0")
+const [id,setId]=useState("0");
+const [type,setType]=useState("General")
+const[articles,setArticles]=useState([]);
+const[CatArtical,setCatArtical]=useState([]);
+useEffect(()=>{
+  if(articles.length ==0){
+    axios.get('https://newsapi.org/v2/top-headlines?category=general&country=us&apiKey=6724769e8ed144c68f489955a55ddb0d')
+    .then(function (response) {
+      console.log(response.data.articles);
+      setArticles(response.data.articles);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }else{
+  console.log('done')
+  }
+ 
+},[1])
 
-const renderItem=({ item })=>{
+const renderItem= ({ item })=> {
   return(
     <TouchableOpacity 
-    onPress={()=>{setId(item.id)}}
+    key={Math.random()}
+    onPress={ async()=>
+    {
+    setId(item.id);
+    setType(item.name);
+    await axios.get(`https://newsapi.org/v2/top-headlines?category=${item.name}&country=us&apiKey=6724769e8ed144c68f489955a55ddb0d`)
+    .then(function (response) {
+      console.log(response.data.articles);
+      setCatArtical(response.data.articles)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    }
+    }
     style={[styles.boxStyle,{backgroundColor: item.id==id ? '#475AD7': '#F3F4F6' }]}>
     <Text style={[styles.txtBoxStyle,{color: item.id == id ? "white":"#7C82A1" ,lineHeight:28}]}>{item.name}</Text>
        </TouchableOpacity>
   )
 }
 
-const renderItem2 =()=>{
+const renderItem2 =({item})=>{
   return(
-    <TouchableOpacity onPress={()=>navigation.navigate('Details')}>
+    <TouchableOpacity 
+   
+    onPress={()=>navigation.navigate('Details')}>
     <ImageBackground  
-        source={{uri:'https://1gr.cz/tempimg/fb/2022/8/PIT953c66_9SIS_ZAPORIZHZHIA_NUCLEAR_0804_11.JPG'}}
-        style={styles.itemBack} 
-        imageStyle={{ borderRadius: 12}}
+        source={{uri:item.urlToImage}}
+        style={styles.itemBack } 
+        imageStyle={{ borderRadius: 12,
+          opacity: 0.79}}
         >  
-
         <TouchableOpacity style={{width:'95%',alignItems:'flex-end'}}>
-      <Ic name='favorite' size={25} color="white" ></Ic>
+      <Ic name='bookmark' size={25} color="white" ></Ic>
         </TouchableOpacity>
 
         <View>
-        <View style={{width:'100%',alignSelf:'center',paddingVertical:5}}>
-        <Text style={{color:'#ACAFC352'}}>ISABEL VELLOSO</Text>
+
+        <View style={{width:'100%',alignSelf:'center',paddingVertical:5,height:30}}>
+        <Text style={{color:'#F3F4F6',fontWeight:'600'}}>{item.author == null ?'Zachary B. Wolf' : `${item.author}`}</Text>
         </View>
+
         <View style={{width:'100%',alignSelf:'center',paddingVertical:5}}>
-        <Text style={{color:'white'}}>Guerra Ucrania - Rusia, última hora: La central nuclear ucraniana</Text>
+        <Text style={{color:'white',lineHeight:18}}>{item.title == null ?'Pope Francis thrills small Gulf Catholic community with big Mass': `${item.title}`.substring(0,60)}</Text>
         </View>
+
         </View>
         
 
@@ -72,9 +109,12 @@ const renderItem2 =()=>{
         </TouchableOpacity>
   )
 }
-const renderItem3=()=>{
+const renderItem3=({item})=>{
   return(
-   <SmallCard/>
+
+    <SmallCard item={item}/>
+   
+
   )
 }
 return(
@@ -102,19 +142,26 @@ return(
           renderItem={renderItem}
           horizontal
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item=>item.id}
+          keyExtractor={item => item.id}
           />
         </View>
 
        <View style={styles.flatView2}>
         <FlatList
-          data={category}
+          data={CatArtical}
           renderItem={renderItem2}
           horizontal
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item=>item.id}
+          keyExtractor={(item,index) => Math.floor(Math.random() * 1000)+index*0.12+0.0980}
+          initialNumToRender={5}
+          windowSize={5}
           />
        </View>
+
+
+
+
+
         <View style={styles.footerTitle}>
         <Text style={{fontSize:20}}>Recommended for you</Text>
         <Text>See All</Text>
@@ -123,10 +170,12 @@ return(
 
       <FlatList
       style={{paddingVertical:10,paddingHorizontal:5}}
-          data={category}
+          data={articles}
      renderItem={renderItem3}
    showsVerticalScrollIndicator={false}
-   keyExtractor={item=>item.id}
+   keyExtractor={(item,index) => Math.floor(Math.random() * 1000)+index*0.12+0.0980}
+
+  //  keyExtractor={item => item.id}
      />
        
 
@@ -215,6 +264,7 @@ boxStyle:{
       marginEnd:12,
       paddingHorizontal:18,
       paddingVertical:15,
+      paddingBottom:6,
 justifyContent:'space-between'
     },
     footerTitle:{

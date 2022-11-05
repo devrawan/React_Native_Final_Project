@@ -19,7 +19,8 @@ import Category from '../screens/CategoryScreen/Category';
 import Icon from 'react-native-vector-icons/AntDesign'
 import Ic from 'react-native-vector-icons/Fontisto'
 import IcM from 'react-native-vector-icons/MaterialIcons'
-import IcO from 'react-native-vector-icons/Octicons'
+import IcO from 'react-native-vector-icons/Octicons';
+import CatIco from 'react-native-vector-icons/Feather'
 function BottomTab() {
     const {width,height}=useWindowDimensions();
   return (
@@ -40,10 +41,10 @@ function BottomTab() {
            
           }
           else if(route.name === 'Category'){
-            iconName = focused ? 'category' : 'category';
+            iconName = focused ? 'grid' : 'grid';
         }
            else if (route.name === 'SaveList') {
-            iconName = focused ? 'favorite' : 'favorite';
+            iconName = focused ? 'bookmark' : 'bookmark';
           
           } 
           else if (route.name === 'Profile') {
@@ -61,7 +62,7 @@ function BottomTab() {
                 paddingVertical: 5,
                 marginTop: 10,
               }}>
-                {route.name=== 'Homee' ? <Icon name={iconName} size={28} color={color} /> : route.name==='Category' ? <IcM name={iconName} size={30} color={color} /> : route.name==='SaveList' ?<Ic name={iconName} size={28} color={color} />  :<IcO name={iconName} size={28} color={color} /> }
+                {route.name=== 'Homee' ? <Icon name={iconName} size={28} color={color} /> : route.name==='Category' ? <CatIco name={iconName} size={30} color={color} /> : route.name==='SaveList' ?<Ic name={iconName} size={28} color={color} />  :<IcO name={iconName} size={28} color={color} /> }
              
              
             </View>
@@ -83,9 +84,6 @@ function BottomTab() {
   ]
 
       })}
-
-   
-      
       >
       <Tab.Screen name="Homee" component={HomeStack} />
       <Tab.Screen name="Category" component={Category} />

@@ -1,7 +1,8 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
+import { Color } from '../../utils/themes/colors';
 
-export default function AuthFooter() {
+export default function AuthFooter({footer, Link, onPress}) {
   return (
     <View style={Styles.Container}>
       <Text style={Styles.Text}>{footer}</Text>
@@ -15,16 +16,18 @@ export default function AuthFooter() {
 const Styles = StyleSheet.create({
   Container: {
     flexDirection: 'row',
+    justifyContent:'center'
   },
   Text: {
     lineHeight: 25.2,
-    fontSize: 18,
-    color: Color.Grey[800],
+    fontSize: 16,
+    color: Color.FooterTxt,
+    fontWeight:'500',
   },
   Link: {
     lineHeight: 25.2,
-    fontSize: 18,
-    color: Color.Secondary.Main,
+    fontSize: 16,
     textDecorationLine: 'underline',
+    color: Color.FooterLink,
   },
 });

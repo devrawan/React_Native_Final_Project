@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
-import HomeStack from '../navigation/AppStack';
+// import HomeStack from '../navigation/stack/AppStack';
 import Homes from '../screens/HomeScreens/Homes';
 import SaveList from '../screens/SaveScreen/Save';
 import Profile from '../screens/ProfileScreen/Profile';

@@ -4,9 +4,10 @@ import React from 'react';
 const AuthHeaderText= ({
   headerTxt,
   descriptionTxt,
+  StyleContainer
 }) => {
   return (
-    <View style={Styles.Container}>
+    <View style={ StyleContainer}>
     <Text style={Styles.Header}>{headerTxt}</Text>
     <Text style={Styles.Description}>{descriptionTxt}</Text>
   </View>
@@ -15,10 +16,6 @@ const AuthHeaderText= ({
 export default AuthHeaderText;
 
 const Styles = StyleSheet.create({
-  Container: {
-    marginTop: 35,
-    marginBottom: 7,
-  },
   Header: {
     fontSize: 24,
      fontWeight: '700',

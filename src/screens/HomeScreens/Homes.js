@@ -18,6 +18,9 @@ import IcAnt from 'react-native-vector-icons/AntDesign'
 import { TextInput } from 'react-native-gesture-handler';
 import IcFound from 'react-native-vector-icons/Foundation';
 import Ic from 'react-native-vector-icons/Fontisto'
+import Button from '../../components/Button/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Color } from '../../utils';
 
 const category=[
   {id:"0",name:"General"},
@@ -136,13 +139,19 @@ return(
 
 
        
-
+        
+          <Button onPress={()=>{
+            AsyncStorage.removeItem('AccessToken');
+            navigation.navigate('AuthStack', {screen:'SignIn'})
+          }} label={'Log Out'} style={styles.button} />
+        
    
     </SafeAreaView>
 )
 }
 export default Homes;
 const styles =StyleSheet.create({
+  button: {backgroundColor: Color.button},
 cont:{
   flex:1,
   backgroundColor:'white',

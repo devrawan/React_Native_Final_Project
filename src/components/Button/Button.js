@@ -1,13 +1,15 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
-
-const Button = ({label, onPress, style, disabled}) => {
+import {Color} from '../../utils/themes/colors';
+import {SvgXml} from 'react-native-svg';
+const Button = ({label, onPress, style, disabled, LabelStyle, Icon}) => {
   return (
     <TouchableOpacity
       style={[Styles.button, style]}
       onPress={onPress}
       disabled={disabled}>
-      <Text style={Styles.buttonTxt}>{label}</Text>
+      {Icon && <SvgXml xml={Icon} style={Styles.Icon}/>}
+      <Text style={[Styles.buttonTxt, LabelStyle]}>{label}</Text>
     </TouchableOpacity>
   );
 };
@@ -17,13 +19,19 @@ export default Button;
 const Styles = StyleSheet.create({
   button: {
     width: '100%',
-    height: 53,
     borderWidth: 1,
     borderRadius: 8,
+    borderColor: Color.emptyInput,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection:'row',
+    height:60,
   },
   buttonTxt: {
     fontSize: 18,
   },
+  Icon: {
+    position:'absolute',
+    left: 20,
+  }
 });

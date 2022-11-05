@@ -12,8 +12,7 @@ import {
 } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
-import HomeStack from '../navigation/AppStack';
-import Homes from '../screens/HomeScreens/Homes';
+import HomeStack from '../navigation/HomeStack';
 import SaveList from '../screens/SaveScreen/Save';
 import Profile from '../screens/ProfileScreen/Profile';
 import Category from '../screens/CategoryScreen/Category';
@@ -88,7 +87,7 @@ function BottomTab() {
    
       
       >
-      <Tab.Screen name="Homee" component={Homes} />
+      <Tab.Screen name="Homee" component={HomeStack} />
       <Tab.Screen name="Category" component={Category} />
       <Tab.Screen name="SaveList" component={SaveList} />
       <Tab.Screen name="Profile" component={Profile} />

@@ -18,6 +18,7 @@ import IcAnt from 'react-native-vector-icons/AntDesign'
 import { TextInput } from 'react-native-gesture-handler';
 import IcFound from 'react-native-vector-icons/Foundation';
 import Ic from 'react-native-vector-icons/Fontisto'
+import SmallCard from '../../components/SmallCard';
 
 const category=[
   {id:"0",name:"General"},
@@ -33,6 +34,7 @@ const Homes =()=>{
   const navigation = useNavigation();
 const {width,height}=useWindowDimensions();
 const [id,setId]=useState("0")
+
 const renderItem=({ item })=>{
   return(
     <TouchableOpacity 
@@ -45,15 +47,16 @@ const renderItem=({ item })=>{
 
 const renderItem2 =()=>{
   return(
-    <TouchableOpacity>
+    <TouchableOpacity onPress={()=>navigation.navigate('Details')}>
     <ImageBackground  
         source={{uri:'https://1gr.cz/tempimg/fb/2022/8/PIT953c66_9SIS_ZAPORIZHZHIA_NUCLEAR_0804_11.JPG'}}
         style={styles.itemBack} 
         imageStyle={{ borderRadius: 12}}
         >  
-        <View style={{width:'95%',alignItems:'flex-end'}}>
-     <Ic name='favorite' size={25} color="white" ></Ic>
-        </View>
+
+        <TouchableOpacity style={{width:'95%',alignItems:'flex-end'}}>
+      <Ic name='favorite' size={25} color="white" ></Ic>
+        </TouchableOpacity>
 
         <View>
         <View style={{width:'100%',alignSelf:'center',paddingVertical:5}}>
@@ -71,13 +74,7 @@ const renderItem2 =()=>{
 }
 const renderItem3=()=>{
   return(
-    <View style={{width:'90%',flexDirection:'row',alignSelf:'center'}}>
-    <Image style={{width:96,height:96,borderRadius:12}} source={{uri:'https://www.vol.at/2022/11/AKW-Beschuss-4-3-358713981049-1398x1049.jpg'}} />
-    <View style={{paddingVertical:10,paddingHorizontal:5,width:'70%',justifyContent:'center'}}>
-        <View style={{paddingVertical:5,paddingStart:5}}><Text>Jakub Svoboda</Text></View>
-        <View style={{paddingVertical:5,paddingStart:5}}><Text>Student na Slovensku útočil sekerou na spolužáky - Novinky.cz</Text></View>
-    </View>
-  </View>
+   <SmallCard/>
   )
 }
 return(
@@ -124,17 +121,13 @@ return(
         </View>
 
 
-        {/* 
-        <View style={{width:'90%',flexDirection:'row',alignSelf:'center'}}>
-          <Image style={{width:96,height:96,borderRadius:12}} source={{uri:'https://www.vol.at/2022/11/AKW-Beschuss-4-3-358713981049-1398x1049.jpg'}} />
-          <View style={{paddingVertical:10,paddingHorizontal:5,width:'70%',justifyContent:'center'}}>
-              <View style={{paddingVertical:5,paddingStart:5}}><Text>Jakub Svoboda</Text></View>
-              <View style={{paddingVertical:5,paddingStart:5}}><Text>Student na Slovensku útočil sekerou na spolužáky - Novinky.cz</Text></View>
-          </View>
-        </View> 
-        */}
-
-
+      <FlatList
+      style={{paddingVertical:10,paddingHorizontal:5}}
+          data={category}
+     renderItem={renderItem3}
+   showsVerticalScrollIndicator={false}
+   keyExtractor={item=>item.id}
+     />
        
 
    
@@ -216,8 +209,8 @@ boxStyle:{
  
     },
     itemBack:{
-     width:245,
-     height:245,
+     width:230,
+     height:230,
       borderRadius:20,
       marginEnd:12,
       paddingHorizontal:18,
@@ -225,7 +218,8 @@ boxStyle:{
 justifyContent:'space-between'
     },
     footerTitle:{
-      paddingVertical:10,
+      marginTop:20,
+      // paddingVertical:10,
       width:'88%',
       alignSelf:'center',
       flexDirection:'row',

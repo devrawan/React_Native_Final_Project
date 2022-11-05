@@ -22,6 +22,7 @@ return(
 <Icc name='favorite' size={20} color="#7C82A1" />
 
     </View>
+    
     </SafeAreaView>
 )
 }
@@ -33,6 +34,7 @@ const styles =StyleSheet.create({
 
   },
   headerView:{
+    paddingVertical:10,
     paddingHorizontal:10,
     justifyContent:'space-between',
     alignSelf:'center',

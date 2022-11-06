@@ -142,7 +142,7 @@ return(
         
           <Button onPress={()=>{
             AsyncStorage.removeItem('AccessToken');
-            navigation.navigate('AuthStack', {screen:'SignIn'})
+            navigation.replace('AuthStack', {screen:'SignIn'})
           }} label={'Log Out'} style={styles.button} />
         
    

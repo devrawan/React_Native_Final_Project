@@ -10,23 +10,7 @@ import Swiper from 'react-native-swiper';
 import {useNavigation} from '@react-navigation/native';
 import Button from '../../components/Button/Button';
 import { Color } from '../../utils';
-
-const OnBoardingData = ()=>{
-  return (
-    <View>
-    <Image style={styles.Images} source={require('../../../assets/images/Rectangle18.png')} />
-  <View style={styles.textContainer}>
-    <Text style={styles.headerTxt}>
-    First to know
-    </Text>
-    <Text style={styles.descriptionTxt}>
-    All news in one place, be the first to know last news
-    </Text>
-  </View>
-  
-    </View>
-  );
-}
+import OnBoardingViews from './component/OnBoardingViews';
 const OnBoarding =()=>{
     const {navigate} = useNavigation()
     return(
@@ -34,9 +18,10 @@ const OnBoarding =()=>{
 
       <View style={styles.container}>
     <Swiper  autoplay autoplayTimeout={5} >
-      <OnBoardingData />
-      <OnBoardingData />
-      <OnBoardingData />
+      <OnBoardingViews Img={require('../../../assets/images/Rectangle18.png')} Title={'First to know'} description={'All news in one place, be the first to know last news'} />
+      <OnBoardingViews Img={require('../../../assets/images/Rectangle18.png')} Title={'First to know'} description={'All news in one place, be the first to know last news'} />
+      <OnBoardingViews Img={require('../../../assets/images/Rectangle18.png')} Title={'First to know'} description={'All news in one place, be the first to know last news'} />
+      <OnBoardingViews Img={require('../../../assets/images/Rectangle18.png')} Title={'First to know'} description={'All news in one place, be the first to know last news'} />
   
     </Swiper>
       </View>
@@ -56,25 +41,12 @@ const styles= StyleSheet.create({
     overflow: 'hidden',
     
   },
-  Images: {
-    width: '100%',
-    height:'70%',
-    borderRadius: 12
-    // backgroundColor: 'blue'
-  },
+ 
   button: {
     backgroundColor: Color.button,
   },
-  headerTxt:{
-    fontSize: 24,
-    fontWeight:'900',
-    alignSelf:'center'
-  },
-  descriptionTxt: {
-    fontSize: 16,
-    fontWeight:'400',
-    alignSelf:'center'
-  },
+  
+  
   textContainer:{
     marginTop: 40
   } 

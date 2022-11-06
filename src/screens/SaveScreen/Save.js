@@ -25,26 +25,33 @@ const SaveList =()=>{
   const {width,height}=useWindowDimensions();
   const renderItem3=()=>{
     return(
-     <SmallCard/>
+    //  <SmallCard />
+    <View>
+      <Text>Saved Screen</Text>
+    </View>
     )
   }
 return(
   <SafeAreaView style={[styles.cont,{width:width}]}>
        <View style={styles.titleView}>
-<Text style={styles.titleStyle}>Bookmarks</Text>
+        <Text style={styles.titleStyle}>Bookmarks</Text>
        </View>
        <View style={styles.descView}>
         <Text style={styles.desTitle}>Saved articles to the library
-</Text>
+         </Text>
        </View>
 
-<FlatList
-      style={{paddingVertical:10,paddingHorizontal:5,marginTop:10}}
+       <View style={styles.emptyDataView}>
+        <Text>You haven't saved any articles yet. Start reading and bookmarking them now</Text>
+       </View>
+
+{/* <FlatList
+      style={styles.flatStyle}
           data={category}
      renderItem={renderItem3}
    showsVerticalScrollIndicator={false}
    keyExtractor={item=>item.id}
-     />
+     /> */}
        
 
 
@@ -75,4 +82,13 @@ const styles =StyleSheet.create({
   desTitle:{
   fontSize:16,
   color:'#7C82A1'
-  },})
+  },
+emptyDataView:{
+  width:'80%',alignSelf:'center',justifyContent:'center'
+}
+,
+flatStyle:{
+  paddingVertical:10,paddingHorizontal:5,marginTop:10
+}
+
+})

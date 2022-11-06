@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/themes/colors';
 import {SvgXml} from 'react-native-svg';
@@ -7,9 +7,10 @@ const Button = ({label, onPress, style, disabled, LabelStyle, Icon}) => {
     <TouchableOpacity
       style={[Styles.button, style]}
       onPress={onPress}
-      disabled={disabled}>
+      >
       {Icon && <SvgXml xml={Icon} style={Styles.Icon}/>}
-      <Text style={[Styles.buttonTxt, LabelStyle]}>{label}</Text>
+      {disabled && <ActivityIndicator size={'large'} /> || <Text style={[Styles.buttonTxt, LabelStyle]}>{label}</Text> }
+      
     </TouchableOpacity>
   );
 };

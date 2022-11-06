@@ -15,6 +15,8 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Snackbar from 'react-native-snackbar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function SignUp() {
   const {navigate,replace} =useNavigation();
   const {width, height} = useWindowDimensions();
@@ -44,7 +46,7 @@ const RegisterSchema = Yup.object().shape({
 });
 const formik = useFormik({
   initialValues: {Username: '',email: '', password: '',Phone_Number: '' },
-  onSubmit:(values) => {
+  onSubmit:(values,{...rest}) => {
     axios({
       method: 'post',
       url: 'https://student.valuxapps.com/api/register',
@@ -56,10 +58,22 @@ const formik = useFormik({
       },
     })
       .then(res => {
-        Alert.alert(res.data.message);
-        if (res.data.data.token) {
+        if (res.data.status) {
+          AsyncStorage.setItem('AccessToken', res.data.data.token);
           replace('AppStack', {screen:'Home'});
+        }else{
+          Snackbar.show({
+            text: res.data.message,
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: 'Dismiss',
+              textColor: 'red',
+              onPress: () => { Snackbar.dismiss() },
+            },
+          })
         }
+        rest.setSubmitting(false);
+        rest.setErrors({email_Phone: '', password: ''});
       })
       .catch(err => console.log('error: ', err));
   },
@@ -119,7 +133,7 @@ const formik = useFormik({
       
       <View style={{flex:0.95, justifyContent:'space-between'}}>
 
-      <Button onPress={formik.handleSubmit} label={'Sign Up'} style={[styles.button, {marginTop: height*0.02} ]}
+      <Button onPress={formik.handleSubmit} disabled={formik.isSubmitting} label={'Sign Up'} style={[styles.button, {marginTop: height*0.02} ]}
        LabelStyle={{color:'white'}} />
       <AuthFooter footer={'Already have an account? '} Link={'Sign In'} onPress={()=>{navigate('SignIn')}}/>
       </View>

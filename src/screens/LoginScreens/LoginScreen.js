@@ -15,6 +15,7 @@ import {useFormik} from 'formik';
 import *as Yup from 'yup';
 import axios from 'axios';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Snackbar from 'react-native-snackbar';
 export default function Login() {
   const {navigate, replace} =useNavigation();
   const {width, height} = useWindowDimensions();
@@ -44,16 +45,34 @@ export default function Login() {
         },
       })
         .then(res => {
-          Alert.alert(res.data.message);
+          
           if (res.data.status) {
-            console.log(res.data.status);
+            // Snackbar.show({
+            //   text: 'Sign In Successfully',
+            //   duration: Snackbar.LENGTH_SHORT,
+            //   action: {
+            //     text: 'UNDO',
+            //     textColor: 'green',
+            //     onPress: () => { Snackbar.dismiss() },
+            //   },
+            // });
             AsyncStorage.setItem('AccessToken', res.data.data.token);
             replace('AppStack', {screen:'Home'});
+          }else{
+            Snackbar.show({
+              text: 'Wrong Email or Password',
+              duration: Snackbar.LENGTH_LONG,
+              action: {
+                text: 'Dismiss',
+                textColor: 'red',
+                onPress: () => { Snackbar.dismiss() },
+              },
+            })
           }
           rest.setSubmitting(false);
-          rest.setErrors({email_Phone: ''});
+          rest.setErrors({email_Phone: '', password: ''});
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err.message));
   
 
     },
@@ -83,7 +102,7 @@ export default function Login() {
       <TouchableOpacity onPress={()=>{}} style={[styles.Forget, {marginTop: height*0.02}]}>
         <Text>Forgot Password?</Text>
       </TouchableOpacity>
-      <Button onPress={formik.handleSubmit} label={'Sign In'} style={[styles.button, {marginTop: height*0.03} ]} LabelStyle={{color:'white'}} />
+      <Button onPress={formik.handleSubmit} disabled={formik.isSubmitting} label={'Sign In'} style={[styles.button, {marginTop: height*0.03} ]} LabelStyle={{color:'white'}} />
       <View style={[styles.Options, {marginVertical: height*0.08}]}>
         <Text style={styles.Text}>or</Text>
       </View>

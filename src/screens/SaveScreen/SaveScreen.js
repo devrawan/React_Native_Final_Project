@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext}from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import SmallCard from '../../components/SmallCard/SmallCard';
+import AppContext from '../../context/AppContext';
 const category=[
   {id:"0",name:"General"},
   {id:"1",name:"Entertainment"},
@@ -23,12 +24,12 @@ const category=[
 ]
 const SaveList =()=>{
   const {width,height}=useWindowDimensions();
-  const renderItem3=()=>{
+  const {userCollection, savArray, setCollections, setSaveArray} =
+  useContext(AppContext);
+
+  const renderItem3=({item})=>{
     return(
-    //  <SmallCard />
-    <View>
-      <Text>Saved Screen</Text>
-    </View>
+     <SmallCard item={item} />
     )
   }
 return(
@@ -41,17 +42,14 @@ return(
          </Text>
        </View>
 
-       <View style={styles.emptyDataView}>
-        <Text>You haven't saved any articles yet. Start reading and bookmarking them now</Text>
-       </View>
-
-{/* <FlatList
+     
+<FlatList
       style={styles.flatStyle}
-          data={category}
+          data={savArray}
      renderItem={renderItem3}
    showsVerticalScrollIndicator={false}
    keyExtractor={item=>item.id}
-     /> */}
+     />
        
 
 

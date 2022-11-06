@@ -16,6 +16,7 @@ const Category = () => {
   const navigation = useNavigation();
   const renderItem = ({item}) => {
     return (
+      <View style={{width:'50%',justifyContent:'center',alignItems:'center'}}>
       <TouchableOpacity
         style={[
           styles.boxStyle,
@@ -32,6 +33,7 @@ const Category = () => {
           {item.name}
         </Text>
       </TouchableOpacity>
+      </View>
     );
   };
   return (
@@ -55,6 +57,7 @@ const Category = () => {
             keyExtractor={item => item.id}
           />
         </View>
+       
         <TouchableOpacity
           style={styles.btnBox}
           onPress={() => {
@@ -62,6 +65,9 @@ const Category = () => {
           }}>
           <Text style={styles.txtBox}>Next</Text>
         </TouchableOpacity>
+     
+      
+
       </SafeAreaView>
     </>
   );
@@ -91,13 +97,13 @@ const styles = StyleSheet.create({
     color: '#7C82A1',
   },
   boxStyle: {
-    width: 150,
+    width: 160,
     height: 65,
     backgroundColor: '#F3F4F6',
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 8,
+    // marginHorizontal: 8,
     marginBottom: 15,
   },
   txtBoxStyle: {
@@ -106,9 +112,10 @@ const styles = StyleSheet.create({
     // color:'#666C8E'
   },
   flatStyle: {
+    alignSelf:'center',
     paddingVertical: 10,
-    width: '100%',
-    paddingStart: 15,
+    width: '90%',
+    // paddingStart: 15,
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'center',

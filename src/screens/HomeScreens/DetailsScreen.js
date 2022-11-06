@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useContext,useState}from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -12,13 +12,18 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import AppContext from '../../context/AppContext';
 import Ic from 'react-native-vector-icons/Ionicons';
 import Icc from 'react-native-vector-icons/Fontisto';
 import IcShare from 'react-native-vector-icons/MaterialCommunityIcons';
+var tmp =[];
+
 const Details = props => {
   const {width, height} = useWindowDimensions();
   const navigation = useNavigation();
+const[itemSave,setItemSave]=useState(false)
+  const {userCollection, savArray, setCollections, setSaveArray} =
+  useContext(AppContext);
   const {item} = props.route.params;
   return (
     <SafeAreaView style={[styles.cont, {width: width}]}>
@@ -36,7 +41,15 @@ const Details = props => {
             style={{width: 30, marginEnd: 12}}
             color="#7C82A1"
           />
-          <Icc name="bookmark" size={22} style={{width: 18}} color="#7C82A1" />
+          <TouchableOpacity onPress={()=>{
+            setItemSave((prev)=>!prev)
+              //  tmp.push(item);
+             setSaveArray([...savArray,item]);
+          }
+          }>
+          <Icc name="favorite" size={22} style={{width: 18}} color={itemSave ? "#475AD7":'#7C82A1'} />
+          </TouchableOpacity>
+          
         </View>
       </View>
 

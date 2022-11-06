@@ -45,7 +45,7 @@ const RegisterSchema = Yup.object().shape({
 const formik = useFormik({
   initialValues: {Username: '',email: '', password: '',Phone_Number: '' },
   onSubmit:(values) => {
-   
+    replace('AppStack', {screen:'BottomTab'});
     axios({
       method: 'post',
       url: 'https://student.valuxapps.com/api/register',
@@ -61,7 +61,17 @@ const formik = useFormik({
         if (res.data.data.token) {
           replace('AppStack', {screen:'BottomTab'});
         }
+    else{
+      Snackbar.show({
+        text: res.data.message,
+        duration: Snackbar.LENGTH_LONG,
+        action: {
+          text: 'Dismiss',
+          textColor: 'red',
+          onPress: () => { Snackbar.dismiss() },
+        },
       })
+  }})
       .catch(err => console.log('error: ', err));
   },
   validationSchema: RegisterSchema,
@@ -122,8 +132,12 @@ const formik = useFormik({
 
       <Button onPress={formik.handleSubmit} label={'Sign Up'} style={[styles.button, {marginTop: height*0.02} ]}
        LabelStyle={{color:'white'}} />
-      <AuthFooter footer={'Already have an account? '} Link={'Sign In'} onPress={()=>{navigate('SignIn')}}/>
       </View>
+      <View style={{marginBottom:height*0.05}}>
+      <AuthFooter footer={'Already have an account? '} Link={'Sign In'} onPress={()=>{navigate('SignIn')}}/>
+
+      </View>
+
     </View>
     </TouchableWithoutFeedback>
   )

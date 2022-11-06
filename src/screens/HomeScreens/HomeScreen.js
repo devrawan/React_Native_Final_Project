@@ -32,6 +32,7 @@ const category = [
   {id: '6', name: 'Technology'},
   {id: '7', name: 'Technology'},
 ];
+var tmp =[];
 const Homes = () => {
   const navigation = useNavigation();
   const {width, height} = useWindowDimensions();
@@ -39,41 +40,34 @@ const Homes = () => {
   const [type, setType] = useState('General');
   const [articles, setArticles] = useState([]);
   const [CatArtical, setCatArtical] = useState([]);
+  const[handleSave,setHandleSave]=useState(false)
   const [num, setNum] = useState(1);
   const {userCollection, savArray, setCollections, setSaveArray} =
     useContext(AppContext);
 
-  // useEffect(()=>{
-  //   if(articles.length ==0){
-  //     axios.get('https://newsapi.org/v2/top-headlines?category=general&country=us&apiKey=6724769e8ed144c68f489955a55ddb0d')
-  //     .then(function (response) {
-  //       console.log(response.data.articles);
-  //       setArticles(response.data.articles);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  //   }else{
-  //   console.log('done')
-  //   }
+useEffect(()=>{
+   axios.get(
+        `https://newsapi.org/v2/top-headlines?category=general&country=us&apiKey=6724769e8ed144c68f489955a55ddb0d`,
+      ).then(function (response) {
+      setArticles(response.data.articles);
+      setCatArtical(response.data.articles)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+},[])
 
-  // },[1])
 
-  const onEnd = async () => {
-    setNum(prev => prev + 1);
-    // Alert.alert('You Have Reached To List End...');
-    console.log('You Have Reached To List End...');
-    await fetchData(type, 'us', '10', `${num}`);
-  };
 
-  const fetchData = async (categoryName, country, pageSize) => {
-    await axios
-      .get(
+  const fetchData =(categoryName, country, pageSize) => {
+   axios.get(
         `https://newsapi.org/v2/top-headlines?category=${categoryName}&country=${country}&pageSize=${pageSize}&apiKey=6724769e8ed144c68f489955a55ddb0d`,
       )
       .then(function (response) {
-        console.log(response.data.articles);
-        setCatArtical(response.data.articles);
+        // console.log(response.data.articles);
+          setCatArtical(response.data.articles);
+        
+        
       })
       .catch(function (error) {
         console.log(error);
@@ -87,7 +81,7 @@ const Homes = () => {
         onPress={() => {
           setId(item.id);
           setType(item.name);
-          fetchData('business', 'us', '5');
+          fetchData(item.name, 'us', '10');
         }}
         style={[
           styles.boxStyle,
@@ -108,14 +102,16 @@ const Homes = () => {
     return (
       <TouchableOpacity
         onPress={() => {
+        //  tmp.push(item);
+        //  setSaveArray(tmp);
           navigation.navigate('Details', {item: item});
         }}>
         <ImageBackground
           source={{uri: item.urlToImage}}
           style={styles.itemBack}
           imageStyle={styles.renderItem2_Img}>
-          <TouchableOpacity style={styles.endIcon}>
-            <Ic name="bookmark" size={25} color="white"></Ic>
+          <TouchableOpacity style={styles.endIcon} >
+            {/* <Ic name="bookmark" size={25} color={handleSave ? '#475AD7' :'#475AD7'}></Ic> */}
           </TouchableOpacity>
 
           <View>

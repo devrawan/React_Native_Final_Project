@@ -6,23 +6,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 const RootStack = () => {
-  // const [accessToken, setAccessToken] = useState('Not_User');
-  // useEffect(() => {
-  //   AsyncStorage.getItem('AccessToken')
-  //     .then(token => setAccessToken(token))
-  //     .catch(err => console.log(err));
-  // }, [accessToken]);
+  const [accessToken, setAccessToken] = useState('Not_User');
+  useEffect(() => {
+    AsyncStorage.getItem('AccessToken')
+      .then(token => setAccessToken(token))
+      .catch(err => console.log(err));
+  }, [accessToken]);
   return (
     <>
-      {/* {accessToken !== 'Not_User' ? ( */}
+      {accessToken !== 'Not_User' ? (
         <Stack.Navigator
           screenOptions={{headerShown: false}}
-          // initialRouteName={accessToken === null ? 'AuthStack' : 'AppStack'}
+          initialRouteName={accessToken === null ? 'AuthStack' : 'AppStack'}
           >
            <Stack.Screen name={"AppStack"}component={AppStack} />
           <Stack.Screen name={"AuthStack"} component={AuthStack} />
         </Stack.Navigator>
-      {/* ) : null} */}
+     ) : null} 
     </>
   );
 };

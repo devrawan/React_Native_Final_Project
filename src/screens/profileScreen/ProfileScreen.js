@@ -13,9 +13,12 @@ import {
 } from 'react-native';
 import Ic from 'react-native-vector-icons/MaterialIcons';
 import SettingBox from '../../components/SettingBox/SettingBox';
-import IconLoginOut from 'react-native-vector-icons/Entypo'
+import IconLoginOut from 'react-native-vector-icons/Entypo';
+import {useNavigation} from '@react-navigation/native';
+
 const ProfileScreen =({item})=>{
 const {width, height} = useWindowDimensions();
+const navigation = useNavigation();
 
 return(
   <SafeAreaView style={[styles.cont, {width: width}]}>
@@ -29,19 +32,21 @@ return(
             <View style={styles.rowView}>
               <View style={styles.rowView_1}>
                 <Text style={{fontSize:16}}>Eren Turkmen</Text>
-                {/* <Text>{item.auther == null ? 'John Doeie' : item.auther}</Text> */}
               </View>
               <View>
-                {/* <Text style={{color: '#7C82A1'}}>{item.source.name}</Text> */}
                 <Text style={{color:'#7C82A1',fontSize:14}}>ertuken@gmail.com</Text>
               </View>
             </View>
     </View>
       
      <SettingBox  name="Notifications" icon={<Ic name='keyboard-arrow-right' size={20} color={'#666C8E'}/>}/>
-     <SettingBox name="Language" icon={<Ic name='keyboard-arrow-right' size={20} color={'#666C8E'}/>}/>
+     <TouchableOpacity onPress={()=>navigation.navigate('LanguageScreen')} style={{paddingVertical:5,width:width}}>
+  <SettingBox name="Language" icon={<Ic name='keyboard-arrow-right' size={20} color={'#666C8E'}/>}/>
+</TouchableOpacity>
      <SettingBox name="Privacy" icon={<Ic name='keyboard-arrow-right' size={20} color={'#666C8E'}/>}/>
-     <SettingBox name="Terms & Conditions" icon={<Ic name='keyboard-arrow-right' size={20} color={'#666C8E'}/>}/>
+    <TouchableOpacity onPress={()=>navigation.navigate('Terms')} style={{paddingVertical:5,width:width}}>
+    <SettingBox  name="Terms & Conditions" icon={<Ic name='keyboard-arrow-right' size={20} color={'#666C8E'}/>}/>
+    </TouchableOpacity>
      <SettingBox name="Sign Out" icon={<IconLoginOut name='log-out' size={20} color={'#666C8E'}/>}/>
 
   </SafeAreaView>

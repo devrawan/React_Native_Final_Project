@@ -59,6 +59,7 @@ const formik = useFormik({
     })
       .then(res => {
         if (res.data.status) {
+        console.log(res.data.status);
           AsyncStorage.setItem('AccessToken', res.data.data.token);
           replace('AppStack', {screen:'Home'});
         }else{
@@ -73,7 +74,7 @@ const formik = useFormik({
           })
         }
         rest.setSubmitting(false);
-        rest.setErrors({email_Phone: '', password: ''});
+        rest.setErrors({email: '', password: ''});
       })
       .catch(err => console.log('error: ', err));
   },
@@ -86,7 +87,7 @@ const formik = useFormik({
        headerTxt={'Welcome to Nuntium 👋'} 
        descriptionTxt={'Hello, I guess you are new around here. You can start using the application after sign up.'}  />
       <Textfield
-       IconStyle={{marginTop: height*0.018,marginHorizontal: height*0.013,}} 
+       IconStyle={{marginTop: height*0.014,marginHorizontal: height*0.013,}} 
          placeHolder={'Username'}
         PreIcon={<PersonIcon name="person" onPress={()=>{}} size={20} />}
         onChangeText={formik.handleChange('Username')}
@@ -97,9 +98,10 @@ const formik = useFormik({
           formik.errors.Username && formik.touched.Username &&
           <ErrorMessage error={formik.errors.Username} />
         }
-      <Textfield IconStyle={{marginTop: height*0.018,marginHorizontal: height*0.013,}} 
+      <Textfield IconStyle={{marginTop: height*0.016,marginHorizontal: height*0.013,}} 
        placeHolder={'Email Address'} 
       PreIcon={<EmailIcon name="email" onPress={()=>{}} size={20} />}
+      keyboardType={'email-address'}
       onChangeText={formik.handleChange('email')}
       onblur={formik.handleBlur('email')}
       value={formik.values.email}
@@ -108,7 +110,7 @@ const formik = useFormik({
         formik.errors.email && formik.touched.email && 
         <ErrorMessage error={formik.errors.email} />
       }
-      <Textfield IconStyle={{marginTop: height*0.018,marginHorizontal: height*0.013,}} 
+      <Textfield IconStyle={{marginTop: height*0.014,marginHorizontal: height*0.013,}} 
        placeHolder={'Phone Number'}
        PreIcon={<PhoneIcon name="phone" onPress={()=>{}} size={20} />}
        onChangeText={formik.handleChange('Phone_Number')}
@@ -119,7 +121,7 @@ const formik = useFormik({
           formik.errors.Phone_Number && formik.touched.Phone_Number &&
           <ErrorMessage error={formik.errors.Phone_Number} />
         }
-      <Textfield IconStyle={{marginTop: height*0.018,marginHorizontal: height*0.013,}} 
+      <Textfield IconStyle={{marginTop: height*0.014,marginHorizontal: height*0.013,}} 
        placeHolder={'Password'}
        PreIcon={<PasswordIcon name="lock" onPress={()=>{}} size={20} />}
        onChangeText={formik.handleChange('password')}

@@ -70,7 +70,7 @@ export default function Login() {
             })
           }
           rest.setSubmitting(false);
-          rest.setErrors({email_Phone: '', password: ''});
+          rest.setErrors({email: '', password: ''});
         })
         .catch(err => console.log(err.message));
   
@@ -85,21 +85,22 @@ export default function Login() {
       <AuthHeader StyleContainer={{marginBottom: height*0.02, marginTop:height*0.025}} headerTxt={'Welcome Back 👋'} descriptionTxt={'I am happy to see you again. You can continue where you left off by logging in'}  />
       <Textfield 
        onChangeText={formik.handleChange('email')}
+       keyboardType={'email-address'}
        onblur={formik.handleBlur('email')}
        value={formik.values.email}
-      IconStyle={{marginTop: height*0.018,marginHorizontal: height*0.013,}}  placeHolder={'Email Address'} PreIcon={<EmailIcon name="email" onPress={()=>{}} size={20} />}/>
+      IconStyle={{marginTop: height*0.016,marginHorizontal: height*0.013,}}  placeHolder={'Email Address'} PreIcon={<EmailIcon name="email" onPress={()=>{}} size={20} />}/>
       {
         formik.errors.email && formik.touched.email && 
         <ErrorMessage error={formik.errors.email} />
       }
       <Textfield  onChangeText={formik.handleChange('password')}
        onblur={formik.handleBlur('password')}
-       value={formik.values.password} IconStyle={{marginTop: height*0.018,marginHorizontal: height*0.013,}} placeHolder={'Password'} Icon={eye} isSecureTextEntry={sucre} PreIcon={<PasswordIcon name="lock" onPress={()=>{}} size={20} />}/>
+       value={formik.values.password} IconStyle={{marginTop: height*0.014,marginHorizontal: height*0.013,}} placeHolder={'Password'} Icon={eye} isSecureTextEntry={sucre} PreIcon={<PasswordIcon name="lock" onPress={()=>{}} size={20} />}/>
       {
         formik.errors.password && formik.touched.password && 
         <ErrorMessage error={formik.errors.password} />
       }
-      <TouchableOpacity onPress={()=>{}} style={[styles.Forget, {marginTop: height*0.02}]}>
+      <TouchableOpacity onPress={()=>{navigate('ForgetPassword')}} style={[styles.Forget, {marginTop: height*0.02}]}>
         <Text>Forgot Password?</Text>
       </TouchableOpacity>
       <Button onPress={formik.handleSubmit} disabled={formik.isSubmitting} label={'Sign In'} style={[styles.button, {marginTop: height*0.03} ]} LabelStyle={{color:'white'}} />

@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import SmallCard from '../../components/SmallCard';
+import SmallCard from '../../components/SmallCard/SmallCard';
 const category=[
   {id:"0",name:"General"},
   {id:"1",name:"Entertainment"},

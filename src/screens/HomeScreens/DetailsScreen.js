@@ -54,7 +54,7 @@ const Details = props => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.scrolView}>
-          <View style={styles.headerView}>
+          <View style={styles.headerVieww}>
             <Image style={styles.autherImg} source={{uri: item.urlToImage}} />
 
             <View style={styles.rowView}>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingBottom: 50,
   },
-  headerView: {
+  headerVieww: {
     width: '100%',
     alignSelf: 'center',
     flexDirection: 'row',

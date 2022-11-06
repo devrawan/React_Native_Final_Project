@@ -2,15 +2,17 @@ import React, {useContext} from 'react';
 import {View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
-import HomeStack from '../navigation/HomeStack';
-import SaveList from '../screens/SaveScreen/Save';
-import Profile from '../screens/ProfileScreen/Profile';
-import Category from '../screens/CategoryScreen/Category';
+import HomeStack from '../navigation/stack/HomeStack';
+import SaveList from '../screens/SaveScreen/SaveScreen';
+import Profile from '../screens/profileScreen/ProfileScreen';
+import Category from '../screens/CategoryScreen/CategoryScreen';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Ic from 'react-native-vector-icons/Fontisto';
 import IcO from 'react-native-vector-icons/Octicons';
 import CatIco from 'react-native-vector-icons/Feather';
 import {AppProvider} from '../context/AppContext';
+import ProfileStack from '../navigation/stack/ProfileStack';
+import ProfileScreen from '../screens/profileScreen/ProfileScreen'
 function BottomTab() {
   return (
     <AppProvider>
@@ -68,7 +70,7 @@ function BottomTab() {
         <Tab.Screen name="Homee" component={HomeStack} />
         <Tab.Screen name="Category" component={Category} />
         <Tab.Screen name="SaveList" component={SaveList} />
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Profile" component={ProfileStack} />
       </Tab.Navigator>
     </AppProvider>
   );

@@ -19,8 +19,8 @@ import IcAnt from 'react-native-vector-icons/AntDesign';
 import {TextInput} from 'react-native-gesture-handler';
 import IcFound from 'react-native-vector-icons/Foundation';
 import Ic from 'react-native-vector-icons/Fontisto';
-import SmallCard from '../../components/SmallCard';
-import axios from 'react-native-axios';
+import SmallCard from '../../components/SmallCard/SmallCard';
+import axios from 'axios';
 import AppContext from '../../context/AppContext';
 const category = [
   {id: '0', name: 'General'},
@@ -63,7 +63,7 @@ const Homes = () => {
     setNum(prev => prev + 1);
     // Alert.alert('You Have Reached To List End...');
     console.log('You Have Reached To List End...');
-    await fetchData(type, 'us', '5', `${num}`);
+    await fetchData(type, 'us', '10', `${num}`);
   };
 
   const fetchData = async (categoryName, country, pageSize) => {

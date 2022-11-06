@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext}from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -10,7 +10,8 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import SmallCard from '../../components/SmallCard';
+import SmallCard from '../../components/SmallCard/SmallCard';
+import AppContext from '../../context/AppContext';
 const category=[
   {id:"0",name:"General"},
   {id:"1",name:"Entertainment"},
@@ -23,24 +24,28 @@ const category=[
 ]
 const SaveList =()=>{
   const {width,height}=useWindowDimensions();
-  const renderItem3=()=>{
+  const {userCollection, savArray, setCollections, setSaveArray} =
+  useContext(AppContext);
+
+  const renderItem3=({item})=>{
     return(
-     <SmallCard/>
+     <SmallCard item={item} />
     )
   }
 return(
   <SafeAreaView style={[styles.cont,{width:width}]}>
        <View style={styles.titleView}>
-<Text style={styles.titleStyle}>Bookmarks</Text>
+        <Text style={styles.titleStyle}>Bookmarks</Text>
        </View>
        <View style={styles.descView}>
         <Text style={styles.desTitle}>Saved articles to the library
-</Text>
+         </Text>
        </View>
 
+     
 <FlatList
-      style={{paddingVertical:10,paddingHorizontal:5,marginTop:10}}
-          data={category}
+      style={styles.flatStyle}
+          data={savArray}
      renderItem={renderItem3}
    showsVerticalScrollIndicator={false}
    keyExtractor={item=>item.id}
@@ -75,4 +80,13 @@ const styles =StyleSheet.create({
   desTitle:{
   fontSize:16,
   color:'#7C82A1'
-  },})
+  },
+emptyDataView:{
+  width:'80%',alignSelf:'center',justifyContent:'center'
+}
+,
+flatStyle:{
+  paddingVertical:10,paddingHorizontal:5,marginTop:10
+}
+
+})

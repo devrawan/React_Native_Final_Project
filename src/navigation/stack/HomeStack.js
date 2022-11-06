@@ -1,14 +1,10 @@
-import OnBording from '../screens/OnBorgingScreen/OnBording';
-import BottomTab from './BottomTab';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Homes from '../screens/HomeScreens/Homes';
-import Details from '../screens/HomeScreens/Details';
+import Homes from '../../screens/HomeScreens/HomeScreen';
+import Details from '../../screens/HomeScreens/DetailsScreen';
 
 const Stack = createNativeStackNavigator();
 const HomeStack =()=>{
     return (
-      
         <Stack.Navigator screenOptions={{
           headerShown: false
   }}>

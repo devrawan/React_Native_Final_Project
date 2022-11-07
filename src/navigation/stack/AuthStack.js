@@ -13,7 +13,7 @@ export default function AuthStack() {
         <Stack.Screen name={"OnBoarding"} component={OnBoarding} />
          <Stack.Screen name={'SignIn'} component={LoginScreen} />
         <Stack.Screen name={'SignUp'} component={RegisterScreen} /> 
-     <Stack.Screen name={"AppStack"}component={AppStack} />
+     {/* <Stack.Screen name={"AppStack"}component={AppStack} /> */}
     </Stack.Navigator>
   )
 }

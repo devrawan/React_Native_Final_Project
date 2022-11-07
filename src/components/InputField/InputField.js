@@ -31,6 +31,7 @@ const InputFiled= ({
             onChangeText={onChangeText}
             value={value}
             onBlur={onblur}
+            autoCapitalize='none'
           />
         </View>
       </View>

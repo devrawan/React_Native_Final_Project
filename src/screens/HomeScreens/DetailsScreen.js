@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
+  Share
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AppContext from '../../context/AppContext';
@@ -25,22 +26,57 @@ const[itemSave,setItemSave]=useState(false)
   const {userCollection, savArray, setCollections, setSaveArray} =
   useContext(AppContext);
   const {item} = props.route.params;
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:`${item.url}`,
+          url:item.url
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+    
+  };
+
+
   return (
     <SafeAreaView style={[styles.cont, {width: width}]}>
       <View style={styles.headerView}>
+        <TouchableOpacity    onPress={() => navigation.navigate('HomeC')}>
         <Ic
           name="arrow-back"
           size={25}
           color={'#7C82A1'}
-          onPress={() => navigation.navigate('HomeC')}
+       
         />
+        </TouchableOpacity>
+        {/* <Ic
+          name="arrow-back"
+          size={25}
+          color={'#7C82A1'}
+          onPress={() => navigation.navigate('HomeC')}
+       
+        /> */}
         <View style={styles.iconsView}>
+          <TouchableOpacity onPress={onShare}>
           <IcShare
             name="share-all-outline"
             size={30}
             style={{width: 30, marginEnd: 12}}
             color="#7C82A1"
           />
+          </TouchableOpacity>
+         
           <TouchableOpacity onPress={()=>{
             setItemSave((prev)=>!prev)
               //  tmp.push(item);
@@ -53,19 +89,20 @@ const[itemSave,setItemSave]=useState(false)
         </View>
       </View>
 
-      <Image source={{uri: item.urlToImage}} style={styles.imgStyle} />
-
-      <View style={styles.btnView}>
-        <TouchableOpacity style={styles.btnStyle}>
-          <Text style={{color: 'white'}}>{item.source.name}</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.titleView}>
-        <Text style={styles.titleStyle}>{item.title}</Text>
-      </View>
+      
 
       <ScrollView showsVerticalScrollIndicator={false}>
+      <Image source={{uri: item.urlToImage}} style={styles.imgStyle} />
+
+<View style={styles.btnView}>
+  <TouchableOpacity style={styles.btnStyle}>
+    <Text style={{color: 'white'}}>{item.source.name}</Text>
+  </TouchableOpacity>
+</View>
+
+<View style={styles.titleView}>
+  <Text style={styles.titleStyle}>{item.title}</Text>
+</View>
         <View style={styles.scrolView}>
           <View style={styles.headerVieww}>
             <Image style={styles.autherImg} source={{uri: item.urlToImage}} />

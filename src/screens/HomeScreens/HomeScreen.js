@@ -32,7 +32,7 @@ const category = [
   {id: '6', name: 'Technology'},
   {id: '7', name: 'Technology'},
 ];
-var tmp =[];
+var tmp = [];
 const Homes = () => {
   const navigation = useNavigation();
   const {width, height} = useWindowDimensions();
@@ -40,40 +40,39 @@ const Homes = () => {
   const [type, setType] = useState('General');
   const [articles, setArticles] = useState([]);
   const [CatArtical, setCatArtical] = useState([]);
-  const[handleSave,setHandleSave]=useState(false)
+  const [handleSave, setHandleSave] = useState(false);
   const [num, setNum] = useState(1);
   const {userCollection, savArray, setCollections, setSaveArray} =
     useContext(AppContext);
 
-useEffect(()=>{
-   axios.get(
+  useEffect(() => {
+    axios
+      .get(
         `https://newsapi.org/v2/top-headlines?category=general&country=us&apiKey=6724769e8ed144c68f489955a55ddb0d`,
-      ).then(function (response) {
-      setArticles(response.data.articles);
-      setCatArtical(response.data.articles)
+      )
+      .then(function (response) {
+        setArticles(response.data.articles);
+        setCatArtical(response.data.articles);
       })
       .catch(function (error) {
         console.log(error);
       });
-},[])
+  }, []);
 
-
-
-  const fetchData =(categoryName, country, pageSize) => {
-   axios.get(
+  const fetchData = (categoryName, country, pageSize) => {
+    axios
+      .get(
         `https://newsapi.org/v2/top-headlines?category=${categoryName}&country=${country}&pageSize=${pageSize}&apiKey=6724769e8ed144c68f489955a55ddb0d`,
       )
       .then(function (response) {
         // console.log(response.data.articles);
-          setCatArtical(response.data.articles);
-        
-        
+        setCatArtical(response.data.articles);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-  
+
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity
@@ -102,15 +101,16 @@ useEffect(()=>{
     return (
       <TouchableOpacity
         onPress={() => {
-        //  tmp.push(item);
-        //  setSaveArray(tmp);
+          //  tmp.push(item);
+          //  setSaveArray(tmp);
           navigation.navigate('Details', {item: item});
-        }}>
+        }}
+        activeOpacity={0.6}>
         <ImageBackground
           source={{uri: item.urlToImage}}
           style={styles.itemBack}
           imageStyle={styles.renderItem2_Img}>
-          <TouchableOpacity style={styles.endIcon} >
+          <TouchableOpacity style={styles.endIcon}>
             {/* <Ic name="bookmark" size={25} color={handleSave ? '#475AD7' :'#475AD7'}></Ic> */}
           </TouchableOpacity>
 
@@ -135,6 +135,37 @@ useEffect(()=>{
       </TouchableOpacity>
     );
   };
+  const HeaderView=()=>{
+    return(
+      <>
+    
+      <View style={[styles.flatView, {width: width}]}>
+      <FlatList
+        data={category}
+        renderItem={renderItem}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={item => item.id}
+      />
+    </View>
+
+    <View style={styles.flatView2}>
+      <FlatList
+        data={CatArtical}
+        renderItem={renderItem2}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item, index) => index.toString()}
+        // onEndReached={onEnd}
+      />
+    </View>
+    <View style={styles.footerTitle}>
+      <Text style={{fontSize: 20}}>Recommended for you</Text>
+      <Text>See All</Text>
+    </View>
+    </>
+    )
+  }
   const renderItem3 = ({item}) => {
     return <SmallCard item={item} />;
   };
@@ -155,42 +186,16 @@ useEffect(()=>{
           <IcFound name="microphone" size={28} color="#7C82A1" />
         </TouchableOpacity>
       </View>
-
-      <View style={[styles.flatView, {width: width}]}>
-        <FlatList
-          data={category}
-          renderItem={renderItem}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id}
-        />
-      </View>
-
-      <View style={styles.flatView2}>
-        <FlatList
-          data={CatArtical}
-          renderItem={renderItem2}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) =>
-            Math.floor(Math.random() * 1000) + index * 0.12 + 0.098
-          }
-          // onEndReached={onEnd}
-        />
-      </View>
-      <View style={styles.footerTitle}>
-        <Text style={{fontSize: 20}}>Recommended for you</Text>
-        <Text>See All</Text>
-      </View>
       <FlatList
         style={styles.renderItem3Flat}
+        ListHeaderComponent={HeaderView}
         data={articles}
         renderItem={renderItem3}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) =>
           Math.floor(Math.random() * 1000) + index * 0.12 + 0.098
         }
-        //  onEndReached={onEnd}
+     
       />
     </SafeAreaView>
   );
@@ -255,6 +260,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 55,
     backgroundColor: '#F3F4F6',
+   
   },
   searchIcnView: {
     alignSelf: 'center',

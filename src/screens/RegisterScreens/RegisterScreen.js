@@ -15,6 +15,9 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Snackbar from 'react-native-snackbar';
+
 export default function SignUp() {
   const {navigate,replace} =useNavigation();
   const {width, height} = useWindowDimensions();
@@ -44,9 +47,9 @@ const RegisterSchema = Yup.object().shape({
 });
 const formik = useFormik({
   initialValues: {Username: '',email: '', password: '',Phone_Number: '' },
-  onSubmit:(values) => {
-    replace('AppStack', {screen:'BottomTab'});
-    axios({
+  onSubmit: async (values) => {
+    // replace('AppStack', {screen:'BottomTab'});
+    await axios({
       method: 'post',
       url: 'https://student.valuxapps.com/api/register',
       params: {
@@ -57,8 +60,10 @@ const formik = useFormik({
       },
     })
       .then(res => {
-        Alert.alert(res.data.message);
-        if (res.data.data.token) {
+        // Alert.alert(res.data.message);
+        console.log(res.data.status)
+        if (res.data.status) {
+      AsyncStorage.setItem('AccessToken',res.data.data.token)
           replace('AppStack', {screen:'BottomTab'});
         }
     else{

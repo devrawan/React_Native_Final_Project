@@ -10,8 +10,8 @@ const AppStack =()=>{
         <Stack.Navigator screenOptions={{
           headerShown: false
   }}>
-          <Stack.Screen name="OnBording" component={OnBording} />
-          <Stack.Screen name="Auth" component={AuthStack} />
+          {/* <Stack.Screen name="OnBording" component={OnBording} />
+          <Stack.Screen name="Auth" component={AuthStack} /> */}
           <Stack.Screen name="BottomTab" component={BottomTab} />
         </Stack.Navigator>
       );

@@ -45,6 +45,7 @@ export default function Login() {
         },
       })
         .then(res => {
+          console.log({res:res.data});
           // Alert.alert(res.data.message);
           if (res.data.status) {
             console.log(res.data.status);

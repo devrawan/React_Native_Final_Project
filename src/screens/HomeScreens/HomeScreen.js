@@ -1,333 +1,519 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {
-  FlatList,
-  ImageBackground,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-  Image,
-  Alert,
-} from 'react-native';
+import React, {useState} from 'react';
+import {images} from '../../constants/index';
+import {NavigationContainer} from '@react-navigation/native';
+import FeatherIc from 'react-native-vector-icons/Feather';
+import FontAwesomeIc from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import IcAnt from 'react-native-vector-icons/AntDesign';
-import {TextInput} from 'react-native-gesture-handler';
-import IcFound from 'react-native-vector-icons/Foundation';
-import Ic from 'react-native-vector-icons/Fontisto';
-import SmallCard from '../../components/SmallCard/SmallCard';
-import axios from 'axios';
-import AppContext from '../../context/AppContext';
-const category = [
-  {id: '0', name: 'General'},
-  {id: '1', name: 'Entertainment'},
-  {id: '2', name: 'Business'},
-  {id: '3', name: 'Health'},
-  {id: '4', name: 'Science'},
-  {id: '5', name: 'Sports'},
-  {id: '6', name: 'Technology'},
-  {id: '7', name: 'Technology'},
-];
-var tmp = [];
-const Homes = () => {
-  const navigation = useNavigation();
+import AntIc from 'react-native-vector-icons/AntDesign';
+import Modal from 'react-native-modal';
+import {
+  StyleSheet,
+  Button,
+  Platform,
+  SafeAreaView,
+  Text,
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Alert,
+  useWindowDimensions,
+  FlatList,
+  Image,
+  Pressable,
+  ImageBackground,
+} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+const STATUSBAR_HEIGHT = StatusBar.currentHeight;
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+
+
+
+
+const HomeScreen = () => {
+
+  const [isModalVisible, setModalVisible] = useState(false);
   const {width, height} = useWindowDimensions();
-  const [id, setId] = useState('0');
-  const [type, setType] = useState('General');
-  const [articles, setArticles] = useState([]);
-  const [CatArtical, setCatArtical] = useState([]);
-  const [handleSave, setHandleSave] = useState(false);
-  const [num, setNum] = useState(1);
-  const {userCollection, savArray, setCollections, setSaveArray} =
-    useContext(AppContext);
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://newsapi.org/v2/top-headlines?category=general&country=us&apiKey=6724769e8ed144c68f489955a55ddb0d`,
-      )
-      .then(function (response) {
-        setArticles(response.data.articles);
-        setCatArtical(response.data.articles);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
-
-  const fetchData = (categoryName, country, pageSize) => {
-    axios
-      .get(
-        `https://newsapi.org/v2/top-headlines?category=${categoryName}&country=${country}&pageSize=${pageSize}&apiKey=6724769e8ed144c68f489955a55ddb0d`,
-      )
-      .then(function (response) {
-        // console.log(response.data.articles);
-        setCatArtical(response.data.articles);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  const renderItem = ({item}) => {
-    return (
-      <TouchableOpacity
-        key={Math.random()}
-        onPress={() => {
-          setId(item.id);
-          setType(item.name);
-          fetchData(item.name, 'us', '10');
-        }}
-        style={[
-          styles.boxStyle,
-          {backgroundColor: item.id == id ? '#475AD7' : '#F3F4F6'},
-        ]}>
-        <Text
-          style={[
-            styles.txtBoxStyle,
-            {color: item.id == id ? 'white' : '#7C82A1', lineHeight: 28},
-          ]}>
-          {item.name}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const renderItem2 = ({item}) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          //  tmp.push(item);
-          //  setSaveArray(tmp);
-          navigation.navigate('Details', {item: item});
-        }}
-        activeOpacity={0.6}>
-        <ImageBackground
-          source={{uri: item.urlToImage}}
-          style={styles.itemBack}
-          imageStyle={styles.renderItem2_Img}>
-          <TouchableOpacity style={styles.endIcon}>
-            {/* <Ic name="bookmark" size={25} color={handleSave ? '#475AD7' :'#475AD7'}></Ic> */}
-          </TouchableOpacity>
-
-          <View>
-            <View style={styles.contentFirstRow}>
-              <Text style={styles.txtFirstRow}>
-                {item.author == null
-                  ? 'Zachary B. Wolf'
-                  : `${item.author}`.substring(0, 20)}
-              </Text>
-            </View>
-
-            <View style={styles.contentSecondRow}>
-              <Text style={styles.txtSRow}>
-                {item.title == null
-                  ? 'Pope Francis thrills small Gulf Catholic community with big Mass'
-                  : `${item.title}`.substring(0, 60)}
-              </Text>
-            </View>
-          </View>
-        </ImageBackground>
-      </TouchableOpacity>
-    );
-  };
-  const HeaderView=()=>{
-    return(
-      <>
-    
-      <View style={[styles.flatView, {width: width}]}>
-      <FlatList
-        data={category}
-        renderItem={renderItem}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
-      />
+  const navigation = useNavigation();
+  const categs = [
+    {
+      id: 0,
+      name: 'all',
+      img: '',
+    },
+    {
+      id: 1,
+      name: 'sport',
+      img: '',
+    },
+    {
+      id: 2,
+      name: 'Home',
+      img: '',
+    },
+    {
+      id: 3,
+      name: 'Gifts',
+      img: '',
+    },
+    {
+      id: 4,
+      name: 'Electronics',
+      img: '',
+    },
+    {
+      id: 5,
+      name: 'Fashion',
+      img: '',
+    },
+    {
+      id: 6,
+      name: 'Food',
+      img: '',
+    },
+  ];
+  const data = [
+    {
+      id: 0,
+      img: '',
+      text: 'Amazon products at 10% off',
+      date: '10/15/2022 with an expiring date',
+    },
+    {
+      id: 1,
+      img: '',
+      text: 'Amazon products at 10% off',
+      date: '10/15/2022 with an expiring date',
+    },
+    {
+      id: 2,
+      img: '',
+      text: 'Amazon products at 10% off',
+      date: '10/15/2022 with an expiring date',
+    },
+    {
+      id: 3,
+      img: '',
+      text: 'Amazon products at 10% off',
+      date: '10/15/2022 with an expiring date',
+    },
+  ];
+  const MyStatusBar = ({backgroundColor, ...props}) => (
+    <View style={[styles.statusBar, {backgroundColor}]}>
+      <SafeAreaView>
+        <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+      </SafeAreaView>
     </View>
-
-    <View style={styles.flatView2}>
-      <FlatList
-        data={CatArtical}
-        renderItem={renderItem2}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => index.toString()}
-        // onEndReached={onEnd}
-      />
-    </View>
-    <View style={styles.footerTitle}>
-      <Text style={{fontSize: 20}}>Recommended for you</Text>
-      <Text>See All</Text>
-    </View>
-    </>
-    )
-  }
-  const renderItem3 = ({item}) => {
-    return <SmallCard item={item} />;
+  );
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
   };
+  const WrapperComponent = () => (
+    <View>
+      <Modal isVisible={true}>
+        <View style={{flex: 1}}>
+          <Text>I am the modal content!</Text>
+        </View>
+      </Modal>
+    </View>
+  );
+
   return (
-    <SafeAreaView style={[styles.cont, {width: width}]}>
-      <View style={styles.titleView}>
-        <Text style={styles.titleStyle}>Browse</Text>
-      </View>
-      <View style={styles.descView}>
-        <Text style={styles.desTitle}>Discover things of this world</Text>
-      </View>
-      <View style={styles.searchView}>
-        <TouchableOpacity style={styles.searchIcnView}>
-          <IcAnt name="search1" size={25} color="#7C82A1" />
+    <View style={styles.container}>
+      <MyStatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
+      <View style={styles.appBar}>
+        <TouchableOpacity style={{width: '20%'}}>
+          <FeatherIc name={'search'} size={20} />
         </TouchableOpacity>
-        <TextInput style={styles.txtInputStyle} />
-        <TouchableOpacity style={styles.microIcnView}>
-          <IcFound name="microphone" size={28} color="#7C82A1" />
-        </TouchableOpacity>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Text
+            style={{fontSize: 18, fontFamily: 'Dubai-Bold', fontWeight: '500'}}>
+            Main
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '15%',
+            // backgroundColor:'red'
+          }}>
+          <TouchableOpacity
+          onPress={toggleModal}
+            style={{alignSelf: 'flex-start', paddingHorizontal: 5}}>
+            <FontAwesomeIc name={'filter'} size={20} color={'black'} />
+          </TouchableOpacity>
+          <Modal isVisible={isModalVisible} animationOutTiming={500} >
+           
+        <View style={{ width:350,height:360,backgroundColor:'white',alignSelf:'center',borderRadius:16,paddingHorizontal:20,paddingVertical:25}}>
+         
+        <View style={{alignItems:'center'}}>
+              <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000',marginBottom:12}}>Place</Text>
+            </View>
+            <View style={{flexDirection:'row',alignItems:'center',marginBottom:22}}>
+            <TouchableOpacity  style={{width:90,height:37,borderRadius:20,backgroundColor:'#D54078',alignItems:'center',justifyContent:'center',marginEnd:5}}>
+  <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>All </Text>
+</TouchableOpacity>
+<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
+<Image source={images.flag1} style={{width:25,height:25}} resizeMode={'contain'}/>
+</TouchableOpacity>
+<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
+<Image source={images.flag2} style={{width:25,height:25}} resizeMode={'contain'}/>
+</TouchableOpacity>
+            </View>
+            <View style={{alignItems:'center'}}>
+              <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000',marginBottom:12}}>Type</Text>
+            </View>
+            <View style={{flexDirection:'row',alignItems:'center',marginBottom:22,flexWrap:'wrap',width:'100%',justifyContent:'center'}}>
+            <TouchableOpacity  style={{width:90,height:37,borderRadius:20,backgroundColor:'#D54078',alignItems:'center',justifyContent:'center',marginEnd:5,marginBottom:10}}>
+  <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>All </Text>
+</TouchableOpacity>
+<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5,flexDirection:'row'}}>
+{/* <Image source={images.flag1} style={{width:25,height:25}} resizeMode={'contain'}/> */}
+<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000'}}>Gifts </Text>
+
+</TouchableOpacity>
+<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
+{/* <Image source={images.flag2} style={{width:25,height:25}} resizeMode={'contain'}/> */}
+<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000'}}>Children </Text>
+
+</TouchableOpacity>
+
+            </View>
+<TouchableOpacity onPress={toggleModal} style={{width:140,height:40,borderRadius:20,backgroundColor:'#29B1E5',alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
+  <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>Apply </Text>
+</TouchableOpacity>
+<TouchableOpacity onPress={toggleModal} style={{width:140,height:20,borderRadius:20,alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
+  <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#29B1E5'}}>Cancel</Text>
+</TouchableOpacity>
+          {/* <Button title="Hide modal" onPress={toggleModal} /> */}
+        </View>
+      </Modal>
+
+          <TouchableOpacity
+            style={{alignSelf: 'flex-end', paddingHorizontal: 5}}>
+            <FeatherIc name={'more-vertical'} size={20} />
+          </TouchableOpacity>
+        </View>
       </View>
-      <FlatList
-        style={styles.renderItem3Flat}
-        ListHeaderComponent={HeaderView}
-        data={articles}
-        renderItem={renderItem3}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item, index) =>
-          Math.floor(Math.random() * 1000) + index * 0.12 + 0.098
-        }
-     
-      />
-    </SafeAreaView>
+
+      <View
+        style={{
+          height: 60,
+          backgroundColor: '#FFFFFF',
+          width: width,
+          marginBottom: 18,
+          shadowOffset: {height: 8},
+          shadowOpacity: 0.2,
+          shadowRadius: 5,
+          elevation: 9,
+          shadowColor: 'gray',
+        }}>
+        <FlatList
+          style={{}}
+          contentContainerStyle={{
+            backgroundColor: '#FFFFFF',
+            paddingStart: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+          centerContent={true}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          data={categs}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => {
+            return (
+              <TouchableOpacity
+                key={item.id}
+                style={{
+                  flexDirection: 'row',
+                  borderWidth: 1,
+                  borderColor: '#E8E8E8',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minWidth: 80,
+                  height: 40,
+                  paddingHorizontal: 20,
+                  backgroundColor: `${item.id == 0 ? '#D54078' : 'white'}`,
+                  // backgroundColor: 'white',
+                  borderRadius: 12,
+                  marginEnd: 7,
+                }}>
+                <Text
+                  style={{
+                    color: `${item.id == 0 ? 'white' : '#000000'}`,
+                    fontSize: 14,
+                    fontWeight: '500',
+                    fontFamily: 'Dubai-Bold',
+                  }}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
+
+      <ScrollView horizontal={false} style={{flex: 1}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('DetailScreen');
+          }}
+          activeOpacity={0.3}
+          style={{
+            width: '95%',
+
+            // shadowOffset: {  height: 3 },
+            // shadowOpacity:  0.2,
+            // shadowRadius: 5,
+            // elevation: 9,
+            // shadowColor:'gray',
+            shadowOffset: {width: 1, height: 3},
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
+            elevation: 9,
+            shadowColor: 'gray',
+
+            marginBottom: 10,
+            alignSelf: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ImageBackground
+            resizeMode="stretch"
+            source={images.ImageMainItemBGLtr}
+            style={{
+              alignSelf: 'center',
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingStart: 8,
+              width: '100%',
+              height: 110,
+            }}>
+            <View
+              style={{
+                width: 90,
+                height: 90,
+                borderRadius: 15,
+                borderColor: '#DCDCDC',
+                borderWidth: 1,
+                padding: 5,
+              }}>
+              <TouchableOpacity
+                style={{alignSelf: 'flex-end', marginEnd: 3, height: '22%'}}>
+                <AntIc name="hearto" size={18} color={'#656565'} />
+              </TouchableOpacity>
+              <Image
+                source={images.STC}
+                style={{
+                  width: '100%',
+                  height: '70%',
+                  alignSelf: 'flex-start',
+                  resizeMode: 'stretch',
+                }}
+              />
+            </View>
+
+            <View style={{paddingStart: 8}}>
+              <Text
+                style={{
+                  color: '#000000',
+                  fontSize: 16,
+                  fontWeight: '500',
+                  fontFamily: 'Dubai-Bold',
+                }}>
+                Amazon products at 10% off
+              </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: '400',
+                  fontFamily: 'Dubai-Regular',
+                  color: '#7A7A7A',
+                }}>
+                10/15/2022 with an expiring date
+              </Text>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('DetailScreen');
+          }}
+          activeOpacity={0.3}
+          style={{
+            width: '95%',
+
+            shadowOffset: {width: 1, height: 3},
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
+            elevation: 9,
+            shadowColor: 'gray',
+            marginBottom: 10,
+            alignSelf: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ImageBackground
+            resizeMode="stretch"
+            source={images.ImageMainItemBGLtr}
+            style={{
+              alignSelf: 'center',
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingStart: 8,
+              width: '100%',
+              height: 110,
+            }}>
+            <View
+              style={{
+                width: 90,
+                height: 90,
+                borderRadius: 15,
+                borderColor: '#DCDCDC',
+                borderWidth: 1,
+                padding: 5,
+              }}>
+              <TouchableOpacity
+                style={{alignSelf: 'flex-end', marginEnd: 3, height: '22%'}}>
+                <AntIc name="heart" size={18} color={'red'} />
+              </TouchableOpacity>
+              <Image
+                source={images.bacg}
+                style={{
+                  width: '100%',
+                  height: '70%',
+                  alignSelf: 'flex-start',
+                  resizeMode: 'stretch',
+                }}
+              />
+            </View>
+
+            <View style={{paddingStart: 8}}>
+              <Text
+                style={{
+                  color: '#000000',
+                  fontSize: 16,
+                  fontWeight: '500',
+                  fontFamily: 'Dubai-Bold',
+                }}>
+                Amazon products at 10% off
+              </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: '400',
+                  fontFamily: 'Dubai-Regular',
+                  color: '#7A7A7A',
+                }}>
+                10/15/2022 with an expiring date
+              </Text>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('DetailScreen');
+          }}
+          activeOpacity={0.3}
+          style={{
+            width: '95%',
+
+            shadowOffset: {width: 1, height: 3},
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
+            elevation: 9,
+            shadowColor: 'gray',
+            marginBottom: 10,
+            alignSelf: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ImageBackground
+            resizeMode="stretch"
+            source={images.ImageMainItemBGLtr}
+            style={{
+              alignSelf: 'center',
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingStart: 8,
+              width: '100%',
+              height: 110,
+            }}>
+            <View
+              style={{
+                width: 90,
+                height: 90,
+                borderRadius: 15,
+                borderColor: '#DCDCDC',
+                borderWidth: 1,
+                padding: 5,
+              }}>
+              <TouchableOpacity
+                style={{alignSelf: 'flex-end', marginEnd: 3, height: '22%'}}>
+                <AntIc name="heart" size={18} color={'red'} />
+              </TouchableOpacity>
+              <Image
+                source={images.bacg}
+                style={{
+                  width: '100%',
+                  height: '70%',
+                  alignSelf: 'flex-start',
+                  resizeMode: 'stretch',
+                }}
+              />
+            </View>
+
+            <View style={{paddingStart: 8}}>
+              <Text
+                style={{
+                  color: '#000000',
+                  fontSize: 16,
+                  fontWeight: '500',
+                  fontFamily: 'Dubai-Bold',
+                }}>
+                Amazon products at 10% off
+              </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: '400',
+                  fontFamily: 'Dubai-Regular',
+                  color: '#7A7A7A',
+                }}>
+                10/15/2022 with an expiring date
+              </Text>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 };
-export default Homes;
+
+export default HomeScreen;
 const styles = StyleSheet.create({
-  renderItem2_Img: {
-    borderRadius: 12,
-    opacity: 0.79,
-  },
-  endIcon: {
-    width: '95%',
-    alignItems: 'flex-end',
-  },
-  contentFirstRow: {
-    width: '100%',
-    alignSelf: 'center',
-    paddingVertical: 5,
-  },
-  txtFirstRow: {
-    color: '#F3F4F6',
-    fontWeight: 'bold',
-  },
-  contentSecondRow: {
-    width: '100%',
-    alignSelf: 'center',
-    paddingVertical: 5,
-    height: 80,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-  txtSRow: {
-    color: 'white',
-    lineHeight: 18,
-  },
-  cont: {
+  container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
-  titleView: {
-    width: '100%',
+  statusBar: {
+    height: STATUSBAR_HEIGHT,
+  },
+  appBar: {
+    backgroundColor: '#FFFFFF',
+    height: APPBAR_HEIGHT,
     paddingHorizontal: 20,
-    paddingTop: 15,
-    paddingBottom: 8,
-  },
-  titleStyle: {
-    fontSize: 24,
-  },
-  descView: {
-    width: '100%',
-    paddingHorizontal: 20,
-  },
-  desTitle: {
-    fontSize: 16,
-    color: '#7C82A1',
-  },
-  searchView: {
     flexDirection: 'row',
-    borderRadius: 12,
-    marginTop: 32,
-    alignSelf: 'center',
-    width: '90%',
-    height: 55,
-    backgroundColor: '#F3F4F6',
-   
-  },
-  searchIcnView: {
-    alignSelf: 'center',
-    marginStart: 8,
-  },
-  txtInputStyle: {
-    width: '80%',
-    paddingHorizontal: 10,
-  },
-  microIcnView: {
-    alignSelf: 'center',
-    marginStart: 8,
-  },
-  boxStyle: {
-    width: 90,
-    height: 36,
-    backgroundColor: '#F3F4F6',
-    borderRadius: 12,
-    justifyContent: 'center',
     alignItems: 'center',
-    marginEnd: 15,
-    paddingHorizontal: 5,
-  },
-  txtBoxStyle: {
-    fontSize: 12,
-    color: '#7C82A1',
-  },
-  flatView: {
-    marginStart: '5%',
-    paddingVertical: 10,
-    width: '100%',
-    marginTop: 10,
-    flexDirection: 'row',
-  },
-  flatView2: {
-    marginTop: 5,
-    marginStart: '5%',
-
-    flexDirection: 'row',
-
-    paddingVertical: 10,
-  },
-  itemBack: {
-    width: 230,
-    height: 230,
-    borderRadius: 20,
-    marginEnd: 12,
-    paddingHorizontal: 18,
-    paddingVertical: 15,
-    paddingBottom: 6,
     justifyContent: 'space-between',
   },
-  footerTitle: {
-    marginTop: 20,
-    // paddingVertical:10,
-    width: '88%',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  renderItem3Flat: {
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-  },
-  renderItem2Img: {
-    borderRadius: 12,
-    opacity: 0.79,
+  content: {
+    backgroundColor: '#FFFFFF',
+    //  backgroundColor:'white'
+    // backgroundColor: '#f1f1f1',
   },
 });

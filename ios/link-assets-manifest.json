@@ -1,0 +1,37 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Dubai-Bold.ttf",
+      "sha1": "317d205d4f64d93dc138d90852093bc6367817bc"
+    },
+    {
+      "path": "src/assets/fonts/Dubai-Light.ttf",
+      "sha1": "95182c6986100bb609651d678f62da642147abc2"
+    },
+    {
+      "path": "src/assets/fonts/Dubai-Medium.ttf",
+      "sha1": "b0c7c7deb0a53dbd399b09a7019e32c3f83b4b4f"
+    },
+    {
+      "path": "src/assets/fonts/Dubai-Regular.ttf",
+      "sha1": "bd3d8c34c53367e32d1bfd48474d9a0005fdbe9b"
+    },
+    {
+      "path": "src/assets/fonts/Font Awesome 5 Brands-Regular-400.otf",
+      "sha1": "10aab491e976e732bbe9411826a709ba1207f553"
+    },
+    {
+      "path": "src/assets/fonts/Font Awesome 5 Free-Regular-400.otf",
+      "sha1": "932da0a991fa9d0903c38d64bd0b60c7f7a70a1f"
+    },
+    {
+      "path": "src/assets/fonts/Font Awesome 5 Free-Solid-900.otf",
+      "sha1": "1fb67360f806b67c1cecd5847a38805830fb78a8"
+    },
+    {
+      "path": "src/assets/fonts/air-arabia-1.ttf",
+      "sha1": "76634e379932048bc6eaecc9741a109e7be786b2"
+    }
+  ]
+}

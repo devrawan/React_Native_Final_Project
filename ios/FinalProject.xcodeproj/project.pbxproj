@@ -12,9 +12,17 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		264C27E2ED8443E398762235 /* air-arabia-1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 581AB0659BD14361877BD149 /* air-arabia-1.ttf */; };
+		643BD42901D74253A5BCD91B /* Dubai-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC6B3B9F6ACF4C45B65E03E7 /* Dubai-Bold.ttf */; };
+		670A9245E86947F98A8609E9 /* Dubai-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B21096DEDFF428E82DD860B /* Dubai-Light.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-FinalProject-FinalProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-FinalProject-FinalProjectTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		991A3C7F2913AD4B004FA781 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 991A3C7E2913AD4B004FA781 /* Fonts */; };
+		A2A99DBBE2F94DF6927D7BB2 /* Font Awesome 5 Free-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C20C82A18E440AE87039279 /* Font Awesome 5 Free-Regular-400.otf */; };
+		A5C130253758499FBC181FBB /* Font Awesome 5 Brands-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = E1F6FC3766624DBEAC56DF57 /* Font Awesome 5 Brands-Regular-400.otf */; };
+		AEBE828B62E04D3BAD570951 /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = C3FA63170C574D36B3BCC55C /* Font Awesome 5 Free-Solid-900.otf */; };
+		BF3D76B728564C7A80486BCE /* Dubai-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 720963D85BC44271B272AA46 /* Dubai-Medium.ttf */; };
+		D9206DA6E72F4CECA1108983 /* Dubai-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FEBBACE9E2504E7D815BA6DF /* Dubai-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,14 +46,22 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FinalProject/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FinalProject/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-FinalProject-FinalProjectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FinalProject-FinalProjectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C20C82A18E440AE87039279 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Font Awesome 5 Free-Regular-400.otf"; path = "../src/assets/fonts/Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-FinalProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.debug.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-FinalProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.release.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.release.xcconfig"; sourceTree = "<group>"; };
+		581AB0659BD14361877BD149 /* air-arabia-1.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "air-arabia-1.ttf"; path = "../src/assets/fonts/air-arabia-1.ttf"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-FinalProject-FinalProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject-FinalProjectTests.debug.xcconfig"; path = "Target Support Files/Pods-FinalProject-FinalProjectTests/Pods-FinalProject-FinalProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-FinalProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FinalProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B21096DEDFF428E82DD860B /* Dubai-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Dubai-Light.ttf"; path = "../src/assets/fonts/Dubai-Light.ttf"; sourceTree = "<group>"; };
+		720963D85BC44271B272AA46 /* Dubai-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Dubai-Medium.ttf"; path = "../src/assets/fonts/Dubai-Medium.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = FinalProject/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-FinalProject-FinalProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject-FinalProjectTests.release.xcconfig"; path = "Target Support Files/Pods-FinalProject-FinalProjectTests/Pods-FinalProject-FinalProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		991A3C7E2913AD4B004FA781 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
+		BC6B3B9F6ACF4C45B65E03E7 /* Dubai-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Dubai-Bold.ttf"; path = "../src/assets/fonts/Dubai-Bold.ttf"; sourceTree = "<group>"; };
+		C3FA63170C574D36B3BCC55C /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Font Awesome 5 Free-Solid-900.otf"; path = "../src/assets/fonts/Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
+		E1F6FC3766624DBEAC56DF57 /* Font Awesome 5 Brands-Regular-400.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Font Awesome 5 Brands-Regular-400.otf"; path = "../src/assets/fonts/Font Awesome 5 Brands-Regular-400.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FEBBACE9E2504E7D815BA6DF /* Dubai-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Dubai-Regular.ttf"; path = "../src/assets/fonts/Dubai-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +125,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		389A3DCF96AD4F419F1B758B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E1F6FC3766624DBEAC56DF57 /* Font Awesome 5 Brands-Regular-400.otf */,
+				2C20C82A18E440AE87039279 /* Font Awesome 5 Free-Regular-400.otf */,
+				C3FA63170C574D36B3BCC55C /* Font Awesome 5 Free-Solid-900.otf */,
+				BC6B3B9F6ACF4C45B65E03E7 /* Dubai-Bold.ttf */,
+				6B21096DEDFF428E82DD860B /* Dubai-Light.ttf */,
+				720963D85BC44271B272AA46 /* Dubai-Medium.ttf */,
+				FEBBACE9E2504E7D815BA6DF /* Dubai-Regular.ttf */,
+				581AB0659BD14361877BD149 /* air-arabia-1.ttf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +157,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				389A3DCF96AD4F419F1B758B /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -248,6 +281,14 @@
 				991A3C7F2913AD4B004FA781 /* Fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				A5C130253758499FBC181FBB /* Font Awesome 5 Brands-Regular-400.otf in Resources */,
+				A2A99DBBE2F94DF6927D7BB2 /* Font Awesome 5 Free-Regular-400.otf in Resources */,
+				AEBE828B62E04D3BAD570951 /* Font Awesome 5 Free-Solid-900.otf in Resources */,
+				643BD42901D74253A5BCD91B /* Dubai-Bold.ttf in Resources */,
+				670A9245E86947F98A8609E9 /* Dubai-Light.ttf in Resources */,
+				BF3D76B728564C7A80486BCE /* Dubai-Medium.ttf in Resources */,
+				D9206DA6E72F4CECA1108983 /* Dubai-Regular.ttf in Resources */,
+				264C27E2ED8443E398762235 /* air-arabia-1.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -53,22 +53,30 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-	<string>AntDesign.ttf</string>
-	<string>Entypo.ttf</string>
-	<string>EvilIcons.ttf</string>
-	<string>Feather.ttf</string>
-	<string>FontAwesome.ttf</string>
-	<string>FontAwesome5_Brands.ttf</string>
-	<string>FontAwesome5_Regular.ttf</string>
-	<string>FontAwesome5_Solid.ttf</string>
-	<string>Foundation.ttf</string>
-	<string>Ionicons.ttf</string>
-	<string>MaterialIcons.ttf</string>
-	<string>MaterialCommunityIcons.ttf</string>
-	<string>SimpleLineIcons.ttf</string>
-	<string>Octicons.ttf</string>
-	<string>Zocial.ttf</string>
-	<string>Fontisto.ttf</string>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>Zocial.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Font Awesome 5 Brands-Regular-400.otf</string>
+		<string>Font Awesome 5 Free-Regular-400.otf</string>
+		<string>Font Awesome 5 Free-Solid-900.otf</string>
+		<string>Dubai-Bold.ttf</string>
+		<string>Dubai-Light.ttf</string>
+		<string>Dubai-Medium.ttf</string>
+		<string>Dubai-Regular.ttf</string>
+		<string>air-arabia-1.ttf</string>
 	</array>
 </dict>
 </plist>

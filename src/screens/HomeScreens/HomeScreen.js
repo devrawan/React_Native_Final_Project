@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState , useRef} from 'react';
 import {images} from '../../constants/index';
 import {NavigationContainer} from '@react-navigation/native';
 import FeatherIc from 'react-native-vector-icons/Feather';
@@ -30,7 +30,6 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
 
 const HomeScreen = () => {
-
   const [isModalVisible, setModalVisible] = useState(false);
   const {width, height} = useWindowDimensions();
   const navigation = useNavigation();
@@ -108,16 +107,62 @@ const HomeScreen = () => {
     setModalVisible(!isModalVisible);
   };
   const WrapperComponent = () => (
-    <View>
-      <Modal isVisible={true}>
-        <View style={{flex: 1}}>
-          <Text>I am the modal content!</Text>
+  
+
+    <Modal   isVisible={isModalVisible}  >
+           
+    <View style={{ width:350,height:360,backgroundColor:'white',alignSelf:'center',borderRadius:16,paddingHorizontal:20,paddingVertical:25}}>
+     
+    <View style={{alignItems:'center'}}>
+          <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000',marginBottom:12}}>Place</Text>
         </View>
-      </Modal>
+        <View style={{flexDirection:'row',alignItems:'center',marginBottom:22}}>
+        <TouchableOpacity  style={{width:90,height:37,borderRadius:20,backgroundColor:'#D54078',alignItems:'center',justifyContent:'center',marginEnd:5}}>
+<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>All </Text>
+</TouchableOpacity>
+<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
+<Image source={images.flag1} style={{width:25,height:25}} resizeMode={'contain'}/>
+</TouchableOpacity>
+<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
+<Image source={images.flag2} style={{width:25,height:25}} resizeMode={'contain'}/>
+</TouchableOpacity>
+        </View>
+        <View style={{alignItems:'center'}}>
+          <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000',marginBottom:12}}>Type</Text>
+        </View>
+        <View style={{flexDirection:'row',alignItems:'center',marginBottom:22,flexWrap:'wrap',width:'100%',justifyContent:'center'}}>
+        <TouchableOpacity  style={{width:90,height:37,borderRadius:20,backgroundColor:'#D54078',alignItems:'center',justifyContent:'center',marginEnd:5,marginBottom:10}}>
+<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>All </Text>
+</TouchableOpacity>
+<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5,flexDirection:'row'}}>
+{/* <Image source={images.flag1} style={{width:25,height:25}} resizeMode={'contain'}/> */}
+<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000'}}>Gifts </Text>
+
+</TouchableOpacity>
+<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
+{/* <Image source={images.flag2} style={{width:25,height:25}} resizeMode={'contain'}/> */}
+<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000'}}>Children </Text>
+
+</TouchableOpacity>
+
+        </View>
+<TouchableOpacity onPress={toggleModal} style={{width:140,height:40,borderRadius:20,backgroundColor:'#29B1E5',alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
+<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>Apply </Text>
+</TouchableOpacity>
+<TouchableOpacity onPress={toggleModal} style={{width:140,height:20,borderRadius:20,alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
+<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#29B1E5'}}>Cancel</Text>
+</TouchableOpacity>
+      {/* <Button title="Hide modal" onPress={toggleModal} /> */}
     </View>
+  </Modal>
   );
 
   return (
+
+    <>
+  
+
+    
     <View style={styles.container}>
       <MyStatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <View style={styles.appBar}>
@@ -138,57 +183,13 @@ const HomeScreen = () => {
             width: '15%',
             // backgroundColor:'red'
           }}>
-          <TouchableOpacity
+          <Pressable
+          
           onPress={toggleModal}
             style={{alignSelf: 'flex-start', paddingHorizontal: 5}}>
             <FontAwesomeIc name={'filter'} size={20} color={'black'} />
-          </TouchableOpacity>
-          <Modal isVisible={isModalVisible} animationOutTiming={500} >
-           
-        <View style={{ width:350,height:360,backgroundColor:'white',alignSelf:'center',borderRadius:16,paddingHorizontal:20,paddingVertical:25}}>
-         
-        <View style={{alignItems:'center'}}>
-              <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000',marginBottom:12}}>Place</Text>
-            </View>
-            <View style={{flexDirection:'row',alignItems:'center',marginBottom:22}}>
-            <TouchableOpacity  style={{width:90,height:37,borderRadius:20,backgroundColor:'#D54078',alignItems:'center',justifyContent:'center',marginEnd:5}}>
-  <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>All </Text>
-</TouchableOpacity>
-<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
-<Image source={images.flag1} style={{width:25,height:25}} resizeMode={'contain'}/>
-</TouchableOpacity>
-<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
-<Image source={images.flag2} style={{width:25,height:25}} resizeMode={'contain'}/>
-</TouchableOpacity>
-            </View>
-            <View style={{alignItems:'center'}}>
-              <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000',marginBottom:12}}>Type</Text>
-            </View>
-            <View style={{flexDirection:'row',alignItems:'center',marginBottom:22,flexWrap:'wrap',width:'100%',justifyContent:'center'}}>
-            <TouchableOpacity  style={{width:90,height:37,borderRadius:20,backgroundColor:'#D54078',alignItems:'center',justifyContent:'center',marginEnd:5,marginBottom:10}}>
-  <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>All </Text>
-</TouchableOpacity>
-<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5,flexDirection:'row'}}>
-{/* <Image source={images.flag1} style={{width:25,height:25}} resizeMode={'contain'}/> */}
-<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000'}}>Gifts </Text>
-
-</TouchableOpacity>
-<TouchableOpacity style={{width:90,height:37,borderRadius:20,backgroundColor:'#EEEEEE',alignItems:'center',justifyContent:'center',marginEnd:5}}>
-{/* <Image source={images.flag2} style={{width:25,height:25}} resizeMode={'contain'}/> */}
-<Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#000000'}}>Children </Text>
-
-</TouchableOpacity>
-
-            </View>
-<TouchableOpacity onPress={toggleModal} style={{width:140,height:40,borderRadius:20,backgroundColor:'#29B1E5',alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
-  <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'white'}}>Apply </Text>
-</TouchableOpacity>
-<TouchableOpacity onPress={toggleModal} style={{width:140,height:20,borderRadius:20,alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
-  <Text style={{fontSize:18,fontWeight:'700',fontFamily:'Dubai-Bold',color:'#29B1E5'}}>Cancel</Text>
-</TouchableOpacity>
-          {/* <Button title="Hide modal" onPress={toggleModal} /> */}
-        </View>
-      </Modal>
+          </Pressable>
+         <WrapperComponent  />
 
           <TouchableOpacity
             style={{alignSelf: 'flex-end', paddingHorizontal: 5}}>
@@ -489,8 +490,13 @@ const HomeScreen = () => {
             </View>
           </ImageBackground>
         </TouchableOpacity>
+
+      
       </ScrollView>
     </View>
+
+    </>
+    
   );
 };
 

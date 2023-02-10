@@ -20,8 +20,9 @@ const bFav = require('../assets/images/bFav.png')
 const bHome = require('../assets/images/bHome.png')
 const bOffer = require('../assets/images/bOffer.png')
 const bSett = require('../assets/images/bSett.png')
+const worldIc = require('../assets/images/world-2.png')
 export default {
-  bFav,bHome,bOffer,bSett,flag1,flag2,
+  bFav,bHome,bOffer,bSett,flag1,flag2,worldIc,
   patt,
   STC,
   ImageMainItemBGRtl,

@@ -6,7 +6,7 @@ const ItemLst = ({item,onpres}) => (
     onPress={()=>onpres(item)}
     style={styles.warpView}>
   <Image source={item.img} style={styles.imView} resizeMode={'contain'}/>
-  <Text style={{fontSize:16,fontWeight:'700',fontFamily:'Dubai-Bold'}}>{item.tit}</Text>
+  <Text style={{fontSize:16, color:'black', fontWeight:'700',fontFamily:'Dubai-Bold'}}>{item.tit}</Text>
   </TouchableOpacity>
   );
   export default ItemLst;

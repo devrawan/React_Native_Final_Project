@@ -1,27 +1,39 @@
-import React ,{useEffect,useState} from 'react';
+import React,{useEffect,useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, Text, View,TouchableOpacity, Alert ,StatusBar,Platform} from 'react-native'
+import { StyleSheet, Text, View,TouchableOpacity, Alert ,StatusBar,Platform, ScrollView} from 'react-native'
 import FeatherIc from 'react-native-vector-icons/Feather';
 import FontAwesomeIc from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import AntIc from 'react-native-vector-icons/AntDesign';
 import MyStatusBar from '../../components/MyStatusBar';
-import {useTranslation} from 'react-i18next';
 import axios from 'axios';
-import {images} from '../../constants/index';
 import { WebView } from 'react-native-webview';
-
-
+import {images} from '../../constants/index';
+import {useTranslation} from 'react-i18next';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
-const PrivacyScreen = () => {
+
+
+
+const TermsConditions = () => {
   const navigation = useNavigation();
   const {t,i18n} = useTranslation();
-  const [pageTxt,setPageTxt]=useState('')
+  const [pageTxt,setPageTxt]=useState('');
+  const customHTML = `
+  <body style="display:flex; flex-direction: column;justify-content: center; 
+    align-items:center; background-color: black; color:red; height: 100%;">
+      <h1 style="font-size:100px; padding: 50px; text-align: center;" 
+      id="h1_element">
+        This is simple html
+      </h1>
+      <h2 style="display: block; font-size:80px; padding: 50px; 
+      text-align: center;" id="h2_element">
+        This text will be changed later!
+      </h2>
+   </body>`;
   useEffect(() => {
     const fetchData = async () => {
     var textRes = await getPageText();
-
     var finaltext = "";
     finaltext += "<html>";
     finaltext += "<head>";
@@ -35,7 +47,6 @@ const PrivacyScreen = () => {
     
     console.log(finaltext);
     setPageTxt(finaltext)
-    // setPageTxt(textRes)
   };
   fetchData();
 }, []);
@@ -43,7 +54,7 @@ const PrivacyScreen = () => {
 
 const getPageText = async()=>{
   if(i18n.language === 'en'){
-    var response = await axios.get(`https://xcobon.com/api/user/get_polices_page`,
+    var response = await axios.get(`https://xcobon.com/api/user/get_rules_page`,
     {
            headers: {
              language:'en',
@@ -52,7 +63,7 @@ const getPageText = async()=>{
       
        );
    }else{
-    var response = await axios.get(`https://xcobon.com/api/user/get_polices_page`,
+    var response = await axios.get(`https://xcobon.com/api/user/get_rules_page`,
     {
            headers: {
              language:'ar',
@@ -68,36 +79,24 @@ const getPageText = async()=>{
 <View style={styles.container}>
       <MyStatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <View style={[styles.appBar,{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:15}]}>
-      <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-     <AntIc name= {i18n.language === 'en' ? 'arrowleft' : 'arrowright'}  size={22}/>
-      </TouchableOpacity> 
-      <View style={{alignSelf:'center',width:'95%'}}>
-      <Text style={{alignSelf:'center',fontSize:18,fontFamily:'Dubai-Bold',fontWeight:'500',color:'black'}}>{t('Privacy Policy')}</Text> 
+        <TouchableOpacity onPress={()=>{navigation.goBack()}}>
+            <AntIc name= {i18n.language === 'en' ? 'arrowleft' : 'arrowright'}  size={22}/>
+        </TouchableOpacity> 
+        <View style={{width:'95%'}}>
+             <Text style={{alignSelf:'center',fontSize:18,fontFamily:'Dubai-Bold',fontWeight:'500',color:'black'}}> {t('Terms and Conditions')}</Text> 
+        </View>
       </View>
-          {/* <TouchableOpacity style={{alignSelf:'flex-end',height:'100%',justifyContent:'center'}}>
-            <FeatherIc name={'more-vertical'} size={20}  />
-          </TouchableOpacity> */}
-     
+      <View style={{flex:1}}>
+         <WebView source={{ html: pageTxt}} />
       </View>
 
-
-      {/* <View style={{flex:1,width:'90%',alignSelf:'center'}}> */}
-{/* <Text style={{alignSelf:'flex-start',fontSize:17,lineHeight:35,color:'#7A7A7A',textAlign:'left'}}> */}
-{/* {t('PrivText')} */}
-{/* {pageTxt}
-</Text>
-      </View> */}
-
-<View style={{flex:1}}>
-<WebView source={{ html: pageTxt}} />
-</View>
-      </View>
+ </View>
 
 
   );
 };
 
-export default PrivacyScreen;
+export default TermsConditions;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -112,9 +111,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
-
-
-
 
   },
   content: {

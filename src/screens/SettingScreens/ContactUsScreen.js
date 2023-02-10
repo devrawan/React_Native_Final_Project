@@ -8,41 +8,33 @@ import AntIc from 'react-native-vector-icons/AntDesign';
 import MyStatusBar from '../../components/MyStatusBar';
 
 import {images} from '../../constants/index';
-
-
+import {useTranslation} from 'react-i18next';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+
+
+
 const ContactUsScreen = () => {
   const navigation = useNavigation();
-
+  const {t,i18n} = useTranslation();
   return (
 <View style={styles.container}>
       <MyStatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <View style={[styles.appBar,{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:15}]}>
-     <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-     <AntIc name='arrowleft' size={22} />
-     </TouchableOpacity> 
-      <View>
-      <Text style={{alignSelf:'center',fontSize:18,fontFamily:'Dubai-Bold',fontWeight:'500'}}>Contact Us  </Text> 
+      <TouchableOpacity onPress={()=>{navigation.goBack()}}>
+     <AntIc name= {i18n.language === 'en' ? 'arrowleft' : 'arrowright'}  size={22}/>
+      </TouchableOpacity> 
+      <View style={{width:'95%'}}>
+      <Text style={{alignSelf:'center',fontSize:18,fontFamily:'Dubai-Bold',fontWeight:'500',color:'black'}}> {t('Contact Us')}</Text> 
       </View>
-          <TouchableOpacity style={{alignSelf:'flex-end',height:'100%',justifyContent:'center'}}>
-            <FeatherIc name={'more-vertical'} size={20}  />
-          </TouchableOpacity>
+        
      
       </View>
 
 
       <View style={{flex:1,width:'90%',alignSelf:'center'}}>
-<Text style={{alignSelf:'flex-start',fontSize:17,lineHeight:35,color:'#7A7A7A'}}>
-Hence, the designer must put temporary texts on
-  Design to show the client the full form, the role of the text generator
-  Al-Arabi saves the designer from the trouble of searching for an alternative text
-  It has a relationship with the topic that the design is talking about, and it appears in a form
-.dose not fit
-
-  This text can be superimposed on any design without a problem
-  It will not look like copied, unstructured, unformatted text, or even
-.Not understood. Because it is still an alternative and temporary text
+<Text style={{alignSelf:'flex-start',fontSize:17,lineHeight:35,color:'#7A7A7A',textAlign:'left'}}>
+{t('ContactText')}
 </Text>
       </View>
       </View>

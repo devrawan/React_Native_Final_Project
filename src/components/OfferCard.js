@@ -16,6 +16,7 @@ const OfferCard = ({item,handleLike,onpres}) => {
   return(
 
   <TouchableOpacity
+  key={item.id}
   onPress={()=>onpres(item)}
     activeOpacity={0.3}
     style={styles.cardView}>
@@ -32,8 +33,8 @@ const OfferCard = ({item,handleLike,onpres}) => {
         </TouchableOpacity>
 }
         <Image
-          //  source={{uri:item.image_thumbnail}}
-        source={item.image_thumbnail}
+           source={{uri:item.image_thumbnail}}
+        // source={item.image_thumbnail}
          style={styles.imView} />
       </View>
 

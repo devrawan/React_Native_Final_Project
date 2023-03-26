@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, Text, View,TouchableOpacity, Alert ,StatusBar,Platform, ScrollView} from 'react-native'
+import { StyleSheet, Text, ActivityIndicator,View,TouchableOpacity, Alert ,StatusBar,Platform, ScrollView} from 'react-native'
 import FeatherIc from 'react-native-vector-icons/Feather';
 import FontAwesomeIc from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
@@ -18,7 +18,7 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const TermsConditions = () => {
   const navigation = useNavigation();
   const {t,i18n} = useTranslation();
-  const [pageTxt,setPageTxt]=useState('');
+  const [pageTxt,setPageTxt]=useState(null);
   const customHTML = `
   <body style="display:flex; flex-direction: column;justify-content: center; 
     align-items:center; background-color: black; color:red; height: 100%;">
@@ -35,7 +35,8 @@ const TermsConditions = () => {
     const fetchData = async () => {
     var textRes = await getPageText();
     var finaltext = "";
-    finaltext += "<html>";
+     finaltext += `<html dir=${i18n.language == 'en' ? 'ltr' : 'rtl'}>`;
+
     finaltext += "<head>";
     finaltext += '<meta name="viewport" content="width=device-width, initial-scale=1" />';
     finaltext += "</head>";
@@ -53,42 +54,66 @@ const TermsConditions = () => {
 
 
 const getPageText = async()=>{
-  if(i18n.language === 'en'){
-    var response = await axios.get(`https://xcobon.com/api/user/get_rules_page`,
+
+    var response = await axios.get(`https://xcobon.com/api/get_rules_page`,
     {
            headers: {
-             language:'en',
+             language:i18n.language,
            },
          },
       
        );
-   }else{
-    var response = await axios.get(`https://xcobon.com/api/user/get_rules_page`,
-    {
-           headers: {
-             language:'ar',
-           },
-         },
-      
-       );
-   }
+  
    
-       return response.data.page.text;
+       return response.data.data.text;
 }
   return (
 <View style={styles.container}>
       <MyStatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
-      <View style={[styles.appBar,{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:15}]}>
+      {/* <View style={[styles.appBar,{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:15}]}>
         <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-            <AntIc name= {i18n.language === 'en' ? 'arrowleft' : 'arrowright'}  size={22}/>
+            <AntIc name= {i18n.language === 'en' ? 'arrowleft' : 'arrowright'}  size={22} color={'black'}/>
         </TouchableOpacity> 
         <View style={{width:'95%'}}>
              <Text style={{alignSelf:'center',fontSize:18,fontFamily:'Dubai-Bold',fontWeight:'500',color:'black'}}> {t('Terms and Conditions')}</Text> 
         </View>
+      </View> */}
+ 
+<View style={styles.appBar}>
+        <TouchableOpacity
+      style={{width:'20%',height:'100%',alignSelf:'flex-start',justifyContent:'center',alignItems:'center'}}
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <AntIc
+            name={i18n.language === 'en' ? 'arrowleft' : 'arrowright'}
+            size={22}
+          />
+        </TouchableOpacity>
+        <View style={{width:'80%',height:'100%',justifyContent: 'center', alignItems: 'center',alignSelf:'center'}}>
+          <Text
+            style={{fontSize: 18, color:'black', fontFamily: 'Dubai-Bold', fontWeight: '500'}}>
+            {t('Details')}
+          </Text>
+        </View>
+        <View
+      style={{width:'20%',height:'100%',alignSelf:'flex-start',justifyContent:'center',alignItems:'center'}}
+         >
+         
+        </View>
       </View>
+
+
+
+
       <View style={{flex:1}}>
-         <WebView source={{ html: pageTxt}} />
-      </View>
+  {pageTxt != null ?<WebView source={{ html: pageTxt}} /> :
+  <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+<ActivityIndicator color={'#D54078'}/>
+  </View>
+  }
+
+</View>
 
  </View>
 
@@ -106,11 +131,15 @@ const styles = StyleSheet.create({
     height: STATUSBAR_HEIGHT,
   },
   appBar: {
+    width:'100%',
     backgroundColor: '#FFFFFF',
     height: APPBAR_HEIGHT,
     paddingHorizontal: 20,
     flexDirection: 'row',
+    justifyContent:'center',
     alignItems: 'center',
+   
+    marginBottom: 12,
 
   },
   content: {

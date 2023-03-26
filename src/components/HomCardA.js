@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 import { StyleSheet,StatusBar, Image,Text, View,TouchableOpacity,ImageBackground} from 'react-native';
-const HomCardA = ({item,onpres}) => {
+const HomCardA = ({item,onpres,handleLike}) => {
     const navigation = useNavigation();
     const {t, i18n} = useTranslation();
     return(
@@ -53,12 +53,18 @@ const HomCardA = ({item,onpres}) => {
             borderColor: '#DCDCDC',
             borderWidth: 1,
             padding: 5,
-            marginStart:3
+            // marginStart:3
           }}>
-          <TouchableOpacity
-            style={{alignSelf: 'flex-end', marginEnd: 3, }}>
-            <AntIc name="hearto" size={18} color={'#656565'} />
-          </TouchableOpacity>
+                 {item.is_favourite == true ?<TouchableOpacity
+          onPress={()=>handleLike(item)}
+          style={{alignSelf: 'flex-end',width:20,}}>
+          <AntIc name="heart" size={18} color={'red'} />
+        </TouchableOpacity> :  <TouchableOpacity
+       onPress={()=>handleLike(item)}
+          style={{alignSelf: 'flex-end'}}>
+          <AntIc name="hearto" size={18} color={'#656565'} />
+        </TouchableOpacity>
+}
           <View style={{alignSelf:'center',width:'80%',height:'80%',alignItems:'center',justifyContent:'center'}}>
  <Image
              source={{uri:item.image_thumbnail}}

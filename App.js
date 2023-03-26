@@ -4,11 +4,25 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AppStack from './src/navigation/stack/AppStack';
 import  './src/i18n';
-const App = () => {
+import { getUniqueId} from 'react-native-device-info';
 
+export var  deviceId = "";
+
+const App =  () => {
+
+
+ deviceId =   getUniqueId().then((id)=>{
+  console.log("App Device Id : " , id);
+  deviceId = id;
+
+ }).catch((err)=>{
+  console.log("App Device Id : erro " , err);
+
+ });
+ 
   return (
     <NavigationContainer>
-<AppStack />
+      <AppStack />
   </NavigationContainer>
   );
 };

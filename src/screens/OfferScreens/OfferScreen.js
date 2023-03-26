@@ -10,7 +10,7 @@ import {getDeviceId} from 'react-native-device-info';
 import {useTranslation} from 'react-i18next';
 import OfferCard from '../../components/OfferCard';
 import axios from 'axios';
-
+import { deviceId } from '../../../App';
 import {
   StyleSheet,
   AppRegistry,
@@ -85,7 +85,8 @@ useEffect(() => {
   }).catch((error)=>{
     console.log("Kareem PageC Chandgedd Error");
 
-    if (error.response.status == 403){
+    // if (error.response.status == 403){
+      if (error.response != undefined && error.response.status != undefined && error.response.status == 403){
       setNextCop(error.response.data.data.pagination.has_next);
       setOffers(error.response.data.data.content);
       setIsLoad(false);
@@ -123,6 +124,12 @@ useEffect(()=>{
   var itms = await getCoupons();
   console.log("loadCps ");
   console.log(itms);
+
+  if (itms == undefined){
+    return;
+  }
+
+  
    var ids = offers.map((item) => item.id);
       var items2 = itms.filter ( (item) => {
         var isEqual = ids.includes(item.id);
@@ -132,7 +139,11 @@ useEffect(()=>{
       setIsLoad(false)
       return "";
     };
-    loadCps()
+    // loadCps()
+
+      if (currentIdCatg != undefined  && currentIdCatg != null ){
+        loadCps()
+    }
     
 },[pageCop])
 
@@ -151,9 +162,12 @@ useEffect(  () =>  {
     console.log("Kareem  getOffers First Time Ignore ");
     return;
   }
+
+  var path =  `https://xcobon.com/api/offers?page=${pageCop}&category_id=${currentIdCatg}`;
+  console.log("get offers path: " , path);
       axios.get(
         // `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`,
-        `https://xcobon.com/api/offers?page=${pageCop}&category_id=${currentIdCatg}`,
+       path,
         {
           cancelToken: cancelTokenSource2.token,
           headers: {
@@ -162,21 +176,21 @@ useEffect(  () =>  {
         },
       ).then((response)=>{
         setNextCop(response.data.data.pagination.has_next);
+        console.log(response.data.data.content[0]);
+        console.log(response.data.data.content.map((item) => {return item.is_favourite}));
         setOffers(response.data.data.content);
         setIsLoad(false);
       }).catch((response) => { 
-        console.log("getOffers Error " + response.response.status);
+        console.log("getOffers Error " + response);
 
-        if (response.response.status == 403){
+
+        // if (response.response.status == 403){
+        if (response !=undefined &&  response.response != undefined &&  response.response.status != undefined &&  response.response.status == 403){
           setNextCop(response.response.data.data.pagination.has_next);
           setOffers(response.response.data.data.content);
           setIsLoad(false);
           return;
         }
-          console.log(response);
-          console.log(response.response);
-          console.log(response.response.data);
-
           setIsLoad(false);
       });
 }, [currentIdCatg]);
@@ -197,7 +211,6 @@ const getCoupons = async () => {
       var response = await axios.get(
        // `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`,
        `https://xcobon.com/api/offers?page=${pageCop}&category_id=${currentIdCatg}`,        {
-          cancelToken: cancelTokenSource.token,
           headers: {
            
             language: i18n.language == undefined ? "en" : i18n.language,
@@ -210,8 +223,12 @@ const getCoupons = async () => {
       console.log("Kareem Error " , err)
 
         if (err.response.status == 403){
-          setNextCop(response.data.data.pagination.has_next);
-          return response.data.data.content;
+           if (response.data.data != undefined){
+              setNextCop(response.data.data.pagination.has_next);
+              return response.data.data.content;
+            }
+          // setNextCop(response.data.data.pagination.has_next);
+          // return response.data.data.content;
         }
         console.log("Kareem Error " , err.response.status)
 
@@ -239,20 +256,23 @@ try{
   const formData = new FormData();
   axios({
     method: "post",
-    url: `https://xcobon.com/api/favourites?coupon_id=${copon.id}`,
+    url: path,
     data: formData,
     
     headers: {
        // deviceKey: '23',
-       deviceKey:getDeviceId(),
+      //  deviceKey:getDeviceId(),
+        deviceKey:deviceId,
               'Content-Type' : 'multipart/form-data',
               'accept' : '*/*',
-              'language': i18n.language == undefined ? "en" : i18n.language,}
+              'language':  i18n.language,}
           
   })
   .then(response => {
-    const result =  response.data.data.offers[0].is_favourite;
-
+    console.log("dsds ");
+    console.log( response.data.data.coupons.map((item) => { return item.name }));
+    const result =  response.data.data.coupons[0].is_favourite;
+    // console.log('ddsds ' , response.data.data.offers[0].is_favourite)
     const lst = [...offers];
     lst.forEach((item)=>{
       if (item.id == copon.id){
@@ -270,7 +290,7 @@ try{
 
 
 }catch(err) {
-    console.log(" Fav Error")
+    console.log(" Favggg Error")
     console.log(err);
   }
   
@@ -296,7 +316,7 @@ return (
       <View style={{width:'100%',height:'100%',justifyContent: 'center', alignItems: 'center',alignSelf:'center'}}>
         <Text
           style={{fontSize: 18, fontFamily: 'Dubai-Bold', fontWeight: '500',color:'black'}}>
-          {t('Offer')}
+          {t('Offers')}
         </Text>
       </View>
      
@@ -394,7 +414,6 @@ return (
         <ActivityIndicator color={'#D54078'} />
       ) : (
 <>
-
 <View style={{flex: 1,backgroundColor:'#f7f7f7'}}>
           {offers == undefined || offers.length == 0 ? (
           <Text  style={{

@@ -45,11 +45,15 @@ const SettingScreen = () => {
 //funcSetting
   const navToPrivcy = item => {
     console.log(item);
-    if(item.scren==''){
+    if(item.id == 7){
+      console.log("current language " , i18n.language)
+
       i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar').then(()=>{
+
         I18nManager.forceRTL(i18n.language === 'ar' );
         RNRestart.Restart();
       })
+
     }else{
       navigation.navigate(item.scren);
     }

@@ -37,28 +37,32 @@ const DetailScreen = ({route}) => {
       image_thumbnail: 'https://xcobon.com/uploads/1673087084_492788596.png',
       name: `${t('Amazon products at 10% off')}`,
       start_at: `${t('10/15/2022 with an expiring date')}`,
-      body:"Lisandra Wiley Amazon products sdmazon products ghmazon products  "
+      body:"Lisandra Wiley Amazon products sdmazon products ghmazon products  ",
+      is_favourite:false
     },
     {
       id: 1,
       image_thumbnail: 'https://xcobon.com/uploads/1673087084_492788596.png',
       name: `${t('Amazon products at 10% off')}`,
       start_at: `${t('10/15/2022 with an expiring date')}`,
-      body:"Lisandra Wiley Amazon products sdmazon products ghmazon products  "
+      body:"Lisandra Wiley Amazon products sdmazon products ghmazon products  ",
+      is_favourite:false
     },
     {
       id: 2,
       image_thumbnail: 'https://xcobon.com/uploads/1673087084_492788596.png',
       name: `${t('Amazon products at 10% off')}`,
       start_at: `${t('10/15/2022 with an expiring date')}`,
-      body:"Lisandra Wiley Amazon products sdmazon products ghmazon products  "
+      body:"Lisandra Wiley Amazon products sdmazon products ghmazon products  ",
+      is_favourite:false
     },
     {
       id: 3,
       image_thumbnail: 'https://xcobon.com/uploads/1673087084_492788596.png',
       name: `${t('Amazon products at 10% off')}`,
       start_at: `${t('10/15/2022 with an expiring date')}`,
-      body:"Lisandra Wiley Amazon products sdmazon products ghmazon products  "
+      body:"Lisandra Wiley Amazon products sdmazon products ghmazon products  ",
+      is_favourite:false
     },
   ];
   const navToDet = item => {

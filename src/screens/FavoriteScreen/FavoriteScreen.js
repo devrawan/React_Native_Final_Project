@@ -93,7 +93,7 @@ const FavoriteScreen = () => {
   const offers = [
     {
       id: 0,
-      image_thumbnail: images.STC,
+      image_thumbnail:'https://www.w3schools.com/images/w3schools_green.jpg',
       name: `${t('Amazon products all product ')}`,
       start_at: `${t('10/15/2022')}`,
       value: 3,
@@ -101,7 +101,7 @@ const FavoriteScreen = () => {
     },
     {
       id: 6,
-      image_thumbnail: images.STC,
+      image_thumbnail:'https://www.w3schools.com/images/w3schools_green.jpg',
       name: `${t('Amazon products all product')}`,
       start_at: `${t('10/15/2022')}`,
       value: null,
@@ -109,7 +109,7 @@ const FavoriteScreen = () => {
     },
     {
       id: 1,
-      img: images.STC,
+      image_thumbnail:'https://www.w3schools.com/images/w3schools_green.jpg',
       name: `${t('Amazon products all product')}`,
       start_at: `${t('10/15/2022')}`,
       value: 0,
@@ -117,7 +117,7 @@ const FavoriteScreen = () => {
     },
     {
       id: 2,
-      image_thumbnail: images.STC,
+      image_thumbnail:'https://www.w3schools.com/images/w3schools_green.jpg',
       name: `${t('Amazon products all product')}`,
       start_at: `${t('10/15/2022')}`,
       value: 40,
@@ -126,7 +126,7 @@ const FavoriteScreen = () => {
    
     {
       id: 4,
-      image_thumbnail: images.STC,
+      image_thumbnail:'https://www.w3schools.com/images/w3schools_green.jpg',
       name: `${t('Amazon products all product')}`,
       start_at: `${t('10/15/2022')}`,
       value: null,
@@ -134,7 +134,7 @@ const FavoriteScreen = () => {
     },
     {
       id: 3,
-      image_thumbnail: images.STC,
+      image_thumbnail:'https://www.w3schools.com/images/w3schools_green.jpg',
       name: `${t('Amazon products all product')}`,
       start_at: `${t('10/15/2022')}`,
       value: 55,
@@ -142,7 +142,7 @@ const FavoriteScreen = () => {
     },
     {
       id: 5,
-      image_thumbnail: images.STC,
+      image_thumbnail:'https://www.w3schools.com/images/w3schools_green.jpg',
       name: `${t('Amazon products all product')}`,
       start_at: `${t('10/15/2022')}`,
       value: null,
@@ -165,6 +165,9 @@ const FavoriteScreen = () => {
             flexDirection: 'row',
             alignItems: 'center',
             marginBottom: 15,
+            height: APPBAR_HEIGHT,
+            paddingHorizontal: 20,
+            backgroundColor:'#FFFFFF'
           },
         ]}>
 
@@ -207,11 +210,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   statusBar: {
-    height: STATUSBAR_HEIGHT,
+    // height: STATUSBAR_HEIGHT,
   },
   appBar: {
     backgroundColor: '#FFFFFF',
-    height: APPBAR_HEIGHT,
+    // height: APPBAR_HEIGHT,
     paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',

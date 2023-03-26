@@ -6,9 +6,10 @@ import FontAwesomeIc from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import AntIc from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
-import {getDeviceId} from 'react-native-device-info';
 import Modal from 'react-native-modal';
 import Snackbar from 'react-native-snackbar';
+import { deviceId } from '../../../App';
+
 import axios, { post } from 'axios';
 import {
   StyleSheet,
@@ -29,6 +30,7 @@ import {
 } from 'react-native';
 import HomCardE from '../../components/HomCardE';
 import HomCardA from '../../components/HomCardA';
+import WrapperComponent from './ModalFilter';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
@@ -48,6 +50,8 @@ const HomeScreen = () => {
   const {width, height} = useWindowDimensions();
   const [isLoad, setIsLoad] = useState(true);
   const [isLoadCatg, setIsLoadCatg] = useState(true);
+  // const [pClick, setPClick] = useState(0);
+  // const[tClick,setTClick]= useState(0);
   // true
   const navigation = useNavigation();
   const {t, i18n} = useTranslation();
@@ -93,16 +97,16 @@ const HomeScreen = () => {
       preapareCategroes(data);
       
     }).catch((error)=>{
+      
       console.log("Kareem PageC Chandgedd Error");
-
-      if (error.response.status == 403){
+      console.log(error);
+      if (error.response != undefined && error.response.status != undefined && error.response.status == 403){
         setNextCop(error.response.data.data.pagination.has_next);
         setCoups(error.response.data.data.content);
         setIsLoad(false);
         return;
       }
-      console.log(error);
-      console.log(error);
+  
     });
   }, [pageC]);
 
@@ -134,8 +138,6 @@ const HomeScreen = () => {
     // }
   }
 
-
-
   useEffect(()=>{
     const loadCps = async () => {
     var itms = await getCoupons();
@@ -150,12 +152,17 @@ const HomeScreen = () => {
         setIsLoad(false)
         return "";
       };
-      loadCps()
+
+      if (currentIdCatg != undefined  && currentIdCatg != null ){
+        loadCps()
+    }
+
       
   },[pageCop])
 
   useEffect(  () =>  {
 
+    var path =  `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
     try{
     cancelTokenSource2.cancel();
 
@@ -166,35 +173,37 @@ const HomeScreen = () => {
 
     cancelTokenSource2 = axios.CancelToken.source();
 
-   console.log(`https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`)
+   console.log(path)
     if (currentIdCatg == null){
       console.log("Kareem  getCoupons First Time Ignore ");
       return;
     }
         axios.get(
-          `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`,
+          path,
           {
             cancelToken: cancelTokenSource2.token,
             headers: {
               // deviceKey: '23',
-              deviceKey:getDeviceId(),
+              deviceKey:deviceId,
               language: i18n.language == undefined ? "en" : i18n.language,
             },
           },
-        ).then((response)=>{
-          console.log(getDeviceId())
+        ).then( async (response)=>  {
           setNextCop(response.data.data.pagination.has_next);
           setCoups(response.data.data.content);
           setIsLoad(false);
         }).catch((response) => { 
-          console.log("getCoupons Error " + response.response.status);
+          console.log("status error: " );
+          console.log(response);
 
-          if (response.response.status == 403){
+          if (response.response != undefined &&  response.response.status != undefined &&  response.response.status == 403){
+            console.log(response.response);
             setNextCop(response.response.data.data.pagination.has_next);
             setCoups(response.response.data.data.content);
             setIsLoad(false);
             return;
           }
+            console.log("getCoupons Error " + response.response.status);
             console.log(response);
             console.log(response.response);
             console.log(response.response.data);
@@ -203,6 +212,14 @@ const HomeScreen = () => {
         });
   
   }, [currentIdCatg]);
+
+
+const handlPlc = (idd)=>{
+setPClick(idd)
+}
+const handleType = (idd)=>{
+  setTClick(idd)
+}
 
 
   const fetchfirstCatg = (categrs2) => {
@@ -217,15 +234,16 @@ const HomeScreen = () => {
 
   const getCoupons = async () => {
 
-      
+      var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
+      console.log('getCoupons path: ' , path);
       try{
         var response = await axios.get(
-          `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`,
+          path,
           {
             cancelToken: cancelTokenSource.token,
             headers: {
          // deviceKey: '23',
-         deviceKey:getDeviceId(),
+         deviceKey: deviceId,
               language: i18n.language == undefined ? "en" : i18n.language,
             },
           },
@@ -233,14 +251,13 @@ const HomeScreen = () => {
         setNextCop(response.data.data.pagination.has_next);
         return response.data.data.content;
       }catch(err) {
-          console.log("1 Kareem Error " , err)
+          console.log("status error: 2" );
           if (err.response.status == 403){
             if (response.data.data != undefined){
-            setNextCop(response.data.data.pagination.has_next);
-            return response.data.data.content;
+              setNextCop(response.data.data.pagination.has_next);
+              return response.data.data.content;
             }
           }
-
           return [];
       }
   };
@@ -268,7 +285,7 @@ const handLike =(copon)=>{
       headers: {
         // 'deviceKey': '23',
       
-         'deviceKey':getDeviceId(),
+         'deviceKey':deviceId,
                 'Content-Type' : 'multipart/form-data',
                 'accept' : '*/*',
                 'language': i18n.language == undefined ? "en" : i18n.language,}
@@ -331,98 +348,11 @@ const handLike =(copon)=>{
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-  const WrapperComponent = () => (
-    <Modal isVisible={isModalVisible}>
-      <View style={styles.parView}>
-        <View style={styles.fView}>
-          <Text style={styles.placText}>{t('Place')}</Text>
-        </View>
-        <View style={styles.wrpView}>
-          <TouchableOpacity style={styles.touchTxt}>
-            <Text style={styles.touchTxtStyle}>{t('All')} </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.touchImg}>
-            <Image
-              source={images.flag1}
-              style={{width: 25, height: 25}}
-              resizeMode={'contain'}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.touchImg2}>
-            <Image
-              source={images.flag2}
-              style={{width: 25, height: 25}}
-              resizeMode={'contain'}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{alignItems: 'center'}}>
-          <Text style={styles.typeTxt}>{t('Type')}</Text>
-        </View>
+  // const WrapperComponent = () => (
+  //   <WrapperComponent>
 
-        <View style={styles.itmsView}>
-          <TouchableOpacity style={styles.alView}>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: '700',
-                fontFamily: 'Dubai-Bold',
-                color: 'white',
-              }}>
-              {t('All')}{' '}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.it1View}>
-            {/* <Image source={images.flag1} style={{width:25,height:25}} resizeMode={'contain'}/> */}
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: '700',
-                fontFamily: 'Dubai-Bold',
-                color: '#000000',
-              }}>
-              {t('Gifts')}{' '}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.it2View}>
-            {/* <Image source={images.flag2} style={{width:25,height:25}} resizeMode={'contain'}/> */}
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: '700',
-                fontFamily: 'Dubai-Bold',
-                color: '#000000',
-              }}>
-              {t('Children')}{' '}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={toggleModal} style={styles.bTxt1}>
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: '700',
-              fontFamily: 'Dubai-Bold',
-              color: 'white',
-            }}>
-            {t('Apply')}{' '}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={toggleModal} style={styles.bTxt2}>
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: '700',
-              fontFamily: 'Dubai-Bold',
-              color: '#29B1E5',
-            }}>
-            {t('Cancel')}
-          </Text>
-        </TouchableOpacity>
-        {/* <Button title="Hide modal" onPress={toggleModal} /> */}
-      </View>
-    </Modal>
-  );
+  //   </WrapperComponent>
+  // );
 
   return (
     <>
@@ -433,7 +363,7 @@ const handLike =(copon)=>{
         <TouchableOpacity
       style={{width:'20%',height:'100%',alignSelf:'flex-start',justifyContent:'center',alignItems:'center'}}
           onPress={() => {
-            navigation.goBack();
+     
           }}>
            <FeatherIc name={'search'}  color='black'  size={20} />
         </TouchableOpacity>
@@ -454,7 +384,19 @@ const handLike =(copon)=>{
         </TouchableOpacity>
       </View>
 
-{isModalVisible ? <WrapperComponent/>:<></> }
+{isModalVisible ?  
+     <WrapperComponent  
+      isVisible={isModalVisible} 
+      handleFilter = { (place, ds)=>{
+        console.log("Home Screen " ,place, ds);
+        toggleModal()
+      }}  
+      toggleModal = {toggleModal} 
+      />:<></> }
+
+
+
+
         <View
           style={{
             height: 60,
@@ -487,10 +429,12 @@ const handLike =(copon)=>{
               return (
                 <TouchableOpacity
                   onPress={
-                    () => setCurIdCatg(item.id)
-                    // await viewCopns();
+                  () => {
+                      // setCoups([])
+                      setCurIdCatg(item.id)}
+                  
                   }
-                  // onPress={()=>viewCopns(item.id)}
+               
                   key={item.id}
                   style={{
                     flexDirection: 'row',

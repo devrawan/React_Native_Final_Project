@@ -263,7 +263,7 @@ const handleType = (idd)=>{
   };
 
   const navToDet = item => {
-    console.log(item);
+    console.log(item)
     navigation.navigate('DetailScreen',{itm:item});
   };
 

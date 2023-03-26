@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,10 +7,11 @@ import {
   Alert,
   Platform,
   TouchableOpacity,
-  ImageBackground,
+  ActivityIndicator,
   Image,
   Dimensions,
-  FlatList
+  FlatList,
+  
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useTranslation} from 'react-i18next';
@@ -22,48 +23,50 @@ import FontAwesomeIc from 'react-native-vector-icons/FontAwesome';
 import {images} from '../../constants/index';
 import AntIc from 'react-native-vector-icons/AntDesign';
 import OfferCard from '../../components/OfferCard';
+import axios from 'axios';
 
 const screenWidth = Dimensions.get('window').width;
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+
 const DetScreen = ({route}) => {
   const { itm } = route.params;
+  const [offers, setOffers] = useState([]);
+const [pageCop, setPageCop] = useState(1);
+const [nextCop, setNextCop] = useState();
+const [isLoad, setIsLoad] = useState(true);
   const navigation = useNavigation();
   const {t, i18n} = useTranslation();
+
+  useEffect(  () =>  {
+    axios.get(
+      `https://xcobon.com/api/offers?page=${pageCop}`,
+      {
+        // cancelToken: cancelTokenSource2.token,
+        headers: {
+          language: i18n.language == undefined ? "en" : i18n.language,
+        },
+      },
+    ).then((response)=>{
+      console.log("curreeent Offer  page" + pageCop)
+      setNextCop(response.data.data.pagination.has_next);
+      setOffers(response.data.data.content);
+      setIsLoad(false);
+    }).catch((response) => { 
+      console.log("getOffers Error " + response);
+      if (response !=undefined &&  response.response != undefined &&  response.response.status != undefined &&  response.response.status == 403){
+        setNextCop(response.response.data.data.pagination.has_next);
+        setOffers(response.response.data.data.content);
+        setIsLoad(false);
+        return;
+      }
+        setIsLoad(false);
+    });
+}, [pageCop]);
   const navToDet = item => {
-    console.log(item);
     navigation.navigate('DetScreen',{itm:item});
   };
-  const data = [
-    {
-      id: 0,
-      image_thumbnail: 'https://xcobon.com/uploads/1673087084_492788596.png',
-      name: `${t('Amazon products at 10% off')}`,
-      start_at: `${t('10/15/2022 with an expiring date')}`,
-      value: 45,
-    },
-    {
-      id: 1,
-      image_thumbnail: 'https://xcobon.com/uploads/1673087084_492788596.png',
-      name: `${t('Amazon products at 10% off')}`,
-      start_at: `${t('10/15/2022 with an expiring date')}`,
-      value: 38,
-    },
-    {
-      id: 2,
-      image_thumbnail: 'https://xcobon.com/uploads/1673087084_492788596.png',
-      name: `${t('Amazon products at 10% off')}`,
-      start_at: `${t('10/15/2022 with an expiring date')}`,
-      value: 31,
-    },
-    {
-      id: 3,
-      image_thumbnail: 'https://xcobon.com/uploads/1673087084_492788596.png',
-      name: `${t('Amazon products at 10% off')}`,
-      start_at: `${t('10/15/2022 with an expiring date')}`,
-      value: 21,
-    },
-  ];
+  
   const HedScreenComp = () => {
     return (
       <>
@@ -98,15 +101,15 @@ style={{width:"60%"}}
  resizeMode={'contain'}
 
 />
-{itm.is_favourite == true ?
+{/* {itm.is_favourite == true ?
 <TouchableOpacity style={{width:'20%',flexDirection:'row',justifyContent:'flex-end'}}>
 <AntIc name="heart" size={20} color={'red'} />
 </TouchableOpacity>:<TouchableOpacity style={{width:'20%',flexDirection:'row',justifyContent:'flex-end'}}>
 <AntIc name="hearto" size={20} color={'#656565'} />
-</TouchableOpacity>}
+</TouchableOpacity>} */}
 </View>
         <View style={styles.view2Sty}>
-          <View>
+          <View style={{width:'60%',alignItems:'center',justifyContent:'center'}}>
             <Text
               style={{
                 color:'black',
@@ -120,11 +123,16 @@ style={{width:"60%"}}
               {itm.name}
             </Text>
           </View>
+          <View style={{justifyContent:'center',paddingVertical:10}}>
           <TouchableOpacity style={styles.view3Style}>
             <Text style={{color: 'white', fontSize: 14, fontWeight: 'bold',minwidth:40}}>
           {itm.value} {t('R.S')} 
             </Text>
           </TouchableOpacity>
+          </View>
+         
+
+
         </View>
         <View style={{width: '95%', alignSelf: 'center', marginBottom: 30,paddingHorizontal:5}}>
           <Text style={{color: '#7B7C7E', textAlign: 'left'}}>
@@ -178,7 +186,7 @@ style={{width:"60%"}}
         showsVerticalScrollIndicator={false}
           ListHeaderComponent={<HedScreenComp />}
           horizontal={false}
-          data={data}
+          data={offers}
           keyExtractor={item => item.id}
           renderItem={({item}) => <OfferCard onpres={navToDet} item={item} />}
         />

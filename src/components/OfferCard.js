@@ -22,7 +22,7 @@ const OfferCard = ({item,handleLike,onpres}) => {
     style={styles.cardView}>
     <View style={styles.wrapperView}>
       <View style={styles.startView}>
-      {item.is_favourite == true ?<TouchableOpacity
+      {/* {item.is_favourite == true ?<TouchableOpacity
           onPress={()=>handleLike(item)}
           style={{alignSelf: 'flex-end',width:20,}}>
           <AntIc name="heart" size={18} color={'red'} />
@@ -31,7 +31,7 @@ const OfferCard = ({item,handleLike,onpres}) => {
           style={{alignSelf: 'flex-end'}}>
           <AntIc name="hearto" size={18} color={'#656565'} />
         </TouchableOpacity>
-}
+} */}
         <Image
            source={{uri:item.image_thumbnail}}
         // source={item.image_thumbnail}
@@ -122,10 +122,10 @@ const styles = StyleSheet.create({
   },
   imView: {
     width: '100%',
-    // height: '70%',
+    height: 70,
     alignSelf: 'flex-start',
-    resizeMode: 'stretch',
-    paddingVertical:30
+    resizeMode: 'center',
+    
   },
   endView: {
     width: '70%',

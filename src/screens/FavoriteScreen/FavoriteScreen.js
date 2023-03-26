@@ -133,14 +133,14 @@ const FavoriteScreen = () => {
                 keyExtractor={item => item.id}
                 renderItem={({item}) => {
                   if (i18n.language === 'en') {
-                    <HomCardE
+                   return  <HomCardE
                       onpres={navToDet}
                       item={item}
                       key={item.id}
                       handleLike={() => handLike(item)}
                     />;
                   } else {
-                    <HomCardA
+                    return <HomCardA
                       onpres={navToDet}
                       item={item}
                       key={item.id}

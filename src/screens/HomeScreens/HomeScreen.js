@@ -10,7 +10,7 @@ import Modal from 'react-native-modal';
 import Snackbar from 'react-native-snackbar';
 import { deviceId } from '../../../App';
 
-import axios, { post } from 'axios';
+import axios from 'axios';
 import {
   StyleSheet,
   Button,
@@ -725,7 +725,8 @@ const styles = StyleSheet.create({
 
   // },
   flatctg: {
-    backgroundColor: '#fff',
+    // paddingTop:5,
+    backgroundColor: '#FFF',
     paddingStart: 10,
     flexDirection: 'row',
     alignItems: 'center',

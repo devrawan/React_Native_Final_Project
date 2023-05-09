@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState,useEffect}from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,11 +7,12 @@ import {
   Alert,
   Platform,
   TouchableOpacity,
-  ImageBackground,
+  ActivityIndicator,
   Image,
   Dimensions,
   FlatList,
 } from 'react-native';
+import axios from 'axios';
 import Clipboard from '@react-native-clipboard/clipboard';
 import Snackbar from 'react-native-snackbar';
 import MyStatusBar from '../../components/MyStatusBar';
@@ -23,14 +24,58 @@ import {useTranslation} from 'react-i18next';
 import HomCardA from '../../components/HomCardA';
 import HomCardE from '../../components/HomCardE';
 import AntIc from 'react-native-vector-icons/AntDesign';
+import { deviceId } from '../../../App';
 
 const screenWidth = Dimensions.get('window').width;
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const DetailScreen = ({route}) => {
-  const { itm } = route.params;
+  const { itm ,} = route.params;
   const navigation = useNavigation();
   const {t, i18n} = useTranslation();
+
+
+  const [offersCop, setOffersCop] = useState([]);
+  const [favPage, setFavPage] = useState(1);
+  const [nextOffCop, setNextOffCop] = useState();
+  const [isLoad, setIsLoad] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get(`https://xcobon.com/api/coupons?page=${favPage}&category_id=${itm.category}`, {
+        // cancelToken: cancelTokenSource2.token,
+        headers: {
+          deviceKey: deviceId,
+          language: i18n.language == undefined ? 'en' : i18n.language,
+        },
+      })
+      .then(response => {
+       
+        setNextOffCop(response.data.data.pagination.has_next);
+        setOffersCop(response.data.data.content);
+        setIsLoad(false);
+      })
+      .catch(response => {
+        if (
+          response != undefined &&
+          response.response != undefined &&
+          response.response.status != undefined &&
+          response.response.status == 403
+        ) {
+          setNextOffCop(response.response.data.data.pagination.has_next);
+          setOffersCop(response.response.data.data.content);
+          setIsLoad(false);
+          return;
+        }
+        setIsLoad(false);
+      });
+  }, [favPage]);
+
+
+
+
+
+
   const data = [
     {
       id: 0,
@@ -66,10 +111,56 @@ const DetailScreen = ({route}) => {
     },
   ];
   const navToDet = item => {
-    console.log(item);
+ 
     navigation.navigate('DetailScreen',{itm:item});
   };
+  const handLike =(copon)=>{
 
+    
+    try{
+    
+      const path = `https://xcobon.com/api/favourites?coupon_id=${itm.id}`;
+      console.log(path);
+      const formData = new FormData();
+      axios({
+        method: "post",
+        url: `https://xcobon.com/api/favourites?coupon_id=${itm.id}`,
+        data: formData,
+        
+        headers: {
+          // 'deviceKey': '23',
+        
+           'deviceKey':deviceId,
+                  'Content-Type' : 'multipart/form-data',
+                  'accept' : '*/*',
+                  'language': i18n.language == undefined ? "en" : i18n.language,}
+              
+      })
+      .then(response => {
+        const result =  response.data.data.coupons[0].is_favourite;
+  
+        const lst = [...offersCop];
+        lst.forEach((item)=>{
+          if (item.id == itm.id){
+            item.is_favourite = result;
+          }
+  
+        });
+        setOffersCop(lst);
+        console.log(response);
+      })
+      .catch(response => {
+        console.log("Fav Error ")
+        console.log(response);
+      })
+  
+  
+    }catch(err) {
+        console.log(" Fav Error")
+        console.log(err);
+      }
+      
+  }
   const HedScreenComp = () => {
     return (
       <>
@@ -201,9 +292,14 @@ style={{backgroundColor:'#29B1E5',paddingHorizontal:5,paddingVertical:3,borderRa
           showsVerticalScrollIndicator={false}
             ListHeaderComponent={<HedScreenComp />}
             horizontal={false}
-            data={data}
+            data={offersCop}
             keyExtractor={item => item.id}
-            renderItem={({item}) => <HomCardE onpres={navToDet} item={item} />}
+            renderItem={({item}) => 
+            {
+              if(itm.id !== item.id){
+                return(<HomCardE onpres={navToDet}  handleLike={()=>handLike(item)} item={item} />)
+              }
+            }}
           />
         </View>
       ) : (
@@ -212,9 +308,13 @@ style={{backgroundColor:'#29B1E5',paddingHorizontal:5,paddingVertical:3,borderRa
             showsVerticalScrollIndicator={false}
             horizontal={false}
             ListHeaderComponent={<HedScreenComp />}
-            data={data}
+            data={offersCop}
             keyExtractor={item => item.id}
-            renderItem={({item}) => <HomCardA onpres={navToDet} item={item} />}
+            renderItem={({item}) => {
+              if(itm.id !== item.id){
+                return(<HomCardA onpres={navToDet}  handleLike={()=>handLike(item)} item={item} />)
+              }
+            }}
           />
         </View>
       )}

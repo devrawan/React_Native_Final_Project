@@ -79,9 +79,9 @@ const App = () => {
 
   useEffect(() => {
 
-    // setTimeout(() => {
-    //   setup();
-    // }, 4000);
+    setTimeout(() => {
+      setup();
+    }, 1000);
 
 
   }, []);

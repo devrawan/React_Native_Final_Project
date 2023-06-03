@@ -8,7 +8,7 @@ import { getUniqueId } from 'react-native-device-info';
 import messaging, { firebase } from '@react-native-firebase/messaging';
 import { initializeApp } from '@react-native-firebase/app';
 import { set } from 'react-native-reanimated';
-
+import SplashScreen from 'react-native-splash-screen';
 export var deviceId = "";
 export var fcmToken = "";
 
@@ -79,6 +79,7 @@ const App = () => {
 
   useEffect(() => {
 
+    SplashScreen.hide();
     setTimeout(() => {
       setup();
     }, 1000);

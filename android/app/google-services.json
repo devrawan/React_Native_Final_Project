@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "368594238603",
+    "project_id": "xcobon-cbd5a",
+    "storage_bucket": "xcobon-cbd5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368594238603:android:dedcdce2162e795428e88e",
+        "android_client_info": {
+          "package_name": "com.xcobon.android.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAB-SpiCfEzP_E8zqAje_77UwMvI0NOtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -430,8 +430,13 @@ const handLike =(copon)=>{
                 <TouchableOpacity
                   onPress={
                   () => {
-                      // setCoups([])
-                      setCurIdCatg(item.id)}
+                    if (currentIdCatg !== item.id){
+                      setCoups([])
+                      setIsLoad(true);  
+                      setCurIdCatg(item.id)
+                    }
+
+                  }
                   
                   }
                

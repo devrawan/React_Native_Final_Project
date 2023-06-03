@@ -1,4 +1,4 @@
-package com.finalproject.newarchitecture.modules;
+package com.xcobon.android.app.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

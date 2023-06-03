@@ -1,8 +1,16 @@
-package com.finalproject;
+package com.xcobon.android.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactRootView;
+import com.facebook.react.shell.MainReactPackage;
+import com.xcobon.android.app.BuildConfig;
+
+import java.util.Arrays;
+import java.util.List;
+
+import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -23,6 +31,13 @@ public class MainActivity extends ReactActivity {
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
     return new MainActivityDelegate(this, getMainComponentName());
+  }
+
+  protected List<ReactPackage> getPackages() {
+    return Arrays.asList(
+            new MainReactPackage(),
+            new ReactNativeFirebaseMessagingPackage()
+            );
   }
 
   public static class MainActivityDelegate extends ReactActivityDelegate {

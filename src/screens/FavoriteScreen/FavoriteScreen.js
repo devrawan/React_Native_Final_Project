@@ -1,17 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import FeatherIc from 'react-native-vector-icons/Feather';
 import FontAwesomeIc from 'react-native-vector-icons/FontAwesome';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import AntIc from 'react-native-vector-icons/AntDesign';
 import MyStatusBar from '../../components/MyStatusBar';
-import {images} from '../../constants/index';
+import { images } from '../../constants/index';
 import OfferCard from '../../components/OfferCard';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import {deviceId} from '../../../App';
+import { deviceId } from '../../../App';
 import HomCardE from '../../components/HomCardE';
 import HomCardA from '../../components/HomCardA';
+
 import {
   StyleSheet,
   Platform,
@@ -25,13 +26,65 @@ import {
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const FavoriteScreen = () => {
+
+
   const navigation = useNavigation();
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [offersCop, setOffersCop] = useState([]);
   const [favPage, setFavPage] = useState(1);
   const [nextOffCop, setNextOffCop] = useState();
   const [isLoad, setIsLoad] = useState(true);
+
+
+
+  const handLike = (copon) => {
+
+    console.log("fav 222", copon.id);
+    console.log(offersCop);
+    try {
+
+      const path = `https://xcobon.com/api/favourites?coupon_id=${copon.id}`;
+      console.log(path);
+      const formData = new FormData();
+      axios({
+        method: "post",
+        url: `https://xcobon.com/api/favourites?coupon_id=${copon.id}`,
+        data: formData,
+
+        headers: {
+          'deviceKey': deviceId,
+          'Content-Type': 'multipart/form-data',
+          'accept': '*/*',
+          'language': i18n.language == undefined ? "en" : i18n.language,
+        }
+
+      })
+        .then(response => {
+          const result = response.data.data.coupons[0].is_favourite;
+
+          const lst = [...offersCop];
+          lst.forEach((item) => {
+            if (item.id == copon.id) {
+              item.is_favourite = result;
+            }
+
+          });
+          setOffersCop(lst);
+          console.log(response.data.data.coupons[0]);
+        })
+        .catch(response => {
+          console.log("Fav Error ")
+          console.log(response);
+        })
+
+
+    } catch (err) {
+      console.log(" Fav Error")
+      console.log(err);
+    }
+
+  }
 
   useEffect(() => {
     axios
@@ -62,11 +115,11 @@ const FavoriteScreen = () => {
         }
         setIsLoad(false);
       });
-  }, [favPage]);
+  }, []);
 
   const navToDet = item => {
     console.log(item);
-    navigation.navigate('DetailScreen', {itm: item});
+    navigation.navigate('DetailScreen', { itm: item });
   };
 
   return (
@@ -99,12 +152,12 @@ const FavoriteScreen = () => {
         </View>
       </View>
 
-     
+
       {isLoad ? (
         <ActivityIndicator color={'#D54078'} />
       ) : (
         <>
-          <View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
+          <View style={{ flex: 1, backgroundColor: '#f7f7f7' }}>
             {offersCop == undefined || offersCop.length == 0 ? (
               <Text
                 style={{
@@ -119,7 +172,7 @@ const FavoriteScreen = () => {
               </Text>
             ) : (
               <FlatList
-                contentContainerStyle={{paddingTop: 15}}
+                contentContainerStyle={{ paddingTop: 15 }}
                 showsVerticalScrollIndicator={false}
                 horizontal={false}
                 data={offersCop}
@@ -131,9 +184,9 @@ const FavoriteScreen = () => {
                 }}
                 onEndReachedThreshold={0.5}
                 keyExtractor={item => item.id}
-                renderItem={({item}) => {
+                renderItem={({ item }) => {
                   if (i18n.language === 'en') {
-                   return  <HomCardE
+                    return <HomCardE
                       onpres={navToDet}
                       item={item}
                       key={item.id}
@@ -156,6 +209,7 @@ const FavoriteScreen = () => {
     </View>
   );
 };
+
 
 export default FavoriteScreen;
 const styles = StyleSheet.create({

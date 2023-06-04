@@ -40,7 +40,13 @@ var cancelTokenSource2 = axios.CancelToken.source();
 
 const HomeScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [categrs, setCategrs] = useState([]);
+  const [categrs, setCategrs] = useState([
+    {
+      id: 0,
+      name: 'All',
+      image: 'bSett'
+    }
+  ]);
   const [pageC, setPageC] = useState(0);
   const [nextCatg, setNextCath] = useState();
   const [currentIdCatg, setCurIdCatg] = useState(null);
@@ -321,23 +327,7 @@ const HomeScreen = () => {
 
 
 
-  const categs = [
-    {
-      id: 0,
-      name: `${t('All')}`,
-      img: '',
-    },
-
-
-  ];
-  const data = [
-    {
-      id: 0,
-      image_thumbnail: '',
-      name: `${t('Amazon products at 10% off')}`,
-      coupon: `${t('10/15/2022 with an expiring date')}`,
-    }
-  ];
+  
 
   const MyStatusBar = ({ backgroundColor, ...props }) => (
     <View style={[styles.statusBar, { backgroundColor }]}>
@@ -459,13 +449,15 @@ const HomeScreen = () => {
                       marginEnd: 7,
                     }}>
                     <Image
-                      source={{ uri: `${item.image_thumbnail}` }}
+                      source={ item.id == 0 
+                            ? require('../../assets/images/ic_total_items.png') 
+                            : { uri: `${item.image_thumbnail}` } }
                       style={{
                         width: 24,
                         height: 24,
                         borderRadius: 12,
                         marginEnd: 6,
-                        backgroundColor: '#ECECEC',
+                        backgroundColor:   item.id == 0  ? '#fff' :'#ECECEC',
                       }}
                       resizeMode={'contain'}
                     />

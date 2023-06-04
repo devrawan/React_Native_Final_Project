@@ -79,7 +79,11 @@ const App = () => {
 
   useEffect(() => {
 
-    SplashScreen.hide();
+    try{
+      SplashScreen.hide();
+    }catch(error){
+      console.log("splashError: " , error);
+    }
     setTimeout(() => {
       setup();
     }, 1000);

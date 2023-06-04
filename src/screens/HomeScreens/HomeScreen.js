@@ -356,7 +356,6 @@ const HomeScreen = () => {
             onPress={() => {
 
             }}>
-            <FeatherIc name={'search'} color='black' size={20} />
           </TouchableOpacity>
           <View style={{ width: '80%', height: '100%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
             <Text
@@ -428,9 +427,7 @@ const HomeScreen = () => {
                           setIsLoad(true);
                           setCurIdCatg(item.id)
                         }
-
                       }
-
                     }
 
                     key={item.id}

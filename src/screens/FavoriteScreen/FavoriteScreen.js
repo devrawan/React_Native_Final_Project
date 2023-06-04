@@ -12,6 +12,7 @@ import axios from 'axios';
 import { deviceId } from '../../../App';
 import HomCardE from '../../components/HomCardE';
 import HomCardA from '../../components/HomCardA';
+import { useIsFocused } from '@react-navigation/native';
 
 import {
   StyleSheet,
@@ -27,6 +28,8 @@ const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const FavoriteScreen = () => {
 
+
+  const isFocused = useIsFocused();
 
   const navigation = useNavigation();
   const { t, i18n } = useTranslation();
@@ -87,6 +90,9 @@ const FavoriteScreen = () => {
   }
 
   useEffect(() => {
+    setNextOffCop(false);
+    setOffersCop([]);
+    setIsLoad(true);
     axios
       .get(`https://xcobon.com/api/favourites?page=${favPage}`, {
         // cancelToken: cancelTokenSource2.token,
@@ -115,7 +121,7 @@ const FavoriteScreen = () => {
         }
         setIsLoad(false);
       });
-  }, []);
+  }, [isFocused]);
 
   const navToDet = item => {
     console.log(item);

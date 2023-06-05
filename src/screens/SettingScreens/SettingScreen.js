@@ -35,7 +35,7 @@ const SettingScreen = () => {
     {id: 1, tit: `${t('Favorite')}`, img: images.fav, scren: 'Favorite'},
     // {id: 2, tit: `${t('Pay Book')}`, img: images.pay},
     // {id: 3, tit: `${t('Blog')}`, img: images.blog},
-    {id: 4, tit: `${t('Change Password')}`, img: images.pass, scren: ''},
+    // {id: 4, tit: `${t('Change Password')}`, img: images.pass, scren: ''},
     {id: 5, tit: `${t('Privacy Policy')}`, img: images.priv, scren: 'PrivacyScreen'},
     // {id: 6, tit: `${t('Call Us')}`, img: images.contact, scren: 'ContactUsScreen'},
     {id:8,tit:`${t('Terms and Conditions')}`, img: images.priv,scren:'TermsConditions'},

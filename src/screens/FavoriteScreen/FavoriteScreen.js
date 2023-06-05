@@ -8,11 +8,12 @@ import MyStatusBar from '../../components/MyStatusBar';
 import { images } from '../../constants/index';
 import OfferCard from '../../components/OfferCard';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
+// import axios from 'axios';
 import { deviceId } from '../../../App';
 import HomCardE from '../../components/HomCardE';
 import HomCardA from '../../components/HomCardA';
 import { useIsFocused } from '@react-navigation/native';
+import instance from '../../axios_helper';
 
 import {
   StyleSheet,
@@ -43,14 +44,16 @@ const FavoriteScreen = () => {
 
   const handLike = (copon) => {
 
-    console.log("fav 222", copon.id);
+    console.log("fav 222 ");
+    console.log(copon );
     console.log(offersCop);
     try {
+      var isFav = copon.is_favourite;
 
       const path = `https://xcobon.com/api/favourites?coupon_id=${copon.id}`;
       console.log(path);
       const formData = new FormData();
-      axios({
+      instance({
         method: "post",
         url: `https://xcobon.com/api/favourites?coupon_id=${copon.id}`,
         data: formData,
@@ -64,17 +67,19 @@ const FavoriteScreen = () => {
 
       })
         .then(response => {
-          const result = response.data.data.coupons[0].is_favourite;
 
+          copon.is_favourite = !isFav;
           const lst = [...offersCop];
-          lst.forEach((item) => {
-            if (item.id == copon.id) {
-              item.is_favourite = result;
-            }
+          // lst.forEach((item) => {
+          //   if (item.id == copon.id) {
+          //     item.is_favourite = result;
+          //   }
 
-          });
+          // });
           setOffersCop(lst);
           console.log(response.data.data.coupons[0]);
+
+          loadPage();
         })
         .catch(response => {
           console.log("Fav Error ")
@@ -89,11 +94,12 @@ const FavoriteScreen = () => {
 
   }
 
-  useEffect(() => {
+  function loadPage(){
+    console.log("deviceID: " , deviceId);
     setNextOffCop(false);
     setOffersCop([]);
     setIsLoad(true);
-    axios
+    instance
       .get(`https://xcobon.com/api/favourites?page=${favPage}`, {
         // cancelToken: cancelTokenSource2.token,
         headers: {
@@ -121,6 +127,9 @@ const FavoriteScreen = () => {
         }
         setIsLoad(false);
       });
+  };
+  useEffect(() => {
+    loadPage();
   }, [isFocused]);
 
   const navToDet = item => {

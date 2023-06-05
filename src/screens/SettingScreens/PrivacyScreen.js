@@ -7,7 +7,8 @@ import {useNavigation} from '@react-navigation/native';
 import AntIc from 'react-native-vector-icons/AntDesign';
 import MyStatusBar from '../../components/MyStatusBar';
 import {useTranslation} from 'react-i18next';
-import axios from 'axios';
+// import axios from 'axios';
+import instance from '../../axios_helper';
 import {images} from '../../constants/index';
 import { WebView } from 'react-native-webview';
 
@@ -42,7 +43,7 @@ const PrivacyScreen = () => {
 
 
 const getPageText = async ()=>{
-    var response = await axios.get(`https://xcobon.com/api/get_polices_page`,
+    var response = await instance.get(`https://xcobon.com/api/get_polices_page`,
     {
            headers: {
              language:i18n.language,

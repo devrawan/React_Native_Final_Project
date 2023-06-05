@@ -9,8 +9,11 @@ import { useTranslation } from 'react-i18next';
 import Modal from 'react-native-modal';
 import Snackbar from 'react-native-snackbar';
 import { deviceId } from '../../../App';
+import { useIsFocused } from '@react-navigation/native';
 
-import axios from 'axios';
+// import axios from 'axios';
+import instance from '../../axios_helper';
+
 import {
   StyleSheet,
   Button,
@@ -34,11 +37,13 @@ import WrapperComponent from './ModalFilter';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
-const cancelTokenSource = axios.CancelToken.source();
-var cancelTokenSource2 = axios.CancelToken.source();
+// const cancelTokenSource = instance.CancelToken.source();
+// var cancelTokenSource2 = instance.CancelToken.source();
 
 
 const HomeScreen = () => {
+  const isFocused = useIsFocused();
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [categrs, setCategrs] = useState([
     {
@@ -56,39 +61,38 @@ const HomeScreen = () => {
   const { width, height } = useWindowDimensions();
   const [isLoad, setIsLoad] = useState(true);
   const [isLoadCatg, setIsLoadCatg] = useState(true);
-  // const [pClick, setPClick] = useState(0);
-  // const[tClick,setTClick]= useState(0);
-  // true
+
   const navigation = useNavigation();
   const { t, i18n } = useTranslation();
 
-  useEffect(() => {
-    console.log("Page Started");
-    setPageC(1);
+  // useEffect(() => {
+  //   console.log(`isFocused changed:  ${isFocused}` )
+  //     // setPageC(0);
 
-    return () => {
-      console.log("Kareem By !!!");
-      // cancelTokenSource.cancel();
+  //   return () => {
+  //     // setPageC(0);
+  //     // setCategrs({
+  //     //   id: 0,
+  //     //   name: 'All',
+  //     //   image: 'bSett'
+  //     // });
+  //     // setCoups([]);
+  //     // setNextCop(0);
+  //     console.log("Kareem By !!!");
+  //   }
 
-
-    }
-  }, []);
+  // }, [isFocused]);
 
   useEffect(() => {
     console.log('1PageC Chandgedd ....');
-    if (pageC == 0) {
-      console.log("1PageC Chandgedd  Ignored First Ti")
-      return;
-    }
+    // if (pageC == 0) {
+    //   console.log("1PageC Chandgedd  Ignored First Ti")
+    //   return;
+    // }
     var path = `https://xcobon.com/api/categories?page=${pageC}`;
-
-
-
-
-
     console.log("kareem path: ", path);
 
-    axios.get(
+    instance.get(
       path,
       {
 
@@ -114,7 +118,7 @@ const HomeScreen = () => {
         }
 
       });
-  }, [pageC]);
+  }, [pageC , isFocused]);
 
   const preapareCategroes = (response) => {
 
@@ -170,24 +174,24 @@ const HomeScreen = () => {
 
     var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
     try {
-      cancelTokenSource2.cancel();
+      // cancelTokenSource2.cancel();
 
       console.log("getCoupons cancel success ");
     } catch (err) {
       console.log("getCoupons cancel error ");
     }
 
-    cancelTokenSource2 = axios.CancelToken.source();
+    // cancelTokenSource2 = instance.CancelToken.source();
 
     console.log(path)
     if (currentIdCatg == null) {
       console.log("Kareem  getCoupons First Time Ignore ");
       return;
     }
-    axios.get(
+    instance.get(
       path,
       {
-        cancelToken: cancelTokenSource2.token,
+        // cancelToken: cancelTokenSource2.token,
         headers: {
           // deviceKey: '23',
           deviceKey: deviceId,
@@ -217,7 +221,7 @@ const HomeScreen = () => {
       setIsLoad(false);
     });
 
-  }, [currentIdCatg]);
+  }, [currentIdCatg, isFocused]);
 
 
   const handlPlc = (idd) => {
@@ -243,10 +247,10 @@ const HomeScreen = () => {
     var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
     console.log('getCoupons path: ', path);
     try {
-      var response = await axios.get(
+      var response = await instance.get(
         path,
         {
-          cancelToken: cancelTokenSource.token,
+          // cancelToken: cancelTokenSource.token,
           headers: {
             // deviceKey: '23',
             deviceKey: deviceId,
@@ -276,14 +280,14 @@ const HomeScreen = () => {
 
   const handLike = (copon) => {
 
-    console.log("fav 222", copon.id);
-    console.log(copon);
+    var isFav = copon.is_favourite;
+    console.log("fav 222", copon.id,);
     try {
 
       const path = `https://xcobon.com/api/favourites?coupon_id=${copon.id}`;
       console.log(path);
       const formData = new FormData();
-      axios({
+      instance({
         method: "post",
         url: `https://xcobon.com/api/favourites?coupon_id=${copon.id}`,
         data: formData,
@@ -299,22 +303,26 @@ const HomeScreen = () => {
 
       })
         .then(response => {
-          const result = response.data.data.coupons[0].is_favourite;
+          // const result = response.data.data.coupons[0].is_favourite;
 
+          copon.is_favourite = !isFav;
           const lst = [...coupons];
-          lst.forEach((item) => {
-            if (item.id == copon.id) {
-              item.is_favourite = result;
-            }
+          // lst.forEach((item) => {
+          //   if (item.id == copon.id) {
+          //     item.is_favourite = result;
+          //   }
 
-          });
+          // });
+
           setCoups(lst);
-          console.log(response);
+          // console.log(response.data);
         })
         .catch(response => {
           console.log("Fav Error ")
           console.log(response);
         })
+
+
 
 
     } catch (err) {
@@ -327,7 +335,7 @@ const HomeScreen = () => {
 
 
 
-  
+
 
   const MyStatusBar = ({ backgroundColor, ...props }) => (
     <View style={[styles.statusBar, { backgroundColor }]}>
@@ -446,15 +454,15 @@ const HomeScreen = () => {
                       marginEnd: 7,
                     }}>
                     <Image
-                      source={ item.id == 0 
-                            ? require('../../assets/images/ic_total_items.png') 
-                            : { uri: `${item.image_thumbnail}` } }
+                      source={item.id == 0
+                        ? require('../../assets/images/ic_total_items.png')
+                        : { uri: `${item.image_thumbnail}` }}
                       style={{
                         width: 24,
                         height: 24,
                         borderRadius: 12,
                         marginEnd: 6,
-                        backgroundColor:   item.id == 0  ? '#fff' :'#ECECEC',
+                        backgroundColor: item.id == 0 ? '#fff' : '#ECECEC',
                       }}
                       resizeMode={'contain'}
                     />

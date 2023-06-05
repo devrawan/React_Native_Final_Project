@@ -9,7 +9,8 @@ import {images} from '../../constants/index';
 import {getDeviceId} from 'react-native-device-info';
 import {useTranslation} from 'react-i18next';
 import OfferCard from '../../components/OfferCard';
-import axios from 'axios';
+// import axios from 'axios';
+import instance from '../../axios_helper';
 import {deviceId} from '../../../App';
 import {
   StyleSheet,
@@ -31,8 +32,8 @@ import {
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
-const cancelTokenSource = axios.CancelToken.source();
-var cancelTokenSource2 = axios.CancelToken.source();
+// const cancelTokenSource = instance.CancelToken.source();
+// var cancelTokenSource2 = instance.CancelToken.source();
 
 
 const OfferScreen = () => {
@@ -81,7 +82,7 @@ const OfferScreen = () => {
 
     console.log("kareem path: ", path);
 
-    axios.get(
+    instance.get(
       path,
       {
 
@@ -163,24 +164,24 @@ const OfferScreen = () => {
 
     var path = `https://xcobon.com/api/offers?page=${pageCop}&category_id=${currentIdCatg}`;
     try {
-      cancelTokenSource2.cancel();
+      // cancelTokenSource2.cancel();
 
       console.log("getCoupons cancel success ");
     } catch (err) {
       console.log("getCoupons cancel error ");
     }
 
-    cancelTokenSource2 = axios.CancelToken.source();
+    // cancelTokenSource2 = instance.CancelToken.source();
 
     console.log(path)
     if (currentIdCatg == null) {
       console.log("Kareem  getCoupons First Time Ignore ");
       return;
     }
-    axios.get(
+    instance.get(
       path,
       {
-        cancelToken: cancelTokenSource2.token,
+        // cancelToken: cancelTokenSource2.token,
         headers: {
           // deviceKey: '23',
           deviceKey: deviceId,
@@ -188,6 +189,7 @@ const OfferScreen = () => {
         },
       },
     ).then(async (response) => {
+      console.log("response: " , response.data);
       setNextCop(response.data.data.pagination.has_next);
       setCoups(response.data.data.content);
       setIsLoad(false);
@@ -236,10 +238,10 @@ const OfferScreen = () => {
     var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
     console.log('getCoupons path: ', path);
     try {
-      var response = await axios.get(
+      var response = await instance.get(
         path,
         {
-          cancelToken: cancelTokenSource.token,
+          // cancelToken: cancelTokenSource.token,
           headers: {
             // deviceKey: '23',
             deviceKey: deviceId,
@@ -276,7 +278,7 @@ const OfferScreen = () => {
       const path = `https://xcobon.com/api/favourites?coupon_id=${copon.id}`;
       console.log(path);
       const formData = new FormData();
-      axios({
+      instance({
         method: "post",
         url: `https://xcobon.com/api/favourites?coupon_id=${copon.id}`,
         data: formData,

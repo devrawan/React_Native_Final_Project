@@ -9,6 +9,7 @@ import messaging, { firebase } from '@react-native-firebase/messaging';
 import { initializeApp } from '@react-native-firebase/app';
 import { set } from 'react-native-reanimated';
 import SplashScreen from 'react-native-splash-screen';
+import { err } from 'react-native-svg/lib/typescript/xml';
 export var deviceId = "";
 export var fcmToken = "";
 
@@ -68,21 +69,36 @@ const App = () => {
 
     console.log("use effect kareem init ");
 
-    setTimeout(() => {
-      messaging().getToken()
-        .then((data) => {
-          fcmToken = data;
-        }).catch((error) => {
-        });
-    }, 5000);
+    setTimeout(async () => {
+      // messaging().getToken()
+      //   .then((data) => {
+      //     fcmToken = data;
+      //   }).catch((error) => {
+      //     console.log("Error FCM: " , error)
+      //   });
+
+      try {
+        if ('test' == 'test') {
+          await messaging().setAPNSToken('test');
+        }
+
+        let token = await messaging().getToken();
+        console.log("token: ", token);
+        fcmToken = token;
+      } catch (error) {
+
+        console.log("error: ", error);
+
+      }
+    }, 1000);
   }
 
   useEffect(() => {
 
-    try{
+    try {
       SplashScreen.hide();
-    }catch(error){
-      console.log("splashError: " , error);
+    } catch (error) {
+      console.log("splashError: ", error);
     }
     setTimeout(() => {
       setup();

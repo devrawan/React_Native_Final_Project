@@ -8,9 +8,9 @@
 
     <item
         android:drawable="@drawable/ic_spalsh_icon_logo"
-        android:height="400px"
+        android:height="100px"
         android:gravity="center"
-        android:width="600px"
+        android:width="270px"
         >
 
     </item>

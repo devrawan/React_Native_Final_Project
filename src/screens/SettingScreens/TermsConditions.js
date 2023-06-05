@@ -6,7 +6,8 @@ import FontAwesomeIc from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import AntIc from 'react-native-vector-icons/AntDesign';
 import MyStatusBar from '../../components/MyStatusBar';
-import axios from 'axios';
+// import axios from 'axios';
+import instance from '../../axios_helper';
 import { WebView } from 'react-native-webview';
 import {images} from '../../constants/index';
 import {useTranslation} from 'react-i18next';
@@ -55,7 +56,7 @@ const TermsConditions = () => {
 
 const getPageText = async()=>{
 
-    var response = await axios.get(`https://xcobon.com/api/get_rules_page`,
+    var response = await instance.get(`https://xcobon.com/api/get_rules_page`,
     {
            headers: {
              language:i18n.language,

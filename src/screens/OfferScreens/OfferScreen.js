@@ -11,7 +11,7 @@ import {useTranslation} from 'react-i18next';
 import OfferCard from '../../components/OfferCard';
 // import axios from 'axios';
 import instance from '../../axios_helper';
-import {deviceId} from '../../../App';
+import {deviceId, fcmToken} from '../../../App';
 import {
   StyleSheet,
   AppRegistry,
@@ -183,8 +183,8 @@ const OfferScreen = () => {
       {
         // cancelToken: cancelTokenSource2.token,
         headers: {
-          // deviceKey: '23',
           deviceKey: deviceId,
+          'fcm-token': fcmToken,
           language: i18n.language == undefined ? "en" : i18n.language,
         },
       },
@@ -243,8 +243,9 @@ const OfferScreen = () => {
         {
           // cancelToken: cancelTokenSource.token,
           headers: {
-            // deviceKey: '23',
+
             deviceKey: deviceId,
+            'fcm-token':fcmToken,
             language: i18n.language == undefined ? "en" : i18n.language,
           },
         },
@@ -284,9 +285,9 @@ const OfferScreen = () => {
         data: formData,
 
         headers: {
-          // 'deviceKey': '23',
 
           'deviceKey': deviceId,
+          'fcm-token': fcmToken,
           'Content-Type': 'multipart/form-data',
           'accept': '*/*',
           'language': i18n.language == undefined ? "en" : i18n.language,

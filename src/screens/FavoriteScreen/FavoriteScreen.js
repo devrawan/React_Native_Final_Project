@@ -9,7 +9,7 @@ import { images } from '../../constants/index';
 import OfferCard from '../../components/OfferCard';
 import { useTranslation } from 'react-i18next';
 // import axios from 'axios';
-import { deviceId } from '../../../App';
+import { deviceId, fcmToken } from '../../../App';
 import HomCardE from '../../components/HomCardE';
 import HomCardA from '../../components/HomCardA';
 import { useIsFocused } from '@react-navigation/native';
@@ -60,6 +60,8 @@ const FavoriteScreen = () => {
 
         headers: {
           'deviceKey': deviceId,
+          'fcm-token': fcmToken,
+
           'Content-Type': 'multipart/form-data',
           'accept': '*/*',
           'language': i18n.language == undefined ? "en" : i18n.language,
@@ -104,6 +106,7 @@ const FavoriteScreen = () => {
         // cancelToken: cancelTokenSource2.token,
         headers: {
           deviceKey: deviceId,
+          'fcm-token': fcmToken,
           language: i18n.language == undefined ? 'en' : i18n.language,
         },
       })

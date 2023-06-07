@@ -24,7 +24,7 @@ import { useTranslation } from 'react-i18next';
 import HomCardA from '../../components/HomCardA';
 import HomCardE from '../../components/HomCardE';
 import AntIc from 'react-native-vector-icons/AntDesign';
-import { deviceId } from '../../../App';
+import { deviceId, fcmToken } from '../../../App';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -53,16 +53,20 @@ const DetailScreen = ({ route }) => {
         // cancelToken: cancelTokenSource2.token,
         headers: {
           deviceKey: deviceId,
+          'fcm-token': fcmToken,
           language: i18n.language == undefined ? 'en' : i18n.language,
         },
       })
       .then(response => {
+        console.log("response: " , response);
 
         setNextOffCop(response.data.data.pagination.has_next);
         setOffersCop(response.data.data.content);
         setIsLoad(false);
       })
       .catch(response => {
+        console.log("error: " , response);
+        
         if (
           response != undefined &&
           response.response != undefined &&
@@ -98,9 +102,9 @@ const DetailScreen = ({ route }) => {
         data: formData,
 
         headers: {
-          // 'deviceKey': '23',
 
           'deviceKey': deviceId,
+          'fcm-token': fcmToken,
           'Content-Type': 'multipart/form-data',
           'accept': '*/*',
           'language': i18n.language == undefined ? "en" : i18n.language,

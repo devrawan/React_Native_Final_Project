@@ -24,6 +24,7 @@ import {images} from '../../constants/index';
 import AntIc from 'react-native-vector-icons/AntDesign';
 import OfferCard from '../../components/OfferCard';
 import axios from 'axios';
+import { deviceId, fcmToken } from '../../../App';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -45,6 +46,8 @@ const [isLoad, setIsLoad] = useState(true);
         // cancelToken: cancelTokenSource2.token,
         headers: {
           language: i18n.language == undefined ? "en" : i18n.language,
+          'deviceKey': deviceId,
+          'fcm-token': fcmToken,
         },
       },
     ).then((response)=>{

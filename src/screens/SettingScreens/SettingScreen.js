@@ -23,7 +23,8 @@ import {
   Image,
   Pressable,
   ImageBackground,
-  I18nManager
+  I18nManager,
+  Linking
 } from 'react-native';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -32,7 +33,11 @@ const SettingScreen = () => {
   const {t, i18n} = useTranslation();
   const items = [
     {id: 0,tit: `${t('Main')}`, img: images.main, scren: 'Home',},
+    {id: 9,tit: `${t('Add Offer')}`, img: images.main, scren: 'AddOfferScreen',},
+
     {id: 1, tit: `${t('Favorite')}`, img: images.fav, scren: 'Favorite'},
+    {id: 10, tit: `${t('Blog')}`, img: images.worldIc, scren: ''},
+    
     // {id: 2, tit: `${t('Pay Book')}`, img: images.pay},
     // {id: 3, tit: `${t('Blog')}`, img: images.blog},
     // {id: 4, tit: `${t('Change Password')}`, img: images.pass, scren: ''},
@@ -40,12 +45,17 @@ const SettingScreen = () => {
     // {id: 6, tit: `${t('Call Us')}`, img: images.contact, scren: 'ContactUsScreen'},
     {id:8,tit:`${t('Terms and Conditions')}`, img: images.priv,scren:'TermsConditions'},
     {id: 7, tit: `${t('Change Lnaguage')}`, img: images.worldIc, scren: ''},
+    
 
   ];
 //funcSetting
   const navToPrivcy = item => {
     console.log(item);
-    if(item.id == 7){
+
+    if (item.id == 10){
+      Linking.openURL('https://xcobon.com/en/posts')
+    }
+    else if(item.id == 7){
       console.log("current language " , i18n.language)
 
       i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar').then(()=>{

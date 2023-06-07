@@ -8,7 +8,7 @@ import AntIc from 'react-native-vector-icons/AntDesign';
 import { useTranslation } from 'react-i18next';
 import Modal from 'react-native-modal';
 import Snackbar from 'react-native-snackbar';
-import { deviceId } from '../../../App';
+import { deviceId, fcmToken, timeout } from '../../../App';
 import { useIsFocused } from '@react-navigation/native';
 
 // import axios from 'axios';
@@ -84,41 +84,45 @@ const HomeScreen = () => {
   // }, [isFocused]);
 
   useEffect(() => {
-    console.log('1PageC Chandgedd ....');
-    // if (pageC == 0) {
-    //   console.log("1PageC Chandgedd  Ignored First Ti")
-    //   return;
-    // }
-    var path = `https://xcobon.com/api/categories?page=${pageC}`;
-    console.log("kareem path: ", path);
-
-    instance.get(
-      path,
-      {
-
-        headers: {
-          language: i18n.language == undefined ? "en" : i18n.language,
+    setTimeout(()=>{
+      console.log('1PageC Chandgedd ....');
+      // if (pageC == 0) {
+      //   console.log("1PageC Chandgedd  Ignored First Ti")
+      //   return;
+      // }
+      var path = `https://xcobon.com/api/categories?page=${pageC}`;
+      console.log("kareem path: ", path);
+  
+      instance.get(
+        path,
+        {
+  
+          headers: {
+            'deviceKey': deviceId,
+            'fcm-token': fcmToken,
+            language: i18n.language == undefined ? "en" : i18n.language,
+          },
         },
-      },
-    )
-      .then((data) => {
-        console.log("Kareem PageC Chandgedd Data");
-        // console.log(data);
-        preapareCategroes(data);
-
-      }).catch((error) => {
-
-        console.log("Kareem PageC Chandgedd Error");
-        console.log(error);
-        if (error.response != undefined && error.response.status != undefined && error.response.status == 403) {
-          setNextCop(error.response.data.data.pagination.has_next);
-          setCoups(error.response.data.data.content);
-          setIsLoad(false);
-          return;
-        }
-
-      });
-  }, [pageC , isFocused]);
+      )
+        .then((data) => {
+          console.log("Kareem PageC Chandgedd Data");
+          // console.log(data);
+          preapareCategroes(data);
+  
+        }).catch((error) => {
+  
+          console.log("Kareem PageC Chandgedd Error");
+          console.log(error);
+          if (error.response != undefined && error.response.status != undefined && error.response.status == 403) {
+            setNextCop(error.response.data.data.pagination.has_next);
+            setCoups(error.response.data.data.content);
+            setIsLoad(false);
+            return;
+          }
+  
+        });
+    }, timeout);
+  }, [pageC, isFocused]);
 
   const preapareCategroes = (response) => {
 
@@ -172,54 +176,58 @@ const HomeScreen = () => {
 
   useEffect(() => {
 
-    var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
-    try {
-      // cancelTokenSource2.cancel();
 
-      console.log("getCoupons cancel success ");
-    } catch (err) {
-      console.log("getCoupons cancel error ");
-    }
+    // setTimeout(() => {
+      var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
+      try {
+        // cancelTokenSource2.cancel();
 
-    // cancelTokenSource2 = instance.CancelToken.source();
+        console.log("getCoupons cancel success ");
+      } catch (err) {
+        console.log("getCoupons cancel error ");
+      }
 
-    console.log(path)
-    if (currentIdCatg == null) {
-      console.log("Kareem  getCoupons First Time Ignore ");
-      return;
-    }
-    instance.get(
-      path,
-      {
-        // cancelToken: cancelTokenSource2.token,
-        headers: {
-          // deviceKey: '23',
-          deviceKey: deviceId,
-          language: i18n.language == undefined ? "en" : i18n.language,
-        },
-      },
-    ).then(async (response) => {
-      setNextCop(response.data.data.pagination.has_next);
-      setCoups(response.data.data.content);
-      setIsLoad(false);
-    }).catch((response) => {
-      console.log("status error: ");
-      console.log(response);
+      // cancelTokenSource2 = instance.CancelToken.source();
 
-      if (response.response != undefined && response.response.status != undefined && response.response.status == 403) {
-        console.log(response.response);
-        setNextCop(response.response.data.data.pagination.has_next);
-        setCoups(response.response.data.data.content);
-        setIsLoad(false);
+      console.log(path)
+      if (currentIdCatg == null) {
+        console.log("Kareem  getCoupons First Time Ignore ");
         return;
       }
-      console.log("getCoupons Error " + response.response.status);
-      console.log(response);
-      console.log(response.response);
-      console.log(response.response.data);
+      instance.get(
+        path,
+        {
+          // cancelToken: cancelTokenSource2.token,
+          headers: {
+            'deviceKey': deviceId,
+            'fcm-token': fcmToken,
+            language: i18n.language == undefined ? "en" : i18n.language,
+          },
+        },
+      ).then(async (response) => {
+        setNextCop(response.data.data.pagination.has_next);
+        setCoups(response.data.data.content);
+        setIsLoad(false);
+      }).catch((response) => {
+        console.log("status error: ");
+        console.log(response);
 
-      setIsLoad(false);
-    });
+        if (response.response != undefined && response.response.status != undefined && response.response.status == 403) {
+          console.log(response.response);
+          setNextCop(response.response.data.data.pagination.has_next);
+          setCoups(response.response.data.data.content);
+          setIsLoad(false);
+          return;
+        }
+        console.log("getCoupons Error " + response.response.status);
+        console.log(response);
+        console.log(response.response);
+        console.log(response.response.data);
+
+        setIsLoad(false);
+      });
+    // }, timeout);
+
 
   }, [currentIdCatg, isFocused]);
 
@@ -252,8 +260,8 @@ const HomeScreen = () => {
         {
           // cancelToken: cancelTokenSource.token,
           headers: {
-            // deviceKey: '23',
             deviceKey: deviceId,
+            'fcm-token': fcmToken,
             language: i18n.language == undefined ? "en" : i18n.language,
           },
         },
@@ -293,9 +301,9 @@ const HomeScreen = () => {
         data: formData,
 
         headers: {
-          // 'deviceKey': '23',
 
           'deviceKey': deviceId,
+          'fcm-token': fcmToken,
           'Content-Type': 'multipart/form-data',
           'accept': '*/*',
           'language': i18n.language == undefined ? "en" : i18n.language,

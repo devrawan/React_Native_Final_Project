@@ -21,6 +21,8 @@ const bHome = require('../assets/images/bHome.png')
 const bOffer = require('../assets/images/bOffer.png')
 const bSett = require('../assets/images/bSett.png')
 const worldIc = require('../assets/images/world-2.png')
+const imgBlog = require('../assets/images/ic_blog.png')
+
 export default {
   bFav,bHome,bOffer,bSett,flag1,flag2,worldIc,
   patt,
@@ -30,5 +32,5 @@ export default {
   bacg,
   abc,
   main,
-  fav,blog,pass,pay,contact,priv
+  fav,blog,pass,pay,contact,priv,imgBlog
 }

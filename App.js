@@ -10,8 +10,10 @@ import { initializeApp } from '@react-native-firebase/app';
 import { set } from 'react-native-reanimated';
 import SplashScreen from 'react-native-splash-screen';
 import { err } from 'react-native-svg/lib/typescript/xml';
+import axios from 'axios';
 export var deviceId = "";
 export var fcmToken = "";
+export var timeout = 3000;
 
 
 async function requestUserPermission() {
@@ -69,28 +71,40 @@ const App = () => {
 
     console.log("use effect kareem init ");
 
-    setTimeout(async () => {
-      // messaging().getToken()
-      //   .then((data) => {
-      //     fcmToken = data;
-      //   }).catch((error) => {
-      //     console.log("Error FCM: " , error)
-      //   });
 
-      try {
-        if ('test' == 'test') {
-          await messaging().setAPNSToken('test');
+    try {
+      if ('test' == 'test') {
+        await messaging().setAPNSToken('test');
+      }
+
+      let token = await messaging().getToken();
+      console.log("token: ", token);
+      fcmToken = token;
+      timeout = 0;
+      axios.post(
+        `https://xcobon.com/api/update_device_key`,
+        {
+          'deviceKey': deviceId,
+          'device_key': deviceId,
+          'fcm-token': fcmToken
+        },
+        {
+          headers: {
+            'deviceKey': deviceId,
+            'Content-Type': 'application/json',
+            'accept': '*/*',
+            'language': 'en'
+          }
         }
 
-        let token = await messaging().getToken();
-        console.log("token: ", token);
-        fcmToken = token;
-      } catch (error) {
-
-        console.log("error: ", error);
-
-      }
-    }, 1000);
+      ).then((response) => {
+        console.log(response.data);
+      }).catch((error) => {
+        console.log(error.response.data);
+      })
+    } catch (error) {
+      console.log("error: ", error);
+    }
   }
 
   useEffect(() => {
@@ -100,21 +114,16 @@ const App = () => {
     } catch (error) {
       console.log("splashError: ", error);
     }
-    setTimeout(() => {
-      setup();
-    }, 1000);
+
+    setup();
+
 
 
   }, []);
 
   deviceId = getUniqueId().then((id) => {
-    console.log("App Device Id : ", id);
     deviceId = id;
-
-  }).catch((err) => {
-    console.log("App Device Id : erro ", err);
-
-  });
+  }).catch((err) => { });
 
   return (
     <NavigationContainer>

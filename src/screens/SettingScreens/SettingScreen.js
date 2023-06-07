@@ -36,7 +36,7 @@ const SettingScreen = () => {
     {id: 9,tit: `${t('Add Offer')}`, img: images.main, scren: 'AddOfferScreen',},
 
     {id: 1, tit: `${t('Favorite')}`, img: images.fav, scren: 'Favorite'},
-    {id: 10, tit: `${t('Blog')}`, img: images.worldIc, scren: ''},
+    {id: 10, tit: `${t('Blog')}`, img: images.blog, scren: ''},
     
     // {id: 2, tit: `${t('Pay Book')}`, img: images.pay},
     // {id: 3, tit: `${t('Blog')}`, img: images.blog},
@@ -45,6 +45,7 @@ const SettingScreen = () => {
     // {id: 6, tit: `${t('Call Us')}`, img: images.contact, scren: 'ContactUsScreen'},
     {id:8,tit:`${t('Terms and Conditions')}`, img: images.priv,scren:'TermsConditions'},
     {id: 7, tit: `${t('Change Lnaguage')}`, img: images.worldIc, scren: ''},
+    {id: 11, tit: `${t('Contact US')}`, img: images.contact, scren: ''},
     
 
   ];
@@ -54,6 +55,10 @@ const SettingScreen = () => {
 
     if (item.id == 10){
       Linking.openURL('https://xcobon.com/en/posts')
+    }
+    else if (item.id == 11){
+      Linking.openURL('https://xcobon.com/en/about-us')
+
     }
     else if(item.id == 7){
       console.log("current language " , i18n.language)

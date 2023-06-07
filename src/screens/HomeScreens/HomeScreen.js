@@ -121,8 +121,10 @@ const HomeScreen = () => {
           }
   
         });
+
+
     }, timeout);
-  }, [pageC, isFocused]);
+  }, [pageC]);
 
   const preapareCategroes = (response) => {
 
@@ -229,7 +231,7 @@ const HomeScreen = () => {
     // }, timeout);
 
 
-  }, [currentIdCatg, isFocused]);
+  }, [currentIdCatg]);
 
 
   const handlPlc = (idd) => {

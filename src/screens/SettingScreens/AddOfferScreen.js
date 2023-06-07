@@ -195,6 +195,7 @@ const AddOfferScreen = () => {
                                 elevation: 2,
                                 backgroundColor: "white",
                                 width: '100%',
+                                placeholderTextColor: 'black',
                                 padding: 12,
                             }}
                             value={nameEn}
@@ -204,6 +205,7 @@ const AddOfferScreen = () => {
                                 setErrors(currentErrors);
                                 setNameEn(val);
                             }}
+                            placeholderTextColor="gray" 
                             placeholder={t('Name English')} />
                     </View>
 
@@ -224,6 +226,7 @@ const AddOfferScreen = () => {
                                 setErrors(currentErrors);
                                 setNameAr(val)
                             }}
+                            placeholderTextColor="gray" 
                             placeholder={t('Name Arabic')} />
                     </View>
 
@@ -239,6 +242,9 @@ const AddOfferScreen = () => {
                                 width: '100%',
                             }}
                             value={startDate}
+                            keyboardType='numbers-and-punctuation'
+
+                            placeholderTextColor="gray" 
                             onChangeText={(val) => {
                                 var currentErrors = Object.assign({}, errors);
                                 currentErrors['start_date'] = false;
@@ -259,6 +265,9 @@ const AddOfferScreen = () => {
                                 width: '100%',
                             }}
                             value={endDate}
+                            keyboardType='numbers-and-punctuation'
+
+                            placeholderTextColor="gray" 
                             onChangeText={(val) => {
                                 var currentErrors = Object.assign({}, errors);
                                 currentErrors['end_date'] = false;
@@ -286,6 +295,9 @@ const AddOfferScreen = () => {
                                 backgroundColor: "white",
                                 padding: 12,
                             }}
+                            keyboardType='numeric'
+
+                            placeholderTextColor="gray" 
                             value={priceValue}
                             onChangeText={(val) => {
                                 var currentErrors = Object.assign({}, errors);
@@ -354,7 +366,7 @@ const styles = StyleSheet.create({
     },
     shaddoBox: {
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
+        shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.1,
         shadowRadius: 1,
         flexDirection: 'row',
@@ -415,7 +427,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         paddingHorizontal: 10,
 
-        paddingVertical: 5,
+        paddingVertical: 10,
         borderWidth: 1,
 
         borderRadius: 20,

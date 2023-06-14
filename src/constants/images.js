@@ -22,9 +22,10 @@ const bOffer = require('../assets/images/bOffer.png')
 const bSett = require('../assets/images/bSett.png')
 const worldIc = require('../assets/images/world-2.png')
 const imgBlog = require('../assets/images/ic_blog.png')
+const no_copouns = require('../assets/images/no_coupon.png')
 
 export default {
-  bFav,bHome,bOffer,bSett,flag1,flag2,worldIc,
+  bFav,bHome,bOffer,bSett,flag1,flag2,worldIc,no_copouns,
   patt,
   STC,
   ImageMainItemBGRtl,

@@ -33,7 +33,7 @@ const SettingScreen = () => {
   const {t, i18n} = useTranslation();
   const items = [
     {id: 0,tit: `${t('Main')}`, img: images.main, scren: 'Home',},
-    {id: 9,tit: `${t('Add Offer')}`, img: images.main, scren: 'AddOfferScreen',},
+    // {id: 9,tit: `${t('Add Offer')}`, img: images.main, scren: 'AddOfferScreen',},
 
     {id: 1, tit: `${t('Favorite')}`, img: images.fav, scren: 'Favorite'},
     {id: 10, tit: `${t('Blog')}`, img: images.blog, scren: ''},
@@ -42,10 +42,10 @@ const SettingScreen = () => {
     // {id: 3, tit: `${t('Blog')}`, img: images.blog},
     // {id: 4, tit: `${t('Change Password')}`, img: images.pass, scren: ''},
     {id: 5, tit: `${t('Privacy Policy')}`, img: images.priv, scren: 'PrivacyScreen'},
-    // {id: 6, tit: `${t('Call Us')}`, img: images.contact, scren: 'ContactUsScreen'},
+    {id: 6, tit: `${t('Call Us')}`, img: images.contact, scren: 'ContactUsScreen'},
     {id:8,tit:`${t('Terms and Conditions')}`, img: images.priv,scren:'TermsConditions'},
     {id: 7, tit: `${t('Change Lnaguage')}`, img: images.worldIc, scren: ''},
-    {id: 11, tit: `${t('Contact US')}`, img: images.contact, scren: ''},
+    // {id: 11, tit: `${t('Contact US')}`, img: images.contact, scren: ''},
     
 
   ];

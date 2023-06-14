@@ -17,7 +17,7 @@
 		670A9245E86947F98A8609E9 /* Dubai-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B21096DEDFF428E82DD860B /* Dubai-Light.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-FinalProject-FinalProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-FinalProject-FinalProjectTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		8B50ADAD2A2B45B000748A90 /* GoogleService-Info (5).plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B50ADAC2A2B45B000748A90 /* GoogleService-Info (5).plist */; };
+		8B50ADAD2A2B45B000748A90 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B50ADAC2A2B45B000748A90 /* GoogleService-Info.plist */; };
 		991A3C7F2913AD4B004FA781 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 991A3C7E2913AD4B004FA781 /* Fonts */; };
 		A2A99DBBE2F94DF6927D7BB2 /* Font Awesome 5 Free-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2C20C82A18E440AE87039279 /* Font Awesome 5 Free-Regular-400.otf */; };
 		A5C130253758499FBC181FBB /* Font Awesome 5 Brands-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = E1F6FC3766624DBEAC56DF57 /* Font Awesome 5 Brands-Regular-400.otf */; };
@@ -57,7 +57,7 @@
 		720963D85BC44271B272AA46 /* Dubai-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Dubai-Medium.ttf"; path = "../src/assets/fonts/Dubai-Medium.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = FinalProject/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-FinalProject-FinalProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject-FinalProjectTests.release.xcconfig"; path = "Target Support Files/Pods-FinalProject-FinalProjectTests/Pods-FinalProject-FinalProjectTests.release.xcconfig"; sourceTree = "<group>"; };
-		8B50ADAC2A2B45B000748A90 /* GoogleService-Info (5).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info (5).plist"; sourceTree = "<group>"; };
+		8B50ADAC2A2B45B000748A90 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B70B9402A27D35F007FCDF3 /* FinalProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = FinalProject.entitlements; path = FinalProject/FinalProject.entitlements; sourceTree = "<group>"; };
 		991A3C7E2913AD4B004FA781 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		BC6B3B9F6ACF4C45B65E03E7 /* Dubai-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Dubai-Bold.ttf"; path = "../src/assets/fonts/Dubai-Bold.ttf"; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		13B07FAE1A68108700A75B9A /* FinalProject */ = {
 			isa = PBXGroup;
 			children = (
-				8B50ADAC2A2B45B000748A90 /* GoogleService-Info (5).plist */,
+				8B50ADAC2A2B45B000748A90 /* GoogleService-Info.plist */,
 				8B70B9402A27D35F007FCDF3 /* FinalProject.entitlements */,
 				991A3C7E2913AD4B004FA781 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -284,7 +284,7 @@
 				991A3C7F2913AD4B004FA781 /* Fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				8B50ADAD2A2B45B000748A90 /* GoogleService-Info (5).plist in Resources */,
+				8B50ADAD2A2B45B000748A90 /* GoogleService-Info.plist in Resources */,
 				A5C130253758499FBC181FBB /* Font Awesome 5 Brands-Regular-400.otf in Resources */,
 				A2A99DBBE2F94DF6927D7BB2 /* Font Awesome 5 Free-Regular-400.otf in Resources */,
 				AEBE828B62E04D3BAD570951 /* Font Awesome 5 Free-Solid-900.otf in Resources */,
@@ -514,7 +514,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = FinalProject/FinalProject.entitlements;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = RMDRQ6BA8V;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = FinalProject/Info.plist;
@@ -524,7 +524,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -545,7 +545,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = FinalProject/FinalProject.entitlements;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = RMDRQ6BA8V;
 				INFOPLIST_FILE = FinalProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = XCobon;
@@ -554,7 +554,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

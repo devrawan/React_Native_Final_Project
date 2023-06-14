@@ -47,9 +47,11 @@ function BottomTab() {
                   <FontAwesomeIc name={iconName} size={23} color={color} />
                 ) : route.name === 'Favorite' ? (
                   <FontAwesomeIc name={iconName} size={23} color={color} />
-                ) : route.name === 'Offer' ? (
+                ) 
+                : route.name === 'Offer' ? (
                   <MaterialCommunityIconsIc name={iconName} size={23} color={color} />
-                ) : (
+                ) 
+                : (
                   <SimpleLineIconsIc name={iconName} size={20} color={color} />
                 )}
               </View>
@@ -83,7 +85,7 @@ function BottomTab() {
       //   })
       // }
         />
-        <Tab.Screen name="Offer" component={OfferStack} />
+        {/* <Tab.Screen name="Offer" component={OfferStack} /> */}
         <Tab.Screen name="Favorite" component={FavoriteScreen} />
         <Tab.Screen name="Setting" component={SettingStack} />
       </Tab.Navigator>

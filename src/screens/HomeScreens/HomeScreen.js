@@ -84,7 +84,7 @@ const HomeScreen = () => {
   // }, [isFocused]);
 
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
       console.log('1PageC Chandgedd ....');
       // if (pageC == 0) {
       //   console.log("1PageC Chandgedd  Ignored First Ti")
@@ -92,11 +92,11 @@ const HomeScreen = () => {
       // }
       var path = `https://xcobon.com/api/categories?page=${pageC}`;
       console.log("kareem path: ", path);
-  
+
       instance.get(
         path,
         {
-  
+
           headers: {
             'deviceKey': deviceId,
             'fcm-token': fcmToken,
@@ -108,9 +108,9 @@ const HomeScreen = () => {
           console.log("Kareem PageC Chandgedd Data");
           // console.log(data);
           preapareCategroes(data);
-  
+
         }).catch((error) => {
-  
+
           console.log("Kareem PageC Chandgedd Error");
           console.log(error);
           if (error.response != undefined && error.response.status != undefined && error.response.status == 403) {
@@ -119,7 +119,7 @@ const HomeScreen = () => {
             setIsLoad(false);
             return;
           }
-  
+
         });
 
 
@@ -180,54 +180,54 @@ const HomeScreen = () => {
 
 
     // setTimeout(() => {
-      var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
-      try {
-        // cancelTokenSource2.cancel();
+    var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
+    try {
+      // cancelTokenSource2.cancel();
 
-        console.log("getCoupons cancel success ");
-      } catch (err) {
-        console.log("getCoupons cancel error ");
-      }
+      console.log("getCoupons cancel success ");
+    } catch (err) {
+      console.log("getCoupons cancel error ");
+    }
 
-      // cancelTokenSource2 = instance.CancelToken.source();
+    // cancelTokenSource2 = instance.CancelToken.source();
 
-      console.log(path)
-      if (currentIdCatg == null) {
-        console.log("Kareem  getCoupons First Time Ignore ");
+    console.log(path)
+    if (currentIdCatg == null) {
+      console.log("Kareem  getCoupons First Time Ignore ");
+      return;
+    }
+    instance.get(
+      path,
+      {
+        // cancelToken: cancelTokenSource2.token,
+        headers: {
+          'deviceKey': deviceId,
+          'fcm-token': fcmToken,
+          language: i18n.language == undefined ? "en" : i18n.language,
+        },
+      },
+    ).then(async (response) => {
+      setNextCop(response.data.data.pagination.has_next);
+      setCoups(response.data.data.content);
+      setIsLoad(false);
+    }).catch((response) => {
+      console.log("status error: ");
+      console.log(response);
+
+      if (response.response != undefined && response.response.status != undefined && response.response.status == 403) {
+        console.log(response.response);
+        setNextCop(response.response.data.data.pagination.has_next);
+        setCoups(response.response.data.data.content);
+        setIsLoad(false);
         return;
       }
-      instance.get(
-        path,
-        {
-          // cancelToken: cancelTokenSource2.token,
-          headers: {
-            'deviceKey': deviceId,
-            'fcm-token': fcmToken,
-            language: i18n.language == undefined ? "en" : i18n.language,
-          },
-        },
-      ).then(async (response) => {
-        setNextCop(response.data.data.pagination.has_next);
-        setCoups(response.data.data.content);
-        setIsLoad(false);
-      }).catch((response) => {
-        console.log("status error: ");
-        console.log(response);
+      console.log("getCoupons Error " + response.response.status);
+      console.log(response);
+      console.log(response.response);
+      console.log(response.response.data);
 
-        if (response.response != undefined && response.response.status != undefined && response.response.status == 403) {
-          console.log(response.response);
-          setNextCop(response.response.data.data.pagination.has_next);
-          setCoups(response.response.data.data.content);
-          setIsLoad(false);
-          return;
-        }
-        console.log("getCoupons Error " + response.response.status);
-        console.log(response);
-        console.log(response.response);
-        console.log(response.response.data);
-
-        setIsLoad(false);
-      });
+      setIsLoad(false);
+    });
     // }, timeout);
 
 
@@ -507,18 +507,43 @@ const HomeScreen = () => {
           <>
             {i18n.language === 'en' ? <View style={{ flex: 1, backgroundColor: '#f7f7f7' }}>
               {coupons == undefined || coupons.length == 0 ? (
-                <Text
-                  style={{
-                    color: '#D54078',
-                    alignSelf: 'center',
-                    fontSize: 18,
-                    fontWeight: '500',
-                    fontFamily: 'Dubai-Bold',
-                    // marginTop:4
-                  }}>
 
-                  {t('No available coupons for this category')}
-                </Text>
+                <View style={{
+                  height: '100%',
+                  flexDirection: 'column',
+                  justifyContent: 'center', alignContent: 'center',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+
+
+                  <Image style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    alignItems: 'center',
+                    width: 100,
+                    height: 100,
+                    justifyContent: 'center',
+                    alignContent: 'center'
+
+                  }} source={images.no_copouns} ></Image>
+                  <Text
+                    style={{
+                      alignItems: 'center',
+                      color: '#D54078',
+                      marginTop:20,
+                      alignSelf: 'center',
+                      fontSize: 18,
+                      fontWeight: '500',
+                      fontFamily: 'Dubai-Bold',
+                      // marginTop:4
+                    }}>
+
+                    {t('No available coupons for this category')}
+                  </Text>
+                </View>
+
               ) : (
                 <FlatList
                   horizontal={false}

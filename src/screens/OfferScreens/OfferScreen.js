@@ -29,6 +29,7 @@ import {
   Pressable,
   ImageBackground,
 } from 'react-native';
+import axios from 'axios';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
@@ -82,11 +83,16 @@ const OfferScreen = () => {
 
     console.log("kareem path: ", path);
 
-    instance.get(
+    axios.get(
       path,
       {
 
         headers: {
+     
+              'deviceKey': deviceId,
+              'fcm-token': fcmToken,
+              language: i18n.language == undefined ? "en" : i18n.language,
+
           language: i18n.language == undefined ? "en" : i18n.language,
         },
       },
@@ -178,7 +184,7 @@ const OfferScreen = () => {
       console.log("Kareem  getCoupons First Time Ignore ");
       return;
     }
-    instance.get(
+    axios.get(
       path,
       {
         // cancelToken: cancelTokenSource2.token,
@@ -238,7 +244,7 @@ const OfferScreen = () => {
     var path = `https://xcobon.com/api/coupons?page=${pageCop}&category_id=${currentIdCatg}`;
     console.log('getCoupons path: ', path);
     try {
-      var response = await instance.get(
+      var response = await axios.get(
         path,
         {
           // cancelToken: cancelTokenSource.token,

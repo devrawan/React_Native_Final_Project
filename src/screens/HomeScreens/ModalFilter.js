@@ -1,6 +1,6 @@
 import Modal from 'react-native-modal';
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   StyleSheet,
@@ -19,7 +19,7 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from 'react-native';
-import {images} from '../../constants/index';
+import { images } from '../../constants/index';
 
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -27,21 +27,25 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 // طول ما البروبس ما تغيرت ما بتتاثر الهوم سكرين
 
 const WrapperComponent = (props) => {
-//  ازا تغيرت الستيت الةاخلية بترندر بس هادا الكومبونت مرة تانية وما بترندر الهوم لانو البروبس الي جاية ما تاثرت
-  const {isVisible  , toggleModal , handleFilter} = props;
+  //  ازا تغيرت الستيت الةاخلية بترندر بس هادا الكومبونت مرة تانية وما بترندر الهوم لانو البروبس الي جاية ما تاثرت
+  const { isVisible, toggleModal, handleFilter , countries ,selectedCountry } = props;
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [pClick, setPClick] = useState(0);
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const [TClick, setTClick] = useState(0);
 
   const handlPlc = idd => {
     setPClick(idd);
   };
- 
-  const handleType = idd =>{
+
+  const handleType = idd => {
     setTClick(idd)
   }
+
+  useEffect(()=>{
+    setPClick(selectedCountry);
+  }, []);
 
   return (
     <>
@@ -51,56 +55,61 @@ const WrapperComponent = (props) => {
             <Text style={styles.placText}>{t('Place')}</Text>
           </View>
           <View style={styles.wrpView}>
-            <TouchableOpacity
-              onPress={() => {
-                handlPlc(0);
+
+            <FlatList
+              horizontal={false}
+              style={{height: 180}}
+              data={countries}
+              renderItem={(item) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      handlPlc(item.item.id);
+                    }}
+                    style={[
+                      styles.touchTxt,
+                      {  marginVertical: 4, padding: 10, backgroundColor: pClick == item.item.id ? '#D54078' : '#EEEEEE' },
+                    ]}>
+
+                    <View style={{
+                      alignContent:'center',
+                      justifyContent:'center',
+                      alignItems:'center',
+                      alignSelf:'center',
+                      
+                      
+                      flexDirection: 'row' , paddingHorizontal: 50
+                      }}>
+                    <Image
+                      source={{uri: item.item.flag_url}}
+                      style={{width: 25, height: 25, 
+                        
+                        marginHorizontal: 20}}
+                      resizeMode={'contain'}
+                    />
+                    <Text
+                      style={[
+                        styles.touchTxtStyle,
+                        { 
+                           color: pClick == item.item.id ? 'white' : 'black' },
+                      ]}>
+                      {item.item.name}
+                    </Text>
+                    </View>
+                    
+                  </TouchableOpacity>
+                );
               }}
-              style={[
-                styles.touchTxt,
-                {backgroundColor: pClick == 0 ? '#D54078' : '#EEEEEE'},
-              ]}>
-              <Text
-                style={[
-                  styles.touchTxtStyle,
-                  {color: pClick == 0 ? 'white' : 'black'},
-                ]}>
-                {t('All')}{' '}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                handlPlc(1);
-              }}
-              style={[
-                styles.touchImg,
-                {backgroundColor: pClick == 1 ? '#D54078' : '#EEEEEE'},
-              ]}>
-              <Image
-                source={images.flag1}
-                style={{width: 25, height: 25}}
-                resizeMode={'contain'}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                handlPlc(2);
-              }}
-              style={[
-                styles.touchImg2,
-                {backgroundColor: pClick == 2 ? '#D54078' : '#EEEEEE'},
-              ]}>
-              <Image
-                source={images.flag2}
-                style={{width: 25, height: 25}}
-                resizeMode={'contain'}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.typeTxt}>{t('Type')}</Text>
+
+            />
+
           </View>
 
-          <View style={styles.itmsView}>
+          {/* <View style={{alignItems: 'center'}}>
+            <Text style={styles.typeTxt}>{t('Type')}</Text>
+          </View> */}
+
+          {/* <View style={styles.itmsView}>
             <TouchableOpacity
             onPress={()=>{handleType(0)}}
             style={[styles.alView,  {backgroundColor: TClick == 0 ? '#D54078' : '#EEEEEE'},]}>
@@ -117,7 +126,6 @@ const WrapperComponent = (props) => {
             <TouchableOpacity
              onPress={()=>{handleType(1)}}
             style={[styles.it1View,{backgroundColor: TClick == 1 ? '#D54078' : '#EEEEEE'}]}>
-              {/* <Image source={images.flag1} style={{width:25,height:25}} resizeMode={'contain'}/> */}
               <Text
                 style={{
                   fontSize: 18,
@@ -132,7 +140,6 @@ const WrapperComponent = (props) => {
             <TouchableOpacity
              onPress={()=>{handleType(2)}}
             style={[styles.it2View,{backgroundColor: TClick == 2 ? '#D54078' : '#EEEEEE'}]}>
-              {/* <Image source={images.flag2} style={{width:25,height:25}} resizeMode={'contain'}/> */}
               <Text
                 style={{
                   fontSize: 18,
@@ -144,9 +151,11 @@ const WrapperComponent = (props) => {
                 {t('Children')}{' '}
               </Text>
             </TouchableOpacity>
-          </View>
-          <TouchableOpacity onPress={()=>{
-                handleFilter("place2" , "all2")
+          </View> */}
+
+
+          <TouchableOpacity onPress={() => {
+            handleFilter(pClick, "all2")
 
           }} style={styles.bTxt1}>
             <Text
@@ -228,8 +237,7 @@ const styles = StyleSheet.create({
     marginBottom: 22,
   },
   touchTxt: {
-    width: 90,
-    height: 37,
+    width: '100%',
     borderRadius: 20,
     backgroundColor: '#D54078',
     alignItems: 'center',
@@ -239,6 +247,8 @@ const styles = StyleSheet.create({
   touchTxtStyle: {
     fontSize: 18,
     fontWeight: '700',
+    width: '100%',
+
     fontFamily: 'Dubai-Bold',
     color: 'white',
   },

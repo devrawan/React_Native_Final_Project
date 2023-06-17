@@ -24,7 +24,8 @@ import {images} from '../../constants/index';
 import AntIc from 'react-native-vector-icons/AntDesign';
 import OfferCard from '../../components/OfferCard';
 import axios from 'axios';
-import { deviceId, fcmToken } from '../../../App';
+import { deviceId, fcmToken } from '../../../src/screens/HomeScreens/HomeScreen';
+
 
 const screenWidth = Dimensions.get('window').width;
 

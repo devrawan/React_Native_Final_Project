@@ -11,6 +11,9 @@ import {useTranslation} from 'react-i18next';
 import instance from '../../axios_helper';
 import {images} from '../../constants/index';
 import { WebView } from 'react-native-webview';
+import axios from 'axios';
+import { deviceId, fcmToken } from '../../../src/screens/HomeScreens/HomeScreen';
+
 
 
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
@@ -43,10 +46,13 @@ const PrivacyScreen = () => {
 
 
 const getPageText = async ()=>{
-    var response = await instance.get(`https://xcobon.com/api/get_polices_page`,
+    var response = await axios.get(`https://xcobon.com/api/get_polices_page`,
     {
            headers: {
-             language:i18n.language,
+            deviceKey: deviceId,
+            'fcm-token': fcmToken,
+            language: i18n.language == undefined ? 'en' : i18n.language,
+             
            },
          },
       

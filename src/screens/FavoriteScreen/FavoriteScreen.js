@@ -9,7 +9,8 @@ import { images } from '../../constants/index';
 import OfferCard from '../../components/OfferCard';
 import { useTranslation } from 'react-i18next';
 // import axios from 'axios';
-import { deviceId, fcmToken } from '../../../App';
+import { deviceId, fcmToken } from '../../../src/screens/HomeScreens/HomeScreen';
+
 import HomCardE from '../../components/HomCardE';
 import HomCardA from '../../components/HomCardA';
 import { useIsFocused } from '@react-navigation/native';
@@ -23,6 +24,7 @@ import {
   StatusBar,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
   FlatList,
 } from 'react-native';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
@@ -45,7 +47,7 @@ const FavoriteScreen = () => {
   const handLike = (copon) => {
 
     console.log("fav 222 ");
-    console.log(copon );
+    console.log(copon);
     console.log(offersCop);
     try {
       var isFav = copon.is_favourite;
@@ -96,8 +98,8 @@ const FavoriteScreen = () => {
 
   }
 
-  function loadPage(){
-    console.log("deviceID: " , deviceId);
+  function loadPage() {
+    console.log("deviceID: ", deviceId);
     setNextOffCop(false);
     setOffersCop([]);
     setIsLoad(true);
@@ -177,17 +179,42 @@ const FavoriteScreen = () => {
         <>
           <View style={{ flex: 1, backgroundColor: '#f7f7f7' }}>
             {offersCop == undefined || offersCop.length == 0 ? (
-              <Text
-                style={{
-                  color: '#D54078',
-                  alignSelf: 'center',
-                  fontSize: 18,
-                  fontWeight: '500',
-                  fontFamily: 'Dubai-Bold',
-                  // marginTop:4
-                }}>
+
+              <View style={{
+                height: '100%',
+                flexDirection: 'column',
+                justifyContent: 'center', alignContent: 'center',
+                alignSelf: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+
+
+                <Image style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  alignItems: 'center',
+                  width: 100,
+                  height: 100,
+                  justifyContent: 'center',
+                  alignContent: 'center'
+
+                }} source={images.no_copouns} ></Image>
+                <Text
+                  style={{
+                    alignItems: 'center',
+                    color: '#D54078',
+                    marginTop: 20,
+                    alignSelf: 'center',
+                    fontSize: 18,
+                    fontWeight: '500',
+                    fontFamily: 'Dubai-Bold',
+                    // marginTop:4
+                  }}>
                 {t('No available copupons')}
-              </Text>
+
+                </Text>
+              </View>
             ) : (
               <FlatList
                 contentContainerStyle={{ paddingTop: 15 }}

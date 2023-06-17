@@ -24,7 +24,8 @@ import { useTranslation } from 'react-i18next';
 import HomCardA from '../../components/HomCardA';
 import HomCardE from '../../components/HomCardE';
 import AntIc from 'react-native-vector-icons/AntDesign';
-import { deviceId, fcmToken } from '../../../App';
+import { deviceId, fcmToken } from '../../../src/screens/HomeScreens/HomeScreen';
+import { err } from 'react-native-svg/lib/typescript/xml';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -35,18 +36,51 @@ const DetailScreen = ({ route }) => {
   const { t, i18n } = useTranslation();
 
 
-  const [item, setItem] = useState(itm);
+  const [id, setId] = useState(itm.id);
+  const [model, setModel] = useState(null);
 
   const [offersCop, setOffersCop] = useState([]);
   const [favPage, setFavPage] = useState(1);
   const [nextOffCop, setNextOffCop] = useState();
   const [isLoad, setIsLoad] = useState(true);
 
-  useEffect(()=>{
+  const loadItem = (id) => {
+    try {
 
-    setItem(itm)
+      setIsLoad(true);
+      axios.get(`https://xcobon.com/api/coupons/${id}`, {
+        headers: {
+          deviceKey: deviceId,
+          'fcm-token': fcmToken,
+          language: i18n.language == undefined ? 'en' : i18n.language,
+        }
+      })
+        .then((response) => {
 
-  }, []);
+          console.log("show-copoun: response", response)
+          setModel(response.data.data);
+          setIsLoad(false);
+        })
+        .catch((error) => {
+          console.log("show-copoun: error", error)
+          setModel({});
+          setIsLoad(false);
+
+        })
+    } catch (error) {
+      console.log("show-copoun: error2", error)
+    }
+  }
+
+  useEffect(() => {
+    // loadItem()
+    loadItem(id);
+  }, [id]);
+
+  // useEffect(() => {
+  //   loadItem()
+  // }, [item]);
+  
   useEffect(() => {
     axios
       .get(`https://xcobon.com/api/coupons?page=${favPage}&category_id=${itm.category}`, {
@@ -58,15 +92,15 @@ const DetailScreen = ({ route }) => {
         },
       })
       .then(response => {
-        console.log("response: " , response);
+        console.log("response: ", response);
 
         setNextOffCop(response.data.data.pagination.has_next);
         setOffersCop(response.data.data.content);
         setIsLoad(false);
       })
       .catch(response => {
-        console.log("error: " , response);
-        
+        console.log("error: ", response);
+
         if (
           response != undefined &&
           response.response != undefined &&
@@ -85,7 +119,10 @@ const DetailScreen = ({ route }) => {
 
   const navToDet = item => {
 
-    navigation.navigate('DetailScreen', { itm: item });
+    setId(item.id);
+    // itm =item;
+    // setItem(item);
+    // navigation.navigate('DetailScreen', { itm: item });
   };
   const handLike = (copon) => {
 
@@ -125,9 +162,9 @@ const DetailScreen = ({ route }) => {
           setOffersCop(lst);
           console.log(response);
 
-          if (itm.id == copon.id){
-            item.is_favourite  = !isFav;
-            setItem(item);
+          if (model.id == copon.id) {
+            model.is_favourite = !isFav;
+            setItem(model);
 
           }
         })
@@ -146,7 +183,6 @@ const DetailScreen = ({ route }) => {
   const HedScreenComp = () => {
     return (
       <>
-
         <View style={{
           flex: 1,
           width: '95%',
@@ -173,18 +209,18 @@ const DetailScreen = ({ route }) => {
           </View>
 
           <Image
-            source={{ uri: itm.image_thumbnail }}
+            source={{ uri: model.image_thumbnail }}
             style={{ width: "60%" }}
             resizeMode={'contain'}
 
           />
-          {item.is_favourite == true ?
-            <TouchableOpacity onPress={()=>{
-              handLike(item)
+          {(model.is_favourite || false) == true ?
+            <TouchableOpacity onPress={() => {
+              handLike(model)
             }} style={{ width: '20%', flexDirection: 'row', justifyContent: 'flex-end' }}>
               <AntIc name="heart" size={20} color={'red'} />
-            </TouchableOpacity> : <TouchableOpacity  onPress={()=>{
-              handLike(item)
+            </TouchableOpacity> : <TouchableOpacity onPress={() => {
+              handLike(model)
             }} style={{ width: '20%', flexDirection: 'row', justifyContent: 'flex-end' }}>
               <AntIc name="hearto" size={20} color={'#656565'} />
             </TouchableOpacity>}
@@ -200,11 +236,11 @@ const DetailScreen = ({ route }) => {
                 fontSize: 16, fontWeight: '700'
               }}>
               {/* {t('Amazon products at 10% off')} */}
-              {itm.name}
+              {model.name}
             </Text>
           </View>
           <TouchableOpacity style={styles.view3Style} onPress={() => {
-            Clipboard.setString(itm.coupon == undefined ? "" : itm.coupon);
+            Clipboard.setString(model.coupon == undefined ? "" : model.coupon);
             Snackbar.show({
               text: 'Copied to clipboard',
               duration: Snackbar.LENGTH_LONG,
@@ -222,17 +258,17 @@ const DetailScreen = ({ route }) => {
               <FontAwesome5 name='copy' color={'white'} />
             </View>
             <Text style={{ color: '#636363', fontSize: 14, paddingHorizontal: 10, fontWeight: 'bold', minwidth: 40 }}>
-              {itm.coupon}
+              {model.coupon}
             </Text>
           </TouchableOpacity>
         </View>
         <View style={{ width: '95%', alignSelf: 'center', marginBottom: 30, paddingHorizontal: 5 }}>
           <Text style={{ color: '#7B7C7E', textAlign: 'left' }}>
-            {itm.body}
+            {model.body}
             {/* {t('DetText')} */}
           </Text>
           <Text style={{ color: '#7B7C7E', textAlign: 'left' }}>
-            {t('with an expiring date')} {itm.start_at}
+            {t('with an expiring date')} {model.start_at}
           </Text>
         </View>
 
@@ -272,38 +308,49 @@ const DetailScreen = ({ route }) => {
 
         </View>
       </View>
+      {
+        isLoad || model == null
+          ?
+          <ActivityIndicator />
+          :
+          i18n.language === 'en' ? (
+            <View style={{ flex: 1 }}>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={<HedScreenComp />}
+                horizontal={false}
+                data={offersCop}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => {
+                  if (model.id !== item.id) {
+                    return (<HomCardE onpres={()=>{
+                      navToDet(item)
+                    }} handleLike={() => handLike(item)} item={item} />)
+                  }
+                }}
+              />
+            </View>
+          ) : (
+            <View style={{ flex: 1 }}>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                horizontal={false}
+                ListHeaderComponent={<HedScreenComp />}
+                data={offersCop}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => {
+                  if (model.id !== item.id) {
+                    return (<HomCardA onpres={()=>{
+                      navToDet(item)
+                    }} handleLike={() => handLike(item)} item={item} />)
+                  }
+                }}
+              />
+            </View>
+          )
+      }
 
-      {i18n.language === 'en' ? (
-        <View style={{ flex: 1 }}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            ListHeaderComponent={<HedScreenComp />}
-            horizontal={false}
-            data={offersCop}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => {
-              if (itm.id !== item.id) {
-                return (<HomCardE onpres={navToDet} handleLike={() => handLike(item)} item={item} />)
-              }
-            }}
-          />
-        </View>
-      ) : (
-        <View style={{ flex: 1 }}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            horizontal={false}
-            ListHeaderComponent={<HedScreenComp />}
-            data={offersCop}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => {
-              if (itm.id !== item.id) {
-                return (<HomCardA onpres={navToDet} handleLike={() => handLike(item)} item={item} />)
-              }
-            }}
-          />
-        </View>
-      )}
+
     </View>
   );
 };

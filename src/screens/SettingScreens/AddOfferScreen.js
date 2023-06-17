@@ -11,7 +11,8 @@ import instance from '../../axios_helper';
 import { WebView } from 'react-native-webview';
 import { images } from '../../constants/index';
 import { useTranslation } from 'react-i18next';
-import { deviceId, fcmToken } from '../../../App';
+import { deviceId, fcmToken } from '../../../src/screens/HomeScreens/HomeScreen';
+
 import axios from 'axios';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;

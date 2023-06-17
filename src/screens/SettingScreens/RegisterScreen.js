@@ -14,23 +14,28 @@ import { useTranslation } from 'react-i18next';
 import { deviceId, fcmToken } from '../../../src/screens/HomeScreens/HomeScreen';
 
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
 
 
-const ContactUs = () => {
+const RegisterScreen = () => {
   const navigation = useNavigation();
   const { t, i18n } = useTranslation();
+
+  const [title, setTitle] = useState(t('Register'));
+  const [isRegisted, setIsRegisterd] = useState(false);
+
 
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [email, setEmail] = useState('');
-  const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isPageInLoad, setIsPageInLoad] = useState(true);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -38,33 +43,49 @@ const ContactUs = () => {
 
   useEffect(() => {
 
+    try{
+
+      axios.get(`https://xcobon.com/api/profile`,
+      {
+        headers: {
+          'deviceKey': deviceId,
+          'fcm-token': fcmToken,
+          'Content-Type': 'application/json',
+          'accept': '*/*',
+          'language': i18n.language == undefined ? "en" : i18n.language,
+        }
+      })
+      .then((response) => {
+
+        setName(response.data.data.name);
+        setMobile(response.data.data.mobile);
+        setEmail(response.data.data.email);
+
+        setTitle(t('Update'));
+        setIsPageInLoad(false);
+        setIsRegisterd(true);
+
+        console.log("response:  profile " , response.data)
+      })
+      .catch((error) => {
+        setIsPageInLoad(false);
+        
+        console.log("error:  profile " , error.data)
+      })
+    }catch(error){
+      setIsPageInLoad(false);
+        
+    }
+
+
+
   }, []);
 
-  function getCurrentDay() {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
+ 
 
-    return formattedDate;
-  }
+  const saveOffer = async () => {
 
-  function getNextWeak() {
-    const currentDate = new Date();
-    const nextWeekDate = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000); // Add 7 days (in milliseconds)
-
-    const formattedDate = nextWeekDate.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-    return formattedDate;
-  }
-
-  const saveOffer = () => {
-
+    await AsyncStorage.setItem('done_register2', "true");
 
 
 
@@ -98,19 +119,7 @@ const ContactUs = () => {
     }
 
 
-    if (title.trim() == '') {
-      hasErrors = true;
-      mErrors['title'] = true;
-    } else {
-      mErrors['title'] = false;
-    }
-
-    if (details.trim() == '') {
-      hasErrors = true;
-      mErrors['details'] = true;
-    } else {
-      mErrors['details'] = false;
-    }
+   
     setErrors(mErrors);
     if (hasErrors) {
       return;
@@ -121,16 +130,14 @@ const ContactUs = () => {
     var body = {
       'name': name,
       'mobile': mobile,
-      'email': email,
-      'title': title,
-      'details': details
+      'email': email
     }
 
     console.log(JSON.stringify(body));
 
 
     axios.post(
-      `https://xcobon.com/api/contact_us`,
+      `https://xcobon.com/api/register`,
       body,
       {
         headers: {
@@ -148,7 +155,7 @@ const ContactUs = () => {
 
         console.log("response : ", response);
         navigation.pop();
-        alert(t('Success'))
+        alert('Success')
 
       })
       .catch(error => {
@@ -179,7 +186,7 @@ const ContactUs = () => {
         <View style={{ width: '80%', height: '100%', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
           <Text
             style={{ fontSize: 18, color: 'black', fontFamily: 'Dubai-Bold', fontWeight: '500' }}>
-            {t('Contact US')}
+            {title}
           </Text>
         </View>
 
@@ -188,18 +195,32 @@ const ContactUs = () => {
         </View>
       </View>
 
-      <ScrollView>
+      {
+        isPageInLoad 
+        ?
+        <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center', 
+          alignContent: 'center',
+          alignSelf: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <ActivityIndicator />
+        </View>
+        :
+        <ScrollView>
         <View style={{ flex: 1, padding: 20 }}>
 
           <View style={errors['name'] ? styles.shaddoBoxError : styles.shaddoBox}>
 
             <TextInput
               textAlign={(i18n.language == undefined ? "en" : i18n.language) == 'en' ? 'left' : 'right'}
+
               style={{
                 borderRadius: 10,
                 elevation: 2,
-                direction: 'rtl',
-
                 backgroundColor: "white",
                 width: '100%',
                 placeholderTextColor: 'black',
@@ -265,63 +286,6 @@ const ContactUs = () => {
               placeholder={t('Email')} />
           </View>
 
-          <View style={errors['title'] ? styles.shaddoBoxError : styles.shaddoBox}>
-
-            <TextInput
-              textAlign={(i18n.language == undefined ? "en" : i18n.language) == 'en' ? 'left' : 'right'}
-
-              style={{
-                borderRadius: 10,
-                elevation: 2,
-                backgroundColor: "white",
-                padding: 12,
-                width: '100%',
-              }}
-              value={title}
-
-              placeholderTextColor="gray"
-              onChangeText={(val) => {
-                var currentErrors = Object.assign({}, errors);
-                currentErrors['title'] = false;
-                setErrors(currentErrors);
-                setTitle(val)
-              }}
-              placeholder={t('Title')} />
-          </View>
-
-
-
-
-
-          <View style={errors['details'] ? styles.shaddoBoxError : styles.shaddoBox}>
-
-            <TextInput
-              textAlign={(i18n.language == undefined ? "en" : i18n.language) == 'en' ? 'left' : 'right'}
-
-              multiline={true}
-              style={{
-                verticalAlign: 'top',
-                textAlignVertical: 'top',
-                borderRadius: 10,
-                elevation: 2,
-                minHeight: 100,
-                paddingTop: 10,
-                width: '100%',
-                backgroundColor: "white",
-                padding: 12,
-              }}
-
-              placeholderTextColor="gray"
-              value={details}
-              onChangeText={(val) => {
-                var currentErrors = Object.assign({}, errors);
-                currentErrors['details'] = false;
-                setErrors(currentErrors);
-                setDetails(val)
-              }}
-              placeholder={t('Details')} />
-          </View>
-
 
 
           <View style={{ marginTop: 40 }}>
@@ -336,20 +300,54 @@ const ContactUs = () => {
                 justifyContent: 'center',
                 alignItems: 'center'
               }}
-              onPress={() => saveOffer()}
+              onPress={async () => await saveOffer()}
               underlayColor='#fff'>
-              <Text style={{ color: '#fff', fontSize: 22 }}>{t('Send')}</Text>
+              <Text style={{ color: '#fff', fontSize: 22 }}>{title}</Text>
             </TouchableOpacity>
 
           </View>
 
+
+              {
+                isRegisted 
+                ?
+                  <></>
+                :
+                <View style={{ marginTop: 20 }}>
+
+                <TouchableOpacity
+                  style={{
+    
+                    padding: 12,
+                    backgroundColor: 'white',
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                  onPress={async () => {
+                    await AsyncStorage.setItem('done_register2', "true");
+                    navigation.pop();
+                  }}
+                  underlayColor='#fff'>
+                  <Text style={{ color: 'black', fontSize: 16 }}>{t('skip')}</Text>
+                </TouchableOpacity>
+    
+              </View>
+               
+              }
+
+          
+
         </View>
       </ScrollView>
+      }
+
+
     </View>
   );
 };
 
-export default ContactUs;
+export default RegisterScreen;
 const styles = StyleSheet.create({
   box: {
     shadowRadius: 1,

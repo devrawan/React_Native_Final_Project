@@ -81,7 +81,23 @@ const resources = {
 "Cancel":"اغلاق",
 "Terms and Conditions":"الشروط والاحكام",
 "No available coupons for this category":"لا يوجد كوبونات متاحة لهذا الصنف",
-"No available offer for this category":"لا يوجد عروض متاحة لهذا الصنف"
+"No available offer for this category":"لا يوجد عروض متاحة لهذا الصنف",
+
+"Register" : "تسجيل",
+
+"Coupons" : "الكوبونات",
+"All": "الكل",
+"Mobile" : "رقم الهاتف",
+"Email" : "البريد الالكتروني",
+"Title" : "العنوان",
+"Details" : "التفاصيل",
+"Send" : "أرسل",
+"Mobile Field must be 9 digit" : "رقم الهاتف يجب أن يتكون من 9 أرقام",
+"Success" : "نجاح",
+"Contact US" : "اتصل بنا",
+"Name" : "الاسم",
+"skip": "تخطي",
+
 }
   }
 };

@@ -11,6 +11,8 @@ import instance from '../../axios_helper';
 import { WebView } from 'react-native-webview';
 import {images} from '../../constants/index';
 import {useTranslation} from 'react-i18next';
+import axios from 'axios';
+import { deviceId, fcmToken } from '../HomeScreens/HomeScreen';
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
@@ -56,10 +58,13 @@ const TermsConditions = () => {
 
 const getPageText = async()=>{
 
-    var response = await instance.get(`https://xcobon.com/api/get_rules_page`,
+    var response = await axios.get(`https://xcobon.com/api/get_rules_page`,
     {
            headers: {
-             language:i18n.language,
+
+                'deviceKey': deviceId,
+                'fcm-token': fcmToken,
+                language: i18n.language == undefined ? "en" : i18n.language,
            },
          },
       

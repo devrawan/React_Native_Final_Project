@@ -33,7 +33,10 @@ const SettingScreen = () => {
   const {t, i18n} = useTranslation();
   const items = [
     {id: 0,tit: `${t('Main')}`, img: images.main, scren: 'Home',},
+    {id: 12,tit: `${t('Register')}`, img: images.contact, scren: 'RegisterScreen',},
+
     // {id: 9,tit: `${t('Add Offer')}`, img: images.main, scren: 'AddOfferScreen',},
+
 
     {id: 1, tit: `${t('Favorite')}`, img: images.fav, scren: 'Favorite'},
     {id: 10, tit: `${t('Blog')}`, img: images.blog, scren: ''},
